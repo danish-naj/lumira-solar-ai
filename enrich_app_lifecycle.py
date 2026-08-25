@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+﻿import os
+
+APP_FILE = r"D:\AntigravityProjects\solarguard-ai\frontend\src\App.jsx"
+
+app_code = """import React, { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import TopHeader from "./components/TopHeader";
 import DashboardView from "./components/Dashboard/DashboardView";
@@ -246,3 +250,8 @@ export default function App() {
     </div>
   );
 }
+"""
+
+with open(APP_FILE, "w", encoding="utf-8") as f:
+    f.write(app_code)
+print("Updated App.jsx with full multi-persona routing and state synchronization.")
