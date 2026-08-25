@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+﻿import os
+
+DRAWER_FILE = r"D:\AntigravityProjects\solarguard-ai\frontend\src\components\SolarMap\ModuleDrawer.jsx"
+
+drawer_code = """import React, { useState } from "react";
 import { 
   X, 
   ArrowRight, 
@@ -172,3 +176,8 @@ export default function ModuleDrawer({ module, onClose, onCreateWorkOrder, isCre
     </aside>
   );
 }
+"""
+
+with open(DRAWER_FILE, "w", encoding="utf-8") as f:
+    f.write(drawer_code)
+print("Updated ModuleDrawer.jsx with Electrical Telemetry & 3-Layer Visualizer.")
