@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Lumira Solar AI — Interactive Prototype</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "secondary": "#5f5e5e",
+                        "surface": "#f9f9f9",
+                        "border-subtle": "#E5E5E5",
+                        "nominal": "#027a48",
+                        "warning": "#b54708",
+                        "critical": "#d92d20",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono-data { font-family: 'JetBrains Mono', monospace; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .a4-container { width: 210mm; min-height: 297mm; margin: 0 auto; background: white; box-shadow: 4px 4px 0px 0px rgba(0,0,0,1); border: 1px solid #000000; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dadada; }
+        @media print {
+            nav, header, .no-print { display: none !important; }
+            main { margin: 0 !important; padding: 0 !important; }
+            .a4-container { box-shadow: none !important; border: none !important; width: 100% !important; }
+        }
+    </style>
+</head>
+<body class="bg-white text-black antialiased h-screen flex overflow-hidden selection:bg-black selection:text-white">
+
+    <!-- SideNavBar -->
+    <nav class="w-[240px] bg-white border-r border-border-subtle flex flex-col h-full shrink-0 z-40 select-none">
+        <div class="p-6 border-b border-border-subtle">
+            <h1 class="text-xl font-bold tracking-tight text-black flex items-center gap-1">Lumira <span>✦</span></h1>
+            <p class="text-[10px] font-bold text-secondary tracking-widest uppercase mt-0.5">Solar Asset Intelligence</p>
+        </div>
+        <div class="px-4 py-3 border-b border-border-subtle bg-surface">
+            <label class="text-[9px] font-bold text-secondary uppercase tracking-widest block mb-1">Active Portfolio Site</label>
+            <select id="site-selector" onchange="switchSite(this.value)" class="w-full bg-black text-white text-[11px] font-bold py-1.5 px-2 rounded-none border border-black cursor-pointer tracking-wide focus:outline-none">
+                <option value="bhadla">Bhadla Solar Park (50.0 MW)</option>
+                <option value="pavagada">Pavagada Mega Park (100.0 MW)</option>
+                <option value="apex">Apex Rooftop (2.5 MW)</option>
+            </select>
+        </div>
+        <div class="flex-1 py-3 px-2 space-y-1 overflow-y-auto">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item w-full px-3 py-2.5 flex items-center gap-3 text-left border-l-2 border-black bg-surface text-black font-bold text-xs uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px]">dashboard</span>
+                <span>Fleet Overview</span>
+            </button>
+            <button onclick="switchTab('map')" id="nav-map" class="nav-item w-full px-3 py-2.5 flex items-center gap-3 text-left border-l-2 border-transparent text-secondary hover:text-black hover:bg-surface text-xs uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px]">grid_view</span>
+                <span>Digital Twin Grid</span>
+            </button>
+            <button onclick="switchTab('inspect')" id="nav-inspect" class="nav-item w-full px-3 py-2.5 flex items-center gap-3 text-left border-l-2 border-transparent text-secondary hover:text-black hover:bg-surface text-xs uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px]">psychology</span>
+                <span>Multi-Source AI</span>
+            </button>
+            <button onclick="switchTab('scada')" id="nav-scada" class="nav-item w-full px-3 py-2.5 flex items-center gap-3 text-left border-l-2 border-transparent text-secondary hover:text-black hover:bg-surface text-xs uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px]">settings_input_component</span>
+                <span>AI-Guided SCADA</span>
+            </button>
+            <button onclick="switchTab('maintenance')" id="nav-maintenance" class="nav-item w-full px-3 py-2.5 flex items-center gap-3 text-left border-l-2 border-transparent text-secondary hover:text-black hover:bg-surface text-xs uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px]">construction</span>
+                <span>Work Orders & O&M</span>
+            </button>
+            <button onclick="switchTab('reports')" id="nav-reports" class="nav-item w-full px-3 py-2.5 flex items-center gap-3 text-left border-l-2 border-transparent text-secondary hover:text-black hover:bg-surface text-xs uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px]">assessment</span>
+                <span>Audit Reports</span>
+            </button>
+        </div>
+        <div class="p-4 border-t border-border-subtle bg-surface flex items-center justify-between text-[10px] font-mono-data text-secondary">
+            <span class="flex items-center gap-1.5 font-bold text-black"><span class="w-2 h-2 rounded-full bg-nominal inline-block"></span> NOMINAL</span>
+            <span class="font-bold">v2.0 PRO</span>
+        </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden bg-white">
+        <header class="h-16 border-b border-border-subtle px-8 flex items-center justify-between bg-surface shrink-0 z-30 select-none no-print">
+            <div class="flex items-center gap-3">
+                <span class="font-mono-data text-xs uppercase tracking-widest text-secondary">
+                    LUMIRA FLEET / <span class="text-black font-bold" id="header-site-name">BHADLA SECTOR-04</span> / <span class="text-black font-bold" id="header-tab-name">FLEET OVERVIEW</span>
+                </span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-1.5 px-3 py-1 bg-white border border-border-subtle font-mono-data text-xs">
+                    <span class="w-2 h-2 rounded-full bg-nominal"></span>
+                    <span class="font-bold text-black">HEALTH: 97/100</span>
+                </div>
+                <button onclick="switchTab('inspect')" class="px-3.5 py-1.5 bg-black text-white text-xs font-bold uppercase tracking-wider hover:bg-white hover:text-black border border-black transition-all">
+                    + New Inspection
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto custom-scrollbar p-8" id="main-content">
+            
+            <!-- Tab 1: Dashboard (7:5 Split) -->
+            <div id="view-dashboard" class="tab-view space-y-6 max-w-[1500px] mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white border border-border-subtle p-5 flex flex-col justify-between h-36">
+                        <div class="flex justify-between items-start"><span class="text-[10px] font-bold text-secondary uppercase tracking-widest">PLANT HEALTH SCORE</span><span class="bg-[#ecfdf3] text-nominal px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase border border-[#027a48]/20 font-mono-data">NOMINAL</span></div>
+                        <div><div class="text-[40px] font-bold font-mono-data leading-none text-black">97<span class="text-lg text-secondary font-sans font-normal">/100</span></div><div class="text-xs text-secondary mt-1">Operational baseline within tolerance</div></div>
+                    </div>
+                    <div class="bg-white border border-border-subtle p-5 flex flex-col justify-between h-36">
+                        <div class="flex justify-between items-start"><span class="text-[10px] font-bold text-secondary uppercase tracking-widest">ACTIVE PV MODULES</span><span class="bg-[#f0f2f5] text-black px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase border border-border-subtle font-mono-data">6 INVERTERS</span></div>
+                        <div><div class="text-[40px] font-bold font-mono-data leading-none text-black">1,200</div><div class="text-xs text-secondary mt-1">50.0 MW Rated Peak DC Capacity</div></div>
+                    </div>
+                    <div class="bg-white border border-border-subtle p-5 flex flex-col justify-between h-36">
+                        <div class="flex justify-between items-start"><span class="text-[10px] font-bold text-secondary uppercase tracking-widest">ESTIMATED DAILY LOSS</span><span class="bg-[#fffaeb] text-warning px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase border border-[#b54708]/20 font-mono-data">REVENUE RISK</span></div>
+                        <div><div class="text-[30px] font-bold font-mono-data leading-none text-black">4.24 <span class="text-base font-sans font-normal">kWh/d</span></div><div class="text-xs text-secondary mt-1">≈ $0.35/day ($1,548/yr / ₹1.31 Lakhs delta)</div></div>
+                    </div>
+                    <div class="bg-white border border-border-subtle p-5 flex flex-col justify-between h-36">
+                        <div class="flex justify-between items-start"><span class="text-[10px] font-bold text-secondary uppercase tracking-widest">ACTIVE O&M TICKETS</span><span class="bg-[#fef3f2] text-critical px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase border border-[#d92d20]/20 font-mono-data">2 CRITICAL</span></div>
+                        <div><div class="text-[40px] font-bold font-mono-data leading-none text-black">5</div><div class="text-xs text-secondary mt-1">Bypass diode replacements scheduled</div></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-7 flex flex-col gap-6">
+                        <div class="bg-white border border-border-subtle p-6">
+                            <h3 class="text-sm font-bold text-black mb-4 border-b border-border-subtle pb-2 uppercase tracking-wide">Plant Health Distribution</h3>
+                            <div class="h-7 w-full flex mb-4 border border-black overflow-hidden">
+                                <div class="h-full bg-nominal" style="width: 92%;" title="Nominal (92%)"></div>
+                                <div class="h-full bg-warning" style="width: 6%;" title="Warning (6%)"></div>
+                                <div class="h-full bg-critical" style="width: 2%;" title="Critical (2%)"></div>
+                            </div>
+                            <div class="flex justify-between text-xs font-mono-data border-t border-border-subtle pt-3">
+                                <div class="flex items-center"><div class="w-3 h-3 bg-nominal mr-2"></div><span class="text-secondary mr-1">NOMINAL:</span> 1,104</div>
+                                <div class="flex items-center"><div class="w-3 h-3 bg-warning mr-2"></div><span class="text-secondary mr-1">WARNING:</span> 72</div>
+                                <div class="flex items-center"><div class="w-3 h-3 bg-critical mr-2"></div><span class="text-secondary mr-1">CRITICAL:</span> 24</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-border-subtle">
+                            <div class="p-3.5 border-b border-border-subtle flex justify-between items-center bg-surface">
+                                <h3 class="text-xs font-bold text-black uppercase">Defect Taxonomy (IEC 62446-3)</h3>
+                                <span class="font-mono-data text-[10px] text-secondary font-bold">5 ACTIVE CLASSES</span>
+                            </div>
+                            <table class="w-full text-left text-xs border-collapse font-mono-data">
+                                <thead><tr class="bg-surface border-b border-border-subtle text-secondary uppercase font-bold text-[10px]"><th class="py-2.5 px-4 font-sans">Classification</th><th class="py-2.5 px-4 font-sans">Severity</th><th class="py-2.5 px-4 text-right">Count</th><th class="py-2.5 px-4 text-right">Yield Impact</th></tr></thead>
+                                <tbody class="divide-y divide-border-subtle">
+                                    <tr class="hover:bg-surface"><td class="py-2.5 px-4 font-sans font-medium text-black">Thermal Hotspots</td><td class="py-2.5 px-4 font-sans"><span class="bg-[#fef3f2] text-critical border border-[#d92d20]/20 px-2 py-0.5 text-[9px] font-bold uppercase">Critical</span></td><td class="py-2.5 px-4 text-right font-bold text-black">12</td><td class="py-2.5 px-4 text-right font-bold text-critical">-1.4%</td></tr>
+                                    <tr class="hover:bg-surface"><td class="py-2.5 px-4 font-sans font-medium text-black">Microcracks</td><td class="py-2.5 px-4 font-sans"><span class="bg-[#fff1f2] text-[#be123c] border border-[#be123c]/20 px-2 py-0.5 text-[9px] font-bold uppercase">High</span></td><td class="py-2.5 px-4 text-right font-bold text-black">34</td><td class="py-2.5 px-4 text-right font-bold text-[#be123c]">-0.8%</td></tr>
+                                    <tr class="hover:bg-surface"><td class="py-2.5 px-4 font-sans font-medium text-black">Soiling</td><td class="py-2.5 px-4 font-sans"><span class="bg-[#fffaeb] text-warning border border-[#b54708]/20 px-2 py-0.5 text-[9px] font-bold uppercase">Medium</span></td><td class="py-2.5 px-4 text-right font-bold text-black">128</td><td class="py-2.5 px-4 text-right font-bold text-warning">-2.1%</td></tr>
+                                    <tr class="hover:bg-surface"><td class="py-2.5 px-4 font-sans font-medium text-black">Shading</td><td class="py-2.5 px-4 font-sans"><span class="bg-[#fffaeb] text-warning border border-[#b54708]/20 px-2 py-0.5 text-[9px] font-bold uppercase">Medium</span></td><td class="py-2.5 px-4 text-right font-bold text-black">45</td><td class="py-2.5 px-4 text-right font-bold text-warning">-1.2%</td></tr>
+                                    <tr class="hover:bg-surface"><td class="py-2.5 px-4 font-sans font-medium text-black">Snail Trails</td><td class="py-2.5 px-4 font-sans"><span class="bg-surface text-secondary border border-border-subtle px-2 py-0.5 text-[9px] font-bold uppercase">Low</span></td><td class="py-2.5 px-4 text-right font-bold text-black">87</td><td class="py-2.5 px-4 text-right text-secondary">-0.1%</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex flex-col gap-6">
+                        <div class="bg-white border-2 border-black relative">
+                            <div class="bg-[#f0f9ff] border-b-2 border-black px-4 py-2.5 flex items-center space-x-2">
+                                <span class="material-symbols-outlined text-[#0369a1] text-sm">auto_awesome</span>
+                                <span class="text-[10px] uppercase text-[#0369a1] font-bold tracking-widest">AI-Guided SCADA Directive</span>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-xs text-black mb-5 leading-relaxed font-sans">
+                                    Inverter <span class="font-bold font-mono-data bg-surface px-1 py-0.5 border border-border-subtle">INV-02</span> String <span class="font-bold font-mono-data bg-surface px-1 py-0.5 border border-border-subtle">STR04</span> showing <span class="font-mono-data font-bold text-critical">-28.5%</span> power drop. AI directs targeted inspection to Rows 4-6, Columns 25-40.
+                                </p>
+                                <button onclick="switchTab('scada')" class="w-full bg-black text-white font-bold py-3 uppercase tracking-wider text-xs border-2 border-black hover:bg-white hover:text-black transition-all flex justify-center items-center gap-2">
+                                    <span>DISPATCH ROUTE</span>
+                                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-border-subtle p-4">
+                            <div class="flex justify-between items-center mb-3"><h3 class="text-xs font-bold text-black uppercase">High-Priority Action Queue</h3><span class="bg-black text-white text-[9px] px-2 py-0.5 font-mono-data font-bold uppercase">2 PENDING</span></div>
+                            <div class="space-y-3">
+                                <div onclick="openDrawer('R12-C37', 42, 'Critical Hotspot', '+18.4°C')" class="border border-black p-3 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer bg-white">
+                                    <div class="flex justify-between items-start mb-1"><div class="font-bold font-mono-data text-sm text-black">#R12-C37</div><button class="text-[9px] font-bold border border-black px-2 py-0.5 uppercase hover:bg-black hover:text-white">Inspect</button></div>
+                                    <div class="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-border-subtle font-mono-data text-xs"><div><span class="text-[9px] uppercase text-secondary font-bold font-sans block">Health</span><span class="text-critical font-bold">14/100</span></div><div><span class="text-[9px] uppercase text-secondary font-bold font-sans block">Delta T</span><span class="text-critical font-bold">+18.4°C</span></div></div>
+                                </div>
+                                <div onclick="openDrawer('R04-C18', 52, 'Microcrack', '+5.1°C')" class="border border-black p-3 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer bg-white">
+                                    <div class="flex justify-between items-start mb-1"><div class="font-bold font-mono-data text-sm text-black">#R04-C18</div><button class="text-[9px] font-bold border border-black px-2 py-0.5 uppercase hover:bg-black hover:text-white">Inspect</button></div>
+                                    <div class="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-border-subtle font-mono-data text-xs"><div><span class="text-[9px] uppercase text-secondary font-bold font-sans block">Health</span><span class="text-warning font-bold">52/100</span></div><div><span class="text-[9px] uppercase text-secondary font-bold font-sans block">Delta T</span><span class="text-warning font-bold">+5.1°C</span></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: 2D Digital Twin Grid -->
+            <div id="view-map" class="tab-view hidden space-y-4 max-w-[1600px] mx-auto">
+                <div class="border border-border-subtle bg-white p-4 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-1 border border-black p-1 bg-surface font-sans">
+                        <button class="px-3 py-1 text-xs font-bold bg-black text-white">All States</button>
+                        <button class="px-3 py-1 text-xs font-medium text-secondary hover:bg-white">🔴 Critical (&lt;50)</button>
+                        <button class="px-3 py-1 text-xs font-medium text-secondary hover:bg-white">🟡 Warning (50-84)</button>
+                        <button class="px-3 py-1 text-xs font-medium text-secondary hover:bg-white">🟢 Healthy (&gt;85)</button>
+                    </div>
+                    <div class="flex gap-4 text-xs font-mono-data">
+                        <div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#ecfdf3] border border-[#abefc6]"></div> Healthy</div>
+                        <div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#fffaeb] border border-[#fedf89]"></div> Warning</div>
+                        <div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#fef3f2] border border-[#d92d20]"></div> Critical</div>
+                    </div>
+                </div>
+                <div class="border border-border-subtle p-6 bg-surface overflow-auto custom-scrollbar">
+                    <div class="min-w-[1200px]">
+                        <div class="grid grid-cols-6 gap-2 mb-3 font-mono-data text-xs font-bold border-b-2 border-black pb-1 text-center">
+                            <div>INV-01</div><div>INV-02</div><div>INV-03</div><div>INV-04</div><div>INV-05</div><div>INV-06</div>
+                        </div>
+                        <div id="grid-container" class="grid gap-[2px]" style="grid-template-columns: repeat(60, minmax(14px, 1fr));"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Multi-Source AI Studio -->
+            <div id="view-inspect" class="tab-view hidden space-y-6 max-w-[1500px] mx-auto">
+                <h2 class="text-2xl font-bold text-black tracking-tight">Multi-Source AI Inspection Studio</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-5 flex flex-col gap-6 border-r border-border-subtle pr-8">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="p-3 bg-white border border-border-subtle"><span class="text-xs font-bold block">Smartphone RGB</span><span class="text-[10px] text-secondary font-mono-data">GSD: 0.5cm/px</span></div>
+                            <div class="p-3 bg-white border border-border-subtle"><span class="text-xs font-bold block">Handheld Thermal</span><span class="text-[10px] text-secondary font-mono-data">Res: 640x480</span></div>
+                            <div class="p-3 bg-white border border-border-subtle"><span class="text-xs font-bold block">Vehicle Camera</span><span class="text-[10px] text-secondary font-mono-data">Multi-angle</span></div>
+                            <div class="p-3 bg-white border-2 border-black"><span class="text-xs font-bold block">Drone Orthomosaic</span><span class="text-[10px] text-secondary font-mono-data">IR + RGB Fused</span></div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-secondary uppercase block mb-1">Target Coordinates</label>
+                            <input value="R12-C37" class="w-full bg-transparent border-0 border-b border-black font-mono-data text-sm font-bold text-black py-1 outline-none"/>
+                        </div>
+                        <div onclick="runAIScan()" class="border border-dashed border-black p-8 text-center bg-surface cursor-pointer">
+                            <span class="material-symbols-outlined text-3xl text-secondary mb-2">upload_file</span>
+                            <div class="text-sm font-bold text-black">Drop inspection assets here</div>
+                            <div class="text-xs text-secondary">TIFF, RJPEG, or CSV (Max 5GB)</div>
+                        </div>
+                        <button onclick="runAIScan()" class="w-full bg-black text-white font-bold py-3.5 uppercase text-xs tracking-wider">
+                            <span id="btn-scan-text">RUN AI DIAGNOSTIC ENGINE</span>
+                        </button>
+                    </div>
+                    <div class="lg:col-span-7 flex flex-col gap-6">
+                        <div class="flex justify-between text-center font-mono-data text-[10px] font-bold border-b border-border-subtle pb-3">
+                            <div>✓ INGEST</div><div>✓ SEGMENT</div><div>✓ CLASSIFY</div><div>✓ XAI HEATMAP</div><div>✓ SYNC GRID</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 h-64">
+                            <div class="border border-border-subtle bg-black text-white p-2 font-mono-data text-xs flex items-center justify-center">[ RAW THERMAL IR SCAN ]</div>
+                            <div class="border border-black bg-black text-critical p-2 font-mono-data text-xs flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">[ GRAD-CAM HEATMAP: ANOMALY_01 ]</div>
+                        </div>
+                        <div class="border border-black bg-white p-4 font-mono-data text-xs">
+                            <div class="font-sans font-bold text-sm mb-1 uppercase">Engineering Rationale</div>
+                            <div class="text-secondary font-sans mb-3">Localized temperature delta of +18.4°C detected across cells C3-C5. Signature consistent with severe diode failure.</div>
+                            <div class="grid grid-cols-3 gap-2 border-t border-border-subtle pt-2">
+                                <div><span class="text-[9px] text-secondary font-sans block uppercase">Delta T</span><span class="text-critical font-bold text-base">+18.4°C</span></div>
+                                <div><span class="text-[9px] text-secondary font-sans block uppercase">Yield Loss</span><span class="text-black font-bold text-base">1.42 kWh/d</span></div>
+                                <div><span class="text-[9px] text-secondary font-sans block uppercase">Revenue Delta</span><span class="text-black font-bold text-base">$0.12/d</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: SCADA Telemetry -->
+            <div id="view-scada" class="tab-view hidden space-y-6 max-w-[1400px] mx-auto">
+                <h2 class="text-2xl font-bold text-black tracking-tight">SCADA Telemetry & Targeted Routing</h2>
+                <div class="grid grid-cols-3 gap-6 font-mono-data">
+                    <div class="border border-border-subtle p-6 bg-white"><span class="text-[10px] text-secondary uppercase font-sans font-bold block mb-2">Strings Monitored</span><span class="text-3xl font-bold text-black">48</span></div>
+                    <div class="border-2 border-black p-6 bg-white"><span class="text-[10px] text-secondary uppercase font-sans font-bold block mb-2">Anomalous Strings</span><span class="text-3xl font-bold text-black">2</span><span class="text-[10px] font-bold text-critical block mt-1">-28.5% POWER DROP</span></div>
+                    <div class="border border-border-subtle p-6 bg-white"><span class="text-[10px] text-secondary uppercase font-sans font-bold block mb-2">Time Saved</span><span class="text-3xl font-bold text-black">98.6%</span><span class="text-[10px] font-bold text-nominal block mt-1">16 VS 1,200 MODULES</span></div>
+                </div>
+                <div class="border border-black p-6 bg-white space-y-4">
+                    <div class="bg-black text-white p-4 font-mono-data text-xs font-bold uppercase tracking-widest flex justify-between items-center">
+                        <span>TARGET AREA: ROWS 4-6, COLUMNS 25-40 (16 MODULES)</span>
+                        <span class="material-symbols-outlined text-sm">my_location</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-6 font-mono-data text-xs">
+                        <div><span class="text-[10px] text-secondary font-sans font-bold block uppercase mb-1">Electrical Telemetry</span><div>Voltage: 540.0 V</div><div>Current: 18.2 A</div><div>Irradiance: 860 W/m²</div></div>
+                        <div class="border-l border-border-subtle pl-6"><span class="text-[10px] text-secondary font-sans font-bold block uppercase mb-1">AI Diagnostics</span><div class="font-sans text-xs">Sub-string VI curve mismatch. Thermal flight route recommended.</div></div>
+                        <div class="border-l border-border-subtle pl-6 flex flex-col justify-end"><button onclick="switchTab('map')" class="w-full bg-black text-white font-bold py-3 uppercase text-xs">DISPATCH TARGETED ROUTE →</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Work Orders & O&M -->
+            <div id="view-maintenance" class="tab-view hidden space-y-6 max-w-[1400px] mx-auto">
+                <div class="flex justify-between items-end border-b-2 border-black pb-4">
+                    <div><h2 class="text-2xl font-bold text-black tracking-tight">Closed-Loop O&M Work Orders</h2><p class="text-sm text-secondary">Manage and verify AI-detected anomalies across the fleet.</p></div>
+                    <button onclick="openVerificationModal('WO-10492', 'R12-C37', 'Thermal Hotspot')" class="bg-black text-white font-bold text-xs px-4 py-2 uppercase">AI Verify Protocol</button>
+                </div>
+                <table class="w-full text-left text-xs border-collapse border border-border-subtle font-mono-data">
+                    <thead><tr class="bg-surface border-b border-border-subtle text-secondary uppercase font-bold text-[10px]"><th class="p-3">Ticket ID</th><th class="p-3">Target</th><th class="p-3 font-sans">Defect</th><th class="p-3">Priority</th><th class="p-3 font-sans">Status</th><th class="p-3 text-right font-sans">Action</th></tr></thead>
+                    <tbody class="divide-y divide-border-subtle">
+                        <tr class="hover:bg-surface cursor-pointer" onclick="openVerificationModal('WO-10492', 'R12-C37', 'Thermal Hotspot')"><td class="p-3 font-bold text-black">WO-10492</td><td class="p-3 text-secondary">R12-C37</td><td class="p-3 font-sans font-medium text-black">Thermal Hotspot</td><td class="p-3 text-critical font-bold">P1 CRITICAL</td><td class="p-3 font-sans font-bold text-black">Resolved</td><td class="p-3 text-right"><button class="border border-black px-2 py-1 uppercase text-[10px] font-bold">AI Verify</button></td></tr>
+                        <tr class="hover:bg-surface"><td class="p-3 font-bold text-black">WO-10493</td><td class="p-3 text-secondary">R04-C18</td><td class="p-3 font-sans font-medium text-black">Microcrack</td><td class="p-3 text-warning font-bold">P2 HIGH</td><td class="p-3 font-sans text-secondary">In Repair</td><td class="p-3 text-right font-sans text-secondary underline">Details</td></tr>
+                        <tr class="hover:bg-surface"><td class="p-3 font-bold text-black">WO-10494</td><td class="p-3 text-secondary">S02-C10</td><td class="p-3 font-sans font-medium text-black">Soiling</td><td class="p-3 text-secondary font-bold">P3 NORMAL</td><td class="p-3 font-sans text-secondary">Assigned</td><td class="p-3 text-right font-sans text-secondary underline">Details</td></tr>
+                        <tr class="hover:bg-surface opacity-75"><td class="p-3 font-bold text-black">WO-10496</td><td class="p-3 text-secondary">U08-C22</td><td class="p-3 font-sans font-medium text-black">Snail Trail</td><td class="p-3 text-secondary font-bold">P3 NORMAL</td><td class="p-3 font-sans text-nominal font-bold">✓ Certified</td><td class="p-3 text-right font-sans text-secondary underline">Report</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab 6: Audit Reports -->
+            <div id="view-reports" class="tab-view hidden space-y-6 max-w-[1200px] mx-auto">
+                <div class="flex justify-between items-center border-b border-border-subtle pb-4 no-print">
+                    <h2 class="text-xl font-bold uppercase text-black">EXECUTIVE ASSET HEALTH & LOSS AUDIT REPORT</h2>
+                    <button onclick="window.print()" class="px-5 py-2.5 bg-black text-white text-xs font-bold uppercase hover:bg-white hover:text-black border border-black">Print Audit Document</button>
+                </div>
+                <div class="a4-container p-10 relative flex flex-col">
+                    <div class="border-b-2 border-black pb-4 mb-6 flex justify-between items-end">
+                        <div><h3 class="text-xl font-bold text-black">Lumira ✦</h3><p class="text-[9px] font-bold text-secondary uppercase tracking-widest">SOLAR ASSET INTELLIGENCE — AUDIT CERTIFICATE</p></div>
+                        <div class="text-right font-mono-data text-[11px]"><div class="text-secondary">DOC_ID: LSAI-20260824-B04</div><div class="text-black font-bold">STATUS: CERTIFIED</div></div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mb-6 border border-border-subtle p-4 bg-surface text-xs">
+                        <div><span class="text-[9px] font-bold text-secondary uppercase block">SITE</span><span class="font-bold text-black">Bhadla Solar Park - Sector 4 (50.0 MW)</span></div>
+                        <div class="border-l border-border-subtle pl-4"><span class="text-[9px] font-bold text-secondary uppercase block">TIMESTAMP</span><span class="font-mono-data text-black font-bold">2026-08-24 14:32 UTC</span></div>
+                        <div class="border-l border-border-subtle pl-4"><span class="text-[9px] font-bold text-secondary uppercase block">HEALTH SCORE</span><span class="text-2xl font-bold font-mono-data text-black">97/100</span></div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-3 mb-6 font-mono-data text-center">
+                        <div class="border border-black p-3"><span class="text-[9px] text-secondary uppercase block">Modules</span><span class="text-lg font-bold text-black">1,200</span></div>
+                        <div class="border border-border-subtle border-l-4 !border-l-black p-3"><span class="text-[9px] text-secondary uppercase block">Faults</span><span class="text-lg font-bold text-black">4</span></div>
+                        <div class="border border-border-subtle p-3"><span class="text-[9px] text-secondary uppercase block">Daily Loss</span><span class="text-lg font-bold text-black">4.24 kWh/d</span></div>
+                        <div class="border border-border-subtle p-3"><span class="text-[9px] text-secondary uppercase block">Revenue Risk</span><span class="text-lg font-bold text-black">$1,548/yr</span></div>
+                    </div>
+                    <h4 class="text-xs font-bold uppercase mb-2 border-b-2 border-black pb-1 inline-block">Critical Remediation Priority List</h4>
+                    <table class="w-full text-left text-xs border-collapse border border-border-subtle mb-6 font-mono-data">
+                        <thead><tr class="bg-surface border-b border-border-subtle font-bold text-[10px] text-secondary"><th class="p-2.5">Module ID</th><th class="p-2.5 font-sans">Defect Type</th><th class="p-2.5">ΔT</th><th class="p-2.5">Loss</th><th class="p-2.5 font-sans">Remediation</th></tr></thead>
+                        <tbody class="divide-y divide-border-subtle text-xs">
+                            <tr><td class="p-2.5 font-bold text-black">R12-C37</td><td class="p-2.5 font-sans">Thermal Hotspot</td><td class="p-2.5 text-critical font-bold">+18.4°C</td><td class="p-2.5">1.42 kWh/d</td><td class="p-2.5 font-sans text-secondary">Bypass diode replacement.</td></tr>
+                            <tr><td class="p-2.5 font-bold text-black">R04-C18</td><td class="p-2.5 font-sans">Microcrack</td><td class="p-2.5 text-warning font-bold">+5.1°C</td><td class="p-2.5">0.88 kWh/d</td><td class="p-2.5 font-sans text-secondary">Monitor in Q4.</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="mt-auto text-right font-mono-data text-[10px] text-secondary font-bold">END OF REPORT · LUMIRA AUTONOMOUS VERIFICATION SYSTEM</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- SLIDE-OVER DRAWER -->
+    <aside id="module-drawer" class="fixed top-0 right-0 h-full w-[400px] bg-white border-l-2 border-black shadow-[-8px_0_24px_rgba(0,0,0,0.1)] flex flex-col z-50 transform translate-x-full transition-transform duration-300 select-none">
+        <div class="p-6 border-b border-border-subtle flex justify-between items-start">
+            <div>
+                <h3 class="font-mono-data text-lg font-bold text-black" id="drawer-panel-id">PANEL #R12-C37</h3>
+                <span class="inline-block mt-1 bg-[#fef3f2] text-critical border border-critical px-2 py-0.5 text-[10px] font-bold font-mono-data" id="drawer-badge">! HEALTH: 42/100 CRITICAL</span>
+                <p class="text-[11px] font-mono-data text-secondary mt-1">INV-04 · STR-12 · Lat 27.5410, Long 71.9205</p>
+            </div>
+            <button onclick="closeDrawer()" class="p-1 text-secondary hover:text-black"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 space-y-5 custom-scrollbar">
+            <div class="border border-border-subtle p-4 bg-white relative">
+                <div class="absolute inset-2 border border-black pointer-events-none"></div>
+                <div class="relative z-10 p-2">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-black mb-1">Diagnostic Findings</h4>
+                    <p class="text-xs font-bold text-critical mb-2" id="drawer-defect">Defect: Thermal Hotspot (96.4% Confidence)</p>
+                    <p class="text-xs text-secondary mb-4 leading-relaxed">Localized temperature delta of +18.4°C detected across cells C3-C5. Signature consistent with severe diode failure.</p>
+                    <div class="grid grid-cols-2 gap-4 border-t border-border-subtle pt-3 font-mono-data text-xs">
+                        <div><span class="text-secondary text-[10px] block">Delta T</span><span class="font-bold text-critical text-sm" id="drawer-dt">+18.4°C</span></div>
+                        <div><span class="text-secondary text-[10px] block">Power Loss</span><span class="font-bold text-warning text-sm">-34.0%</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center bg-surface p-3.5 border border-border-subtle font-mono-data text-xs">
+                <div><span class="text-secondary text-[10px] block">Daily Loss</span><span class="font-bold text-black">1.42 kWh/d</span></div>
+                <div class="text-right"><span class="text-secondary text-[10px] block">Financial Risk</span><span class="font-bold text-black">$0.12/d (₹10.20/d)</span></div>
+            </div>
+        </div>
+        <div class="p-6 border-t border-border-subtle bg-white">
+            <button onclick="createWorkOrderFromDrawer()" class="w-full bg-black text-white font-bold py-3.5 uppercase tracking-wider text-xs border border-black hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2">
+                <span>CREATE WORK ORDER</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- VERIFICATION MODAL -->
+    <div id="verify-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] w-full max-w-xl p-6 relative space-y-4">
+            <div class="flex justify-between items-center border-b-2 border-black pb-3">
+                <h3 class="text-sm font-bold uppercase tracking-tight text-black">AI REPAIR VERIFICATION PROTOCOL</h3>
+                <button onclick="closeVerificationModal()"><span class="material-symbols-outlined text-lg">close</span></button>
+            </div>
+            <div class="grid grid-cols-3 gap-2 font-mono-data text-xs border border-border-subtle p-3 bg-surface">
+                <div><span class="text-[9px] text-secondary block">TICKET</span><span class="font-bold" id="modal-ticket">WO-10492</span></div>
+                <div><span class="text-[9px] text-secondary block">TARGET</span><span class="font-bold" id="modal-target">R12-C37</span></div>
+                <div><span class="text-[9px] text-secondary block">DEFECT</span><span class="font-bold font-sans" id="modal-defect">Thermal Hotspot</span></div>
+            </div>
+            <textarea class="w-full border border-black p-2 text-xs font-sans" rows="2">Replaced bypass diode and cleaned junction box contacts.</textarea>
+            <div class="border border-black p-3 bg-surface font-mono-data text-xs space-y-1">
+                <div class="font-bold text-black">✓ AI VERIFICATION PASSED (98.4% CONFIDENCE)</div>
+                <div class="text-secondary">&gt; Thermal gradient normalized (ΔT = 0.2°C &lt; 0.4°C).</div>
+                <div class="text-secondary">&gt; Health score restored: <span class="line-through">42/100</span> ➔ <strong class="text-black font-bold">100/100 (Nominal)</strong>.</div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeVerificationModal()" class="border border-border-subtle px-4 py-2 text-xs font-bold uppercase">Cancel</button>
+                <button onclick="executeVerification()" class="bg-black text-white px-4 py-2 text-xs font-bold uppercase">Execute AI Scan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + tabId).classList.remove('hidden');
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('border-black', 'bg-surface', 'text-black', 'font-bold');
+                el.classList.add('border-transparent', 'text-secondary');
+            });
+            document.getElementById('nav-' + tabId).classList.add('border-black', 'bg-surface', 'text-black', 'font-bold');
+            const names = {'dashboard':'FLEET OVERVIEW','map':'DIGITAL TWIN GRID','inspect':'MULTI-SOURCE AI','scada':'SCADA TELEMETRY','maintenance':'WORK ORDERS','reports':'AUDIT REPORTS'};
+            document.getElementById('header-tab-name').innerText = names[tabId] || 'OVERVIEW';
+        }
+        function switchSite(siteId) {
+            const names = {'bhadla':'BHADLA SECTOR-04 (50.0 MW)','pavagada':'PAVAGADA SECTOR-02 (100.0 MW)','apex':'APEX ROOFTOP (2.5 MW)'};
+            document.getElementById('header-site-name').innerText = names[siteId] || 'SOLAR PARK';
+        }
+        function renderGrid() {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = '';
+            for (let r = 1; r <= 20; r++) {
+                for (let c = 1; c <= 60; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'aspect-square cursor-pointer transition-all hover:scale-125';
+                    const isCrit = (r===12 && c===37) || (r===4 && c===18);
+                    const isWarn = (r===7 && c===45) || (r===15 && c===22);
+                    if (isCrit) cell.className += ' bg-[#fef3f2] border border-[#d92d20] animate-pulse';
+                    else if (isWarn) cell.className += ' bg-[#fffaeb] border border-[#fedf89]';
+                    else cell.className += ' bg-[#ecfdf3] border border-[#abefc6]';
+                    cell.onclick = () => openDrawer(`R${String(r).padStart(2,'0')}-C${String(c).padStart(2,'0')}`, isCrit?42:(isWarn?68:100), isCrit?'Thermal Hotspot':'Nominal Baseline', isCrit?'+18.4°C':'+0.2°C');
+                    container.appendChild(cell);
+                }
+            }
+        }
+        function openDrawer(id, score, defect, dt) {
+            document.getElementById('drawer-panel-id').innerText = 'PANEL #' + id;
+            document.getElementById('drawer-defect').innerText = 'Defect: ' + defect;
+            document.getElementById('drawer-dt').innerText = dt;
+            document.getElementById('module-drawer').classList.remove('translate-x-full');
+        }
+        function closeDrawer() { document.getElementById('module-drawer').classList.add('translate-x-full'); }
+        function createWorkOrderFromDrawer() { closeDrawer(); switchTab('maintenance'); }
+        function openVerificationModal(t, target, d) {
+            document.getElementById('modal-ticket').innerText = t;
+            document.getElementById('modal-target').innerText = target;
+            document.getElementById('modal-defect').innerText = d;
+            document.getElementById('verify-modal').classList.remove('hidden');
+        }
+        function closeVerificationModal() { document.getElementById('verify-modal').classList.add('hidden'); }
+        function executeVerification() { alert('AI Scan Completed! Thermal gradient normalized. Health restored to 100/100.'); closeVerificationModal(); }
+        function runAIScan() {
+            document.getElementById('btn-scan-text').innerText = 'PROCESSING SCAN...';
+            setTimeout(() => { document.getElementById('btn-scan-text').innerText = 'AI SCAN COMPLETE'; alert('Scan processed! Defect localized on R12-C37.'); }, 600);
+        }
+        document.addEventListener('DOMContentLoaded', renderGrid);
+    </script>
+</body>
+</html>

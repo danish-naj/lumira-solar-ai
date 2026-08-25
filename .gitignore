@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing & Coverage
+coverage/
+.nyc_output
+
+# Production Build
+dist/
+build/
+*.egg-info/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+*.log
+
+# Scratch / Temp Generators
+step_*.py
+generate_*.py
+write_*.py
+fix_*.py
+rebrand_*.py
+update_*.py
+step1.py
+test_runner.py
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+setup_repo.py
+make_proto.py
+*.bat
