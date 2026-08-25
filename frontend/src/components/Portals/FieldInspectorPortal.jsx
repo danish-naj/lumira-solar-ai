@@ -29,15 +29,16 @@ import {
   DollarSign, 
   Layers, 
   MapPin,
-  CheckSquare
+  CheckSquare,
+  Square
 } from "lucide-react";
 
 export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onNavigateTab }) {
   // Step navigation: 1 = Plant Details, 2 = Data Collection, 3 = AI Diagnostics, 4 = Report & Client Submission
   const [currentStep, setCurrentStep] = useState(1);
 
-  // Step 1: Site parameters
-  const [selectedMethod, setSelectedMethod] = useState("Drone Orthomosaic");
+  // Step 1: Site parameters & MULTI-MODALITY Selection
+  const [selectedMethods, setSelectedMethods] = useState(["Drone Orthomosaic", "Smartphone RGB"]);
   const [checklist, setChecklist] = useState({
     trackerLocked: true,
     sensorCalibrated: true,
@@ -62,6 +63,18 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
   // Step 4: Report Submission
   const [isSubmittingReport, setIsSubmittingReport] = useState(false);
   const [reportSubmitted, setReportSubmitted] = useState(false);
+
+  // Multi-method toggle handler
+  const toggleMethod = (methodId) => {
+    setSelectedMethods((prev) => {
+      if (prev.includes(methodId)) {
+        if (prev.length === 1) return prev; // Keep at least 1 method active
+        return prev.filter((m) => m !== methodId);
+      } else {
+        return [...prev, methodId];
+      }
+    });
+  };
 
   // Simulation timer for Step 2 Real-Time Data Collection
   useEffect(() => {
@@ -90,7 +103,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
   }, [isCollecting, scanProgress]);
 
   const methods = [
-    { id: "Drone Orthomosaic", label: "Drone Survey (IR+RGB)", desc: "Radiometric 0.5cm/px GSD", icon: Plane, tag: "AERIAL ORTHO" },
+    { id: "Drone Orthomosaic", label: "Drone Survey (IR+RGB)", desc: "Radiometric 0.5cm/px GSD Ortho", icon: Plane, tag: "AERIAL ORTHO" },
     { id: "Smartphone RGB", label: "Smartphone Field Camera", desc: "Live Mobile & Ground Optical", icon: Smartphone, tag: "FIELD MOBILE" },
     { id: "Handheld Thermal", label: "Handheld Thermal (FLIR)", desc: "Calibrated 640x480 Thermography", icon: Thermometer, tag: "THERMOGRAPHY" },
     { id: "Vehicle Camera", label: "Ground Rover Camera", desc: "Autonomous Rover Multi-Angle", icon: Car, tag: "GROUND ROVER" },
@@ -183,7 +196,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
         farm_id: farm?.id || "farm-1",
         plant_name: farm?.name || "Bhadla Mega Solar Park - Sector 4",
         inspector_name: "Capt. A. Nair (Level-III Thermographer #8492)",
-        inspection_method: selectedMethod,
+        inspection_method: selectedMethods.join(" + "),
         total_modules_scanned: 1200,
         defects_found_count: discoveredDefects.length,
         total_annual_revenue_risk: "₹1,55,930",
@@ -246,7 +259,9 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
               </span>
               <div>
                 <span className="block uppercase text-[11px]">PLANT BRIEF</span>
-                <span className={`text-[9px] font-sans ${currentStep === 1 ? "text-white/80" : "text-secondary"}`}>Site Parameters</span>
+                <span className={`text-[9px] font-sans ${currentStep === 1 ? "text-white/80" : "text-secondary"}`}>
+                  {selectedMethods.length} Modalities Selected
+                </span>
               </div>
             </button>
 
@@ -264,7 +279,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
               <div>
                 <span className="block uppercase text-[11px]">DATA COLLECTION</span>
                 <span className={`text-[9px] font-sans ${currentStep === 2 ? "text-white/80" : "text-secondary"}`}>
-                  {scanProgress === 100 ? "✓ 100% Completed" : scanProgress > 0 ? `${scanProgress}% Scanning...` : "Live Map Progress"}
+                  {scanProgress === 100 ? "✓ 100% Completed" : scanProgress > 0 ? `${scanProgress}% Scanning...` : "Multi-Stream Progress"}
                 </span>
               </div>
             </button>
@@ -282,7 +297,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
               </span>
               <div>
                 <span className="block uppercase text-[11px]">AI DIAGNOSTICS</span>
-                <span className={`text-[9px] font-sans ${currentStep === 3 ? "text-white/80" : "text-secondary"}`}>4 Defects & Repairs</span>
+                <span className={`text-[9px] font-sans ${currentStep === 3 ? "text-white/80" : "text-secondary"}`}>Sensor Fusion (4 Defects)</span>
               </div>
             </button>
 
@@ -319,24 +334,23 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
       </div>
 
       {/* ========================================================================= */}
-      {/* MAIN MISSION WORKSPACE: CHANGES DYNAMICALLY PER STEP                      */}
+      {/* MAIN MISSION WORKSPACE                                                    */}
       {/* ========================================================================= */}
       <div className="flex-1 p-6 md:p-10 overflow-y-auto custom-scrollbar">
-
         {/* ========================================================================= */}
-        {/* STEP 1: PLANT DETAILS & MISSION BRIEF                                     */}
+        {/* STEP 1: PLANT DETAILS & MULTI-MODALITY SELECTION                          */}
         {/* ========================================================================= */}
         {currentStep === 1 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
               <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
-                STEP 1 OF 4: MISSION INITIALIZATION
+                STEP 1 OF 4: MISSION INITIALIZATION & MULTI-MODALITY SETUP
               </span>
               <h1 className="text-2xl font-bold text-primary mt-1 font-headline-lg">
-                Plant Mission Brief & Site Parameters
+                Plant Mission Brief & Multi-Sensor Selection
               </h1>
               <p className="text-secondary text-xs mt-1">
-                Verify asset specs, meteorological conditions, and select the designated inspection capture modality.
+                Select one or more inspection hardware modalities to combine aerial thermography, ground optical checks, and rover multi-angle scans.
               </p>
             </div>
 
@@ -364,31 +378,43 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
               </div>
             </div>
 
-            {/* Data Collection Method Selector */}
+            {/* MULTI-MODALITY SELECTOR (SELECT MORE THAN ONE) */}
             <div className="space-y-3">
-              <h3 className="font-mono-data text-xs font-bold uppercase text-primary tracking-wider">
-                SELECT INSPECTION MODALITY FOR THIS PLANT:
-              </h3>
+              <div className="flex justify-between items-center">
+                <h3 className="font-mono-data text-xs font-bold uppercase text-primary tracking-wider">
+                  SELECT INSPECTION MODALITIES (MULTI-SENSOR COMBINATION):
+                </h3>
+                <span className="text-[10px] font-mono-data font-bold text-primary bg-surface px-2 py-0.5 border border-border-strong">
+                  {selectedMethods.length} ACTIVE {selectedMethods.length === 1 ? "MODALITY" : "MODALITIES"}
+                </span>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {methods.map((m) => {
                   const Icon = m.icon;
-                  const isSelected = selectedMethod === m.id;
+                  const isSelected = selectedMethods.includes(m.id);
                   return (
                     <button
                       key={m.id}
-                      onClick={() => setSelectedMethod(m.id)}
+                      onClick={() => toggleMethod(m.id)}
                       className={`p-4 text-left border-2 transition-all cursor-pointer bg-white ${
-                        isSelected ? "border-primary shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]" : "border-border-subtle hover:border-primary"
+                        isSelected 
+                          ? "border-primary shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] ring-1 ring-primary" 
+                          : "border-border-subtle hover:border-primary opacity-80"
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1.5">
-                        <Icon className={`w-5 h-5 ${isSelected ? "text-primary" : "text-secondary"}`} />
-                        <span className={`text-[9px] font-mono-data font-bold px-1.5 py-0.2 uppercase ${isSelected ? "bg-primary text-white" : "bg-surface text-secondary"}`}>
-                          {m.tag}
+                        <div className="flex items-center gap-2">
+                          <Icon className={`w-5 h-5 ${isSelected ? "text-primary" : "text-secondary"}`} />
+                          <strong className="font-sans text-xs text-primary">{m.label}</strong>
+                        </div>
+                        <span className={`text-[9px] font-mono-data font-bold px-1.5 py-0.2 uppercase border ${
+                          isSelected ? "bg-primary text-white border-primary" : "bg-surface text-secondary border-border-subtle"
+                        }`}>
+                          {isSelected ? "✓ ENABLED" : "DISABLED"}
                         </span>
                       </div>
-                      <strong className="font-sans text-xs text-primary block">{m.label}</strong>
-                      <span className="font-mono-data text-[11px] text-secondary">{m.desc}</span>
+                      <span className="font-mono-data text-[11px] text-secondary block mt-1">{m.desc}</span>
                     </button>
                   );
                 })}
@@ -399,7 +425,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
             <div className="border border-border-strong bg-white p-5 space-y-3 font-mono-data text-xs">
               <h3 className="font-bold text-primary uppercase text-xs flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#027a48]" />
-                PRE-INSPECTION SAFETY & SENSOR CHECKLIST
+                PRE-INSPECTION SAFETY & SENSOR CALIBRATION
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -427,7 +453,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
                 onClick={() => setCurrentStep(2)}
                 className="bg-primary text-white font-bold py-3.5 px-6 border-2 border-primary hover:bg-white hover:text-primary transition-all uppercase text-xs tracking-wider flex items-center gap-2 cursor-pointer shadow-xs"
               >
-                <span>PROCEED TO LIVE DATA COLLECTION →</span>
+                <span>PROCEED WITH {selectedMethods.length} SELECTED MODALITIES →</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -442,14 +468,20 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border-subtle pb-4 gap-3">
               <div>
                 <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
-                  STEP 2 OF 4: REAL-TIME INGESTION
+                  STEP 2 OF 4: REAL-TIME MULTI-STREAM INGESTION
                 </span>
                 <h1 className="text-2xl font-bold text-primary mt-1 font-headline-lg">
                   Live Data Collection & Map Progress
                 </h1>
-                <span className="text-secondary text-xs">
-                  Modality: <strong>{selectedMethod}</strong> · Ingesting radiometric video and high-GSD optical frames.
-                </span>
+                {/* Active Modalities Badges */}
+                <div className="flex items-center gap-2 flex-wrap mt-1">
+                  <span className="text-secondary text-xs">Active Streams:</span>
+                  {selectedMethods.map((m, idx) => (
+                    <span key={idx} className="text-[10px] font-mono-data font-bold bg-primary text-white px-2 py-0.5 uppercase">
+                      ✓ {m}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
@@ -573,7 +605,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
                 disabled={scanProgress < 20}
                 className="bg-primary text-white font-bold py-3.5 px-6 border-2 border-primary hover:bg-white hover:text-primary transition-all uppercase text-xs tracking-wider flex items-center gap-2 cursor-pointer shadow-xs disabled:opacity-50"
               >
-                <span>TRANSMIT STREAM TO AI DIAGNOSTIC ENGINE →</span>
+                <span>TRANSMIT MULTI-STREAM TO AI DIAGNOSTIC ENGINE →</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -586,14 +618,19 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
         {currentStep === 3 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
-              <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
-                STEP 3 OF 4: AI DEFECT CLASSIFICATION & ROOT CAUSE
-              </span>
-              <h1 className="text-2xl font-bold text-primary mt-1 font-headline-lg">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
+                  STEP 3 OF 4: MULTI-SENSOR AI FUSION & DEFECT CLASSIFICATION
+                </span>
+                <span className="bg-[#ecfdf3] text-[#027a48] text-[9px] font-mono-data font-bold px-2 py-0.5 border border-[#abefc6]">
+                  {selectedMethods.length}-WAY FUSION ACTIVE
+                </span>
+              </div>
+              <h1 className="text-2xl font-bold text-primary font-headline-lg">
                 Identified Defects, Power Loss & Required Repairs
               </h1>
               <p className="text-secondary text-xs mt-1">
-                Computer vision models isolated <strong>4 localized failure modes</strong> across the array. Review remediation actions, cautions, and repair costs.
+                Fused inference across <strong>{selectedMethods.join(" + ")}</strong> detected <strong>4 localized anomalies</strong>.
               </p>
             </div>
 
@@ -723,7 +760,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
                 Inspection Diagnostic & Cost Proposal Report
               </h1>
               <p className="text-secondary text-xs mt-1">
-                Formal plant audit report compiled under IEC 62446-3 guidelines. Submit directly to the Asset Owner for financial authorization.
+                Formal plant audit report compiled under IEC 62446-3 guidelines with combined <strong>{selectedMethods.join(" + ")}</strong> telemetry.
               </p>
             </div>
 
@@ -739,7 +776,7 @@ export default function FieldInspectorPortal({ farm, onSubmitReportToClient, onN
                     SOLAR ASSET DIAGNOSTIC & COST PROPOSAL AUDIT
                   </h2>
                   <span className="text-secondary text-xs font-sans">
-                    Inspected by: Capt. A. Nair (#8492) · Modality: {selectedMethod}
+                    Inspected by: Capt. A. Nair (#8492) · Modalities: <strong>{selectedMethods.join(" + ")}</strong>
                   </span>
                 </div>
                 <div className="text-right">
