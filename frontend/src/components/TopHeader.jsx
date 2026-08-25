@@ -13,9 +13,13 @@ export default function TopHeader({
   const tabTitles = {
     dashboard: "FLEET OVERVIEW",
     map: "DIGITAL TWIN GRID",
+    planner: "AUTONOMOUS DRONE FLIGHT PLANNER",
+    predictive: "PREDICTIVE ML & CLOUD SHADOW SIMULATOR",
     inspect: "MULTI-SOURCE AI STUDIO",
     scada: "SCADA TELEMETRY",
+    voice: "HANDS-FREE VOICE AI COPILOT",
     maintenance: "WORK ORDERS & O&M",
+    portfolio: "GLOBAL MULTI-SITE ASSET MAP",
     reports: "AUDIT REPORTS",
     "plan-roi": "ENTERPRISE PLAN & ROI AUDIT",
     "inspector-portal": "FIELD INSPECTOR WORKSPACE",
@@ -31,7 +35,7 @@ export default function TopHeader({
   ];
 
   return (
-    <header className="bg-surface-container-lowest border-b border-border-subtle flex justify-between items-center w-full px-4 sm:px-6 md:px-8 h-16 shrink-0 z-20 select-none">
+    <header className="bg-surface-container-lowest border-b border-border-subtle flex justify-between items-center w-full px-4 sm:px-6 md:px-8 h-16 shrink-0 z-20 select-none font-sans">
       {/* Breadcrumb Title */}
       <div className="flex items-center gap-3 min-w-0 pr-2">
         <div className="font-mono-data text-xs uppercase tracking-widest text-secondary truncate max-w-[200px] sm:max-w-sm lg:max-w-md">
@@ -83,7 +87,7 @@ export default function TopHeader({
         {/* New Inspection */}
         <button
           onClick={onNewInspection}
-          className="px-3 sm:px-3.5 py-1.5 sm:py-2 bg-primary text-on-primary font-label-caps uppercase hover:bg-white hover:text-primary border border-primary transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
+          className="px-3 sm:px-3.5 py-1.5 sm:py-2 bg-primary text-white font-label-caps uppercase hover:bg-white hover:text-primary border border-primary transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
         >
           <Plus className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">INSPECTION</span>

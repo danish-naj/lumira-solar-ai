@@ -10,7 +10,11 @@ import {
   Building2,
   Camera,
   Users,
-  Award
+  Award,
+  Plane,
+  TrendingUp,
+  Globe,
+  Radio
 } from "lucide-react";
 
 export default function Sidebar({ 
@@ -25,9 +29,13 @@ export default function Sidebar({
   const navItems = [
     { id: "dashboard", label: "Fleet Overview", icon: LayoutDashboard },
     { id: "map", label: "Digital Twin Grid", icon: Grid3X3 },
+    { id: "planner", label: "Drone Flight Planner", icon: Plane },
+    { id: "predictive", label: "Predictive ML & Yield", icon: TrendingUp },
     { id: "inspect", label: "Multi-Source AI", icon: ScanSearch },
     { id: "scada", label: "AI-Guided SCADA", icon: Zap },
+    { id: "voice", label: "Voice AI Copilot", icon: Radio },
     { id: "maintenance", label: "Work Orders & O&M", icon: Wrench },
+    { id: "portfolio", label: "Global Portfolio Map", icon: Globe },
     { id: "reports", label: "Audit Reports", icon: FileSpreadsheet },
     { id: "plan-roi", label: "Enterprise Plan & ROI", icon: Award },
   ];
@@ -39,20 +47,20 @@ export default function Sidebar({
   ];
 
   return (
-    <nav className="bg-surface-container-lowest flex flex-col h-full border-r border-border-subtle w-[240px] shrink-0 z-30 select-none">
+    <nav className="bg-surface-container-lowest flex flex-col h-full border-r border-border-subtle w-[250px] shrink-0 z-30 select-none font-sans">
       {/* Header */}
-      <div className="p-6 border-b border-border-subtle shrink-0">
+      <div className="p-5 border-b border-border-subtle shrink-0">
         <h1 className="font-headline-md text-xl font-bold text-primary tracking-tight flex items-center gap-1.5">
           <span>Lumira</span>
           <span className="text-primary font-bold">✦</span>
         </h1>
-        <p className="font-label-caps text-[10px] text-secondary mt-1 tracking-widest uppercase font-bold">
+        <p className="font-label-caps text-[10px] text-secondary mt-0.5 tracking-widest uppercase font-bold">
           SOLAR ASSET INTELLIGENCE
         </p>
       </div>
 
       {/* Site Selector CTA */}
-      <div className="px-4 py-3.5 border-b border-border-subtle bg-surface shrink-0">
+      <div className="px-4 py-3 border-b border-border-subtle bg-surface shrink-0">
         <label className="text-[9px] font-bold text-secondary uppercase tracking-widest block mb-1">
           ACTIVE PORTFOLIO SITE
         </label>
@@ -63,7 +71,7 @@ export default function Sidebar({
               const found = farms.find((f) => f.id === e.target.value);
               if (found) onSelectFarm(found);
             }}
-            className="w-full appearance-none bg-primary text-white font-label-caps text-[11px] font-bold py-2 pl-2.5 pr-7 rounded-none hover:bg-surface hover:text-primary hover:border-primary transition-all uppercase border border-primary cursor-pointer tracking-wide focus:outline-none truncate"
+            className="w-full appearance-none bg-primary text-white font-label-caps text-[11px] font-bold py-1.5 pl-2.5 pr-7 rounded-none hover:bg-surface hover:text-primary hover:border-primary transition-all uppercase border border-primary cursor-pointer tracking-wide focus:outline-none truncate"
           >
             {farms.map((f) => (
               <option key={f.id} value={f.id} className="bg-white text-black font-sans text-xs">
@@ -76,9 +84,9 @@ export default function Sidebar({
       </div>
 
       {/* Navigation Links */}
-      <div className="flex-1 overflow-y-auto py-3 px-2 space-y-4 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto py-3 px-2 space-y-3 custom-scrollbar">
         {/* Core Navigation */}
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           <span className="text-[9px] font-bold uppercase text-secondary font-mono-data px-3 tracking-widest block mb-1">
             CORE PLATFORM
           </span>
@@ -92,21 +100,21 @@ export default function Sidebar({
                   onSelectTab(item.id);
                   if (onSelectRole) onSelectRole("admin");
                 }}
-                className={`w-full px-3.5 py-2 flex items-center gap-3 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider ${
+                className={`w-full px-3 py-1.5 flex items-center gap-2.5 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider ${
                   isActive
                     ? "bg-surface text-primary border-primary font-bold shadow-xs"
                     : "text-secondary border-transparent hover:text-primary hover:bg-surface"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-primary" : "text-secondary"}`} />
-                <span className="font-body-sm text-xs truncate">{item.label}</span>
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-primary" : "text-secondary"}`} />
+                <span className="font-body-sm text-[11px] truncate">{item.label}</span>
               </button>
             );
           })}
         </div>
 
         {/* Role Portals Navigation */}
-        <div className="space-y-1 pt-2 border-t border-border-subtle">
+        <div className="space-y-0.5 pt-2 border-t border-border-subtle">
           <span className="text-[9px] font-bold uppercase text-secondary font-mono-data px-3 tracking-widest block mb-1">
             LIFECYCLE PORTALS
           </span>
@@ -120,14 +128,14 @@ export default function Sidebar({
                   onSelectTab(item.tab);
                   if (onSelectRole) onSelectRole(item.id);
                 }}
-                className={`w-full px-3.5 py-2 flex items-center gap-3 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider ${
+                className={`w-full px-3 py-1.5 flex items-center gap-2.5 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider ${
                   isActive
                     ? "bg-primary text-white border-primary font-bold shadow-xs"
                     : "text-secondary border-transparent hover:text-primary hover:bg-surface"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-secondary"}`} />
-                <span className="font-body-sm text-xs truncate">{item.label}</span>
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-secondary"}`} />
+                <span className="font-body-sm text-[11px] truncate">{item.label}</span>
               </button>
             );
           })}
@@ -135,12 +143,12 @@ export default function Sidebar({
       </div>
 
       {/* Footer Status */}
-      <div className="p-4 border-t border-border-subtle bg-surface shrink-0 flex items-center justify-between font-mono-data text-[10px] text-secondary">
+      <div className="p-3 border-t border-border-subtle bg-surface shrink-0 flex items-center justify-between font-mono-data text-[10px] text-secondary">
         <div className="flex items-center gap-1.5 font-bold text-primary">
           <span className="w-2 h-2 rounded-full bg-[#027a48] inline-block" />
-          <span>LIFECYCLE V2.0</span>
+          <span>AUTONOMOUS V2.5</span>
         </div>
-        <span className="font-bold">PRO ACTIVE</span>
+        <span className="font-bold">PRO SUITE</span>
       </div>
     </nav>
   );

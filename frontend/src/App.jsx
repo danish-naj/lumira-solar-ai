@@ -8,6 +8,10 @@ import GuidedInspection from "./components/GuidedInspection/GuidedInspection";
 import MaintenanceHub from "./components/Maintenance/MaintenanceHub";
 import ReportsHub from "./components/Reports/ReportsHub";
 import SubscriptionROIView from "./components/Subscription/SubscriptionROIView";
+import DroneFlightPlanner from "./components/FlightPlanner/DroneFlightPlanner";
+import PredictiveYieldEngine from "./components/Predictive/PredictiveYieldEngine";
+import PortfolioFleetMap from "./components/Portfolio/PortfolioFleetMap";
+import VoiceCopilot from "./components/VoiceCopilot/VoiceCopilot";
 import FieldInspectorPortal from "./components/Portals/FieldInspectorPortal";
 import ClientApprovalPortal from "./components/Portals/ClientApprovalPortal";
 import ServiceTeamHub from "./components/Portals/ServiceTeamHub";
@@ -180,7 +184,22 @@ export default function App() {
             />
           )}
 
-          {/* 3. Multi-Source AI Studio */}
+          {/* 3. [NEW] Autonomous 3D Drone Flight Path Planner */}
+          {activeTab === "planner" && (
+            <DroneFlightPlanner
+              farm={activeFarm}
+              onNavigateToMap={() => setActiveTab("map")}
+            />
+          )}
+
+          {/* 4. [NEW] Predictive ML Yield & Cloud Shadow Simulator */}
+          {activeTab === "predictive" && (
+            <PredictiveYieldEngine
+              farm={activeFarm}
+            />
+          )}
+
+          {/* 5. Executive Multi-Source AI Studio */}
           {activeTab === "inspect" && (
             <InspectionHub
               farm={activeFarm}
@@ -189,7 +208,7 @@ export default function App() {
             />
           )}
 
-          {/* 4. AI-Guided SCADA Telemetry */}
+          {/* 6. AI-Guided SCADA Telemetry */}
           {activeTab === "scada" && (
             <GuidedInspection
               farm={activeFarm}
@@ -200,29 +219,53 @@ export default function App() {
             />
           )}
 
-          {/* 5. Closed-Loop Work Orders & O&M Kanban */}
+          {/* 7. [NEW] Hands-Free Voice AI Copilot */}
+          {activeTab === "voice" && (
+            <VoiceCopilot
+              farm={activeFarm}
+              onNavigateTab={setActiveTab}
+            />
+          )}
+
+          {/* 8. Closed-Loop Work Orders & O&M Hub */}
           {activeTab === "maintenance" && (
             <MaintenanceHub
               farm={activeFarm}
               onRefreshFarm={loadData}
+              onNavigateTab={setActiveTab}
+              onSelectModule={(mod) => {
+                setSelectedModule(mod);
+                setActiveTab("map");
+              }}
             />
           )}
 
-          {/* 6. Certified Executive Audit Reports */}
+          {/* 9. [NEW] Multi-Farm Global Portfolio Map */}
+          {activeTab === "portfolio" && (
+            <PortfolioFleetMap
+              onSelectFarmSite={(park) => {
+                const found = farms.find(f => f.id === park.id) || farms[0];
+                handleSelectFarm(found);
+                setActiveTab("dashboard");
+              }}
+            />
+          )}
+
+          {/* 10. Certified Executive Audit Reports */}
           {activeTab === "reports" && (
             <ReportsHub
               farm={activeFarm}
             />
           )}
 
-          {/* 7. [NEW] Enterprise Plan & ROI Audit Section */}
+          {/* 11. Enterprise Plan & ROI Audit Section */}
           {activeTab === "plan-roi" && (
             <SubscriptionROIView
               farm={activeFarm}
             />
           )}
 
-          {/* 8. [ROLE PORTAL 1] Field Inspector Hub */}
+          {/* 12. [ROLE PORTAL 1] Field Inspector Hub */}
           {activeTab === "inspector-portal" && (
             <FieldInspectorPortal
               farm={activeFarm}
@@ -231,7 +274,7 @@ export default function App() {
             />
           )}
 
-          {/* 9. [ROLE PORTAL 2] Client Approval Portal */}
+          {/* 13. [ROLE PORTAL 2] Client Approval Portal */}
           {activeTab === "client-portal" && (
             <ClientApprovalPortal
               farm={activeFarm}
@@ -241,7 +284,7 @@ export default function App() {
             />
           )}
 
-          {/* 10. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
+          {/* 14. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
           {activeTab === "service-portal" && (
             <ServiceTeamHub
               farm={activeFarm}
