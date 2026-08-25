@@ -13,6 +13,7 @@ export default function TopHeader({
   const tabTitles = {
     dashboard: "FLEET OVERVIEW",
     map: "DIGITAL TWIN GRID",
+    breakthrough: "BREAKTHROUGH INNOVATION LABS (9 ENGINES)",
     planner: "AUTONOMOUS DRONE FLIGHT PLANNER",
     predictive: "PREDICTIVE ML & CLOUD SHADOW SIMULATOR",
     inspect: "MULTI-SOURCE AI STUDIO",

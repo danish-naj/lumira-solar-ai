@@ -6,15 +6,16 @@ import {
   Zap, 
   Wrench, 
   FileSpreadsheet, 
-  ChevronDown,
-  Building2,
-  Camera,
-  Users,
-  Award,
-  Plane,
-  TrendingUp,
-  Globe,
-  Radio
+  ChevronDown, 
+  Building2, 
+  Camera, 
+  Users, 
+  Award, 
+  Plane, 
+  TrendingUp, 
+  Globe, 
+  Radio, 
+  Sparkles 
 } from "lucide-react";
 
 export default function Sidebar({ 
@@ -29,6 +30,7 @@ export default function Sidebar({
   const navItems = [
     { id: "dashboard", label: "Fleet Overview", icon: LayoutDashboard },
     { id: "map", label: "Digital Twin Grid", icon: Grid3X3 },
+    { id: "breakthrough", label: "Breakthrough Labs", icon: Sparkles },
     { id: "planner", label: "Drone Flight Planner", icon: Plane },
     { id: "predictive", label: "Predictive ML & Yield", icon: TrendingUp },
     { id: "inspect", label: "Multi-Source AI", icon: ScanSearch },
@@ -146,9 +148,9 @@ export default function Sidebar({
       <div className="p-3 border-t border-border-subtle bg-surface shrink-0 flex items-center justify-between font-mono-data text-[10px] text-secondary">
         <div className="flex items-center gap-1.5 font-bold text-primary">
           <span className="w-2 h-2 rounded-full bg-[#027a48] inline-block" />
-          <span>AUTONOMOUS V2.5</span>
+          <span>QUANTUM V3.0</span>
         </div>
-        <span className="font-bold">PRO SUITE</span>
+        <span className="font-bold">PRO LABS</span>
       </div>
     </nav>
   );
