@@ -1,6 +1,6 @@
 import io
 import base64
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
 
 def create_rgb_panel(defect_type="Healthy", bbox=None):
@@ -8,161 +8,148 @@ def create_rgb_panel(defect_type="Healthy", bbox=None):
     img = Image.new("RGB", (width, height), (30, 41, 59))
     draw = ImageDraw.Draw(img)
     
-    # Outer frame
-    draw.rectangle([10, 10, width-10, height-10], outline=(148, 163, 184), width=3, fill=(15, 23, 42))
+    # Outer aluminum frame
+    draw.rectangle([8, 8, width-8, height-8], outline=(148, 163, 184), width=3, fill=(15, 23, 42))
     
     # 6x10 solar cells
-    cell_w = (width - 30) // 10
-    cell_h = (height - 30) // 6
+    cell_w = (width - 24) // 10
+    cell_h = (height - 24) // 6
     
     for r in range(6):
         for c in range(10):
-            x1 = 15 + c * cell_w
-            y1 = 15 + r * cell_h
+            x1 = 12 + c * cell_w
+            y1 = 12 + r * cell_h
             x2 = x1 + cell_w - 2
             y2 = y1 + cell_h - 2
             
             # Base silicon blue gradient
-            base_blue = int(140 + 20 * np.sin(r + c))
-            fill_color = (20, 50, base_blue)
+            base_blue = int(150 + 15 * np.sin(r*0.8 + c*0.5))
+            fill_color = (18, 48, base_blue)
             
-            if defect_type == "Thermal Hotspot" and r == 2 and c == 7:
-                fill_color = (60, 40, 120)  # slightly darker/strained
-            elif defect_type == "Physical Crack" and r == 3 and c == 4:
-                fill_color = (15, 30, 80)
-            elif defect_type == "Heavy Soiling" and r >= 3:
-                fill_color = (80, 70, 50)  # dusty brownish
-            elif defect_type == "Vegetation Shading" and (c <= 2 or r <= 1):
-                fill_color = (10, 25, 40)  # shadow
-            elif defect_type == "Delamination / Snail Trail" and r == 1 and c == 5:
-                fill_color = (40, 70, 110)
+            if "Hotspot" in defect_type and r == 2 and c == 7:
+                fill_color = (80, 30, 70)  # Thermal stress discoloration
+            elif "Crack" in defect_type and r == 3 and c == 4:
+                fill_color = (12, 28, 70)
+            elif "Soiling" in defect_type and r >= 3:
+                fill_color = (95, 80, 55)  # Heavy desert dust / sand
+            elif "Shading" in defect_type and (c <= 3 or r <= 1):
+                fill_color = (10, 22, 38)  # Shadow
+            elif "Delamination" in defect_type and r == 1 and c == 5:
+                fill_color = (45, 75, 115)
+            elif "Snail" in defect_type and r == 4 and c == 2:
+                fill_color = (50, 65, 95)
+            elif "PID" in defect_type and (r == 0 or r == 5):
+                fill_color = (25, 35, 75)
                 
-            draw.rectangle([x1, y1, x2, y2], fill=fill_color, outline=(71, 85, 105), width=1)
+            draw.rectangle([x1, y1, x2, y2], fill=fill_color, outline=(51, 65, 85), width=1)
             
-            # Cell busbars
-            draw.line([x1 + cell_w//3, y1, x1 + cell_w//3, y2], fill=(148, 163, 184), width=1)
-            draw.line([x1 + 2*cell_w//3, y1, x1 + 2*cell_w//3, y2], fill=(148, 163, 184), width=1)
+            # Busbars
+            draw.line([x1 + cell_w//3, y1, x1 + cell_w//3, y2], fill=(160, 174, 192), width=1)
+            draw.line([x1 + 2*cell_w//3, y1, x1 + 2*cell_w//3, y2], fill=(160, 174, 192), width=1)
 
-    # Specific defect visual overlays
-    if defect_type == "Physical Crack":
-        # Draw zigzag white/gray crack
-        cx1, cy1 = 15 + 4 * cell_w + 5, 15 + 3 * cell_h + 5
-        draw.line([cx1, cy1, cx1+12, cy1+18, cx1+22, cy1+14, cx1+30, cy1+35], fill=(240, 240, 240), width=2)
-        draw.line([cx1+12, cy1+18, cx1+6, cy1+28], fill=(220, 220, 220), width=1)
-    elif defect_type == "Heavy Soiling":
-        # Draw dusty particle speckles
-        for _ in range(150):
-            sx = np.random.randint(20, width-20)
-            sy = np.random.randint(height//2, height-20)
-            draw.ellipse([sx, sy, sx+np.random.randint(2, 6), sy+np.random.randint(2, 6)], fill=(168, 140, 90, 180))
-    elif defect_type == "Vegetation Shading":
-        # Draw leaf silhouette overlay
-        draw.polygon([(15, 15), (90, 20), (120, 90), (60, 130), (15, 80)], fill=(16, 60, 28))
-    elif defect_type == "Delamination / Snail Trail":
-        # Snail trail silver lines
-        stx, sty = 15 + 5 * cell_w + 2, 15 + 1 * cell_h + 4
-        draw.line([stx, sty, stx+10, sty+20, stx+20, sty+15, stx+28, sty+28], fill=(200, 210, 225), width=2)
+    # Defect specific visual overlays
+    if "Crack" in defect_type:
+        cx1, cy1 = 12 + 4 * cell_w + 6, 12 + 3 * cell_h + 4
+        draw.line([cx1, cy1, cx1+12, cy1+16, cx1+20, cy1+12, cx1+28, cy1+32], fill=(245, 245, 245), width=2)
+        draw.line([cx1+12, cy1+16, cx1+6, cy1+26], fill=(210, 210, 210), width=1)
+    elif "Soiling" in defect_type:
+        for _ in range(220):
+            sx = np.random.randint(15, width-15)
+            sy = np.random.randint(height//2 - 20, height-15)
+            draw.ellipse([sx, sy, sx+np.random.randint(2, 5), sy+np.random.randint(2, 5)], fill=(180, 150, 100))
+    elif "Shading" in defect_type:
+        draw.polygon([(12, 12), (110, 15), (140, 95), (70, 140), (12, 90)], fill=(12, 30, 20))
+    elif "Snail" in defect_type:
+        sx, sy = 12 + 2 * cell_w + 4, 12 + 4 * cell_h + 8
+        draw.line([sx, sy, sx+8, sy-4, sx+16, sy+6, sx+24, sy-2], fill=(180, 180, 180), width=2)
+    elif "PID" in defect_type:
+        draw.rectangle([12, 12, width-12, 35], fill=(30, 20, 60))
 
-    # If bounding box is requested
-    if bbox:
-        draw.rectangle(bbox, outline=(239, 68, 68), width=3)
-        draw.text((bbox[0]+4, bbox[1]-16), f"DEFECT: {defect_type}", fill=(239, 68, 68))
-        
     buf = io.BytesIO()
-    img.save(buf, format="JPEG", quality=90)
-    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode("utf-8")
+    img.save(buf, format="PNG")
+    return f"data:image/png;base64,{base64.b64encode(buf.getvalue()).decode()}"
 
 def create_thermal_panel(defect_type="Healthy", has_hotspot=False, bbox=None):
     width, height = 400, 300
-    # Ironbow thermal colormap simulation: 25°C = purple/dark blue (30, 10, 80), 55°C = orange/yellow/white
-    arr = np.zeros((height, width, 3), dtype=np.uint8)
+    arr = np.full((height, width, 3), (25, 20, 60), dtype=np.uint8) # ~38°C baseline
     
-    # Baseline ambient ~32°C (deep purple-indigo)
-    arr[:, :, 0] = 50   # R
-    arr[:, :, 1] = 20   # G
-    arr[:, :, 2] = 110  # B
-    
-    # Add subtle module grid temperature gradient
-    for r in range(6):
-        for c in range(10):
-            y1, y2 = 15 + r*45, 15 + (r+1)*45 - 2
-            x1, x2 = 15 + c*37, 15 + (c+1)*37 - 2
-            arr[y1:y2, x1:x2, 0] = np.clip(arr[y1:y2, x1:x2, 0] + 15 + (r%2)*5, 0, 255)
-            arr[y1:y2, x1:x2, 1] = np.clip(arr[y1:y2, x1:x2, 1] + 10, 0, 255)
-            arr[y1:y2, x1:x2, 2] = np.clip(arr[y1:y2, x1:x2, 2] + 20, 0, 255)
-
-    if defect_type == "Thermal Hotspot" or has_hotspot:
-        # Create intense localized thermal hotspot at cell (2, 7)
-        cy, cx = 15 + 2*45 + 22, 15 + 7*37 + 18
-        for y in range(height):
-            for x in range(width):
-                dist = np.sqrt((x - cx)**2 + (y - cy)**2)
-                if dist < 45:
-                    heat_factor = np.exp(-dist / 14)
-                    # Shift to bright yellow/white/orange
-                    arr[y, x, 0] = int(min(255, arr[y, x, 0] + heat_factor * 200))
-                    arr[y, x, 1] = int(min(255, arr[y, x, 1] + heat_factor * 180))
-                    arr[y, x, 2] = int(max(20, arr[y, x, 2] - heat_factor * 90 + heat_factor * 160))
-
-    img = Image.fromarray(arr)
-    draw = ImageDraw.Draw(img)
-    draw.rectangle([10, 10, width-10, height-10], outline=(100, 100, 150), width=2)
-    
-    # Thermal scale bar
-    draw.rectangle([width-25, 20, width-15, height-20], outline=(255, 255, 255), width=1)
-    for i in range(height-40):
-        t_ratio = 1.0 - (i / (height-40))
-        r_c = int(255 * t_ratio)
-        g_c = int(200 * t_ratio if t_ratio > 0.5 else 40)
-        b_c = int(220 * (1 - t_ratio))
-        draw.line([width-24, 20+i, width-16, 20+i], fill=(r_c, g_c, b_c))
-        
-    draw.text((width-45, 15), "58°C", fill=(255, 255, 255))
-    draw.text((width-45, height-25), "28°C", fill=(200, 200, 255))
-    
-    if bbox:
-        draw.rectangle(bbox, outline=(239, 68, 68), width=3)
-        draw.text((bbox[0]+4, bbox[1]-16), "HOTSPOT +24.6°C", fill=(255, 255, 255))
-
-    buf = io.BytesIO()
-    img.save(buf, format="JPEG", quality=90)
-    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode("utf-8")
-
-def create_xai_heatmap_overlay(rgb_base64_or_type="Thermal Hotspot", bbox=(260, 95, 320, 150)):
-    # Generate an explainable AI Grad-CAM attention heatmap overlay
-    width, height = 400, 300
-    base_img = Image.new("RGB", (width, height), (20, 35, 65))
-    draw = ImageDraw.Draw(base_img)
-    
-    # Draw base cells
-    for r in range(6):
-        for c in range(10):
-            draw.rectangle([15 + c*37, 15 + r*45, 15 + (c+1)*37 - 2, 15 + (r+1)*45 - 2], 
-                           outline=(40, 60, 90), fill=(25, 45, 80))
-                           
-    # Create Grad-CAM heatmap array
-    cx = (bbox[0] + bbox[2]) // 2
-    cy = (bbox[1] + bbox[3]) // 2
-    
-    heatmap = np.zeros((height, width, 4), dtype=np.uint8)
+    # Add subtle thermal gradient
     for y in range(height):
         for x in range(width):
-            dist = np.sqrt((x - cx)**2 + (y - cy)**2)
-            if dist < 70:
-                intensity = np.exp(-dist / 22)
-                # Jet colormap: Red -> Yellow -> Green -> Cyan
-                heatmap[y, x, 0] = int(255 * intensity)
-                heatmap[y, x, 1] = int(200 * (1 - abs(intensity - 0.5) * 2))
-                heatmap[y, x, 2] = int(50 * (1 - intensity))
-                heatmap[y, x, 3] = int(190 * intensity) # Alpha
-                
-    overlay = Image.fromarray(heatmap, "RGBA")
-    base_img.paste(overlay, (0, 0), overlay)
+            arr[y, x, 0] = int(25 + 10 * np.sin(x/50.0))
+            arr[y, x, 1] = int(20 + 8 * np.cos(y/40.0))
+            arr[y, x, 2] = int(60 + 12 * np.sin((x+y)/60.0))
+            
+    img = Image.fromarray(arr, mode="RGB")
+    draw = ImageDraw.Draw(img)
     
-    final_draw = ImageDraw.Draw(base_img)
-    final_draw.rectangle(bbox, outline=(239, 68, 68), width=3)
-    final_draw.text((bbox[0], bbox[1]-16), "AI FOCUS: 96.4%", fill=(255, 230, 0))
-    
+    # Draw solar cell outlines in ironbow theme
+    cell_w = (width - 24) // 10
+    cell_h = (height - 24) // 6
+    for r in range(6):
+        for c in range(10):
+            x1 = 12 + c * cell_w
+            y1 = 12 + r * cell_h
+            draw.rectangle([x1, y1, x1+cell_w-2, y1+cell_h-2], outline=(45, 35, 90), width=1)
+            
+    if has_hotspot or "Hotspot" in defect_type:
+        hx, hy = 12 + 7 * cell_w + cell_w//2, 12 + 2 * cell_h + cell_h//2
+        hotspot = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        hdraw = ImageDraw.Draw(hotspot)
+        hdraw.ellipse([hx-35, hy-35, hx+35, hy+35], fill=(255, 60, 0, 220))
+        hdraw.ellipse([hx-20, hy-20, hx+20, hy+20], fill=(255, 220, 0, 255))
+        hdraw.ellipse([hx-8, hy-8, hx+8, hy+8], fill=(255, 255, 255, 255)) # Peak +18.4°C core
+        hotspot = hotspot.filter(ImageFilter.GaussianBlur(radius=8))
+        img = Image.alpha_composite(img.convert("RGBA"), hotspot).convert("RGB")
+    elif "Crack" in defect_type:
+        cx, cy = 12 + 4 * cell_w + cell_w//2, 12 + 3 * cell_h + cell_h//2
+        crack_spot = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        cdraw = ImageDraw.Draw(crack_spot)
+        cdraw.ellipse([cx-20, cy-20, cx+20, cy+20], fill=(240, 100, 20, 180))
+        cdraw.ellipse([cx-8, cy-8, cx+8, cy+8], fill=(255, 200, 50, 220))
+        crack_spot = crack_spot.filter(ImageFilter.GaussianBlur(radius=5))
+        img = Image.alpha_composite(img.convert("RGBA"), crack_spot).convert("RGB")
+    elif "Soiling" in defect_type:
+        soil_layer = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        sdraw = ImageDraw.Draw(soil_layer)
+        sdraw.rectangle([12, height//2, width-12, height-12], fill=(60, 40, 110, 120))
+        soil_layer = soil_layer.filter(ImageFilter.GaussianBlur(radius=6))
+        img = Image.alpha_composite(img.convert("RGBA"), soil_layer).convert("RGB")
+
     buf = io.BytesIO()
-    base_img.save(buf, format="PNG")
-    return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("utf-8")
+    img.save(buf, format="PNG")
+    return f"data:image/png;base64,{base64.b64encode(buf.getvalue()).decode()}"
+
+def create_xai_heatmap_overlay(defect_type="Healthy", bbox=None):
+    width, height = 400, 300
+    base_thermal = Image.new("RGB", (width, height), (20, 25, 55))
+    
+    heatmap = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    hdraw = ImageDraw.Draw(heatmap)
+    
+    if bbox:
+        x1, y1, x2, y2 = bbox
+        cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+        rad_x = (x2 - x1) // 2 + 10
+        rad_y = (y2 - y1) // 2 + 10
+        hdraw.ellipse([cx-rad_x, cy-rad_y, cx+rad_x, cy+rad_y], fill=(220, 38, 38, 200))
+        hdraw.ellipse([cx-rad_x//2, cy-rad_y//2, cx+rad_x//2, cy+rad_y//2], fill=(245, 158, 11, 240))
+        hdraw.ellipse([cx-rad_x//4, cy-rad_y//4, cx+rad_x//4, cy+rad_y//4], fill=(254, 240, 138, 255))
+    else:
+        cx, cy = width // 2, height // 2
+        hdraw.ellipse([cx-40, cy-30, cx+40, cy+30], fill=(220, 38, 38, 180))
+        
+    heatmap = heatmap.filter(ImageFilter.GaussianBlur(radius=10))
+    fused = Image.alpha_composite(base_thermal.convert("RGBA"), heatmap).convert("RGB")
+    
+    # Draw Grad-CAM Saliency Bounding Box with Label
+    draw = ImageDraw.Draw(fused)
+    if bbox:
+        bx1, by1, bx2, by2 = bbox
+        draw.rectangle([bx1, by1, bx2, by2], outline=(220, 38, 38), width=2)
+        draw.rectangle([bx1, by1-16, bx1+70, by1], fill=(220, 38, 38))
+        draw.text((bx1+4, by1-14), "ANOMALY", fill=(255, 255, 255))
+        
+    buf = io.BytesIO()
+    fused.save(buf, format="PNG")
+    return f"data:image/png;base64,{base64.b64encode(buf.getvalue()).decode()}"

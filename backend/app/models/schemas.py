@@ -9,7 +9,29 @@ class DefectType(str, Enum):
     SOILING = "Heavy Soiling"
     SHADING = "Vegetation Shading"
     DELAMINATION = "Delamination / Snail Trail"
+    PID = "Potential-Induced Degradation (PID)"
+    SNAIL_TRAIL = "Snail Trail"
     HEALTHY = "Healthy (No Defect)"
+
+    @classmethod
+    def _missing_(cls, value):
+        val_str = str(value).upper()
+        if "HOT" in val_str or "DIODE" in val_str:
+            return cls.HOTSPOT
+        elif "CRACK" in val_str or "FRACT" in val_str:
+            return cls.CRACK
+        elif "SOIL" in val_str or "DUST" in val_str or "SAND" in val_str:
+            return cls.SOILING
+        elif "SHAD" in val_str:
+            return cls.SHADING
+        elif "PID" in val_str:
+            return cls.PID
+        elif "SNAIL" in val_str:
+            return cls.SNAIL_TRAIL
+        elif "DELAM" in val_str:
+            return cls.DELAMINATION
+        return cls.HOTSPOT
+
 
 class SeverityLevel(str, Enum):
     CRITICAL = "Critical"
@@ -25,6 +47,22 @@ class InspectionSource(str, Enum):
     DRONE = "Drone Survey"
     SCADA = "SCADA Telemetry"
     DATASET = "Existing Dataset"
+
+    @classmethod
+    def _missing_(cls, value):
+        val_str = str(value).upper()
+        if "DRONE" in val_str:
+            return cls.DRONE
+        elif "THERM" in val_str:
+            return cls.THERMAL
+        elif "VEHIC" in val_str:
+            return cls.VEHICLE
+        elif "PHONE" in val_str or "SMART" in val_str or "RGB" in val_str:
+            return cls.PHONE
+        elif "SCADA" in val_str:
+            return cls.SCADA
+        return cls.DRONE
+
 
 class WorkOrderStatus(str, Enum):
     DETECTED = "Detected"
