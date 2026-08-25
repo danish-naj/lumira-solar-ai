@@ -37,7 +37,7 @@ export default function Sidebar({ farms, activeFarm, onSelectFarm, activeTab, on
         <label className="text-[9px] font-bold text-secondary uppercase tracking-widest block mb-1">
           ACTIVE PORTFOLIO SITE
         </label>
-        <div className="relative">
+        <div className="relative flex items-center">
           <select
             value={activeFarm?.id || ""}
             onChange={(e) => {
@@ -52,7 +52,7 @@ export default function Sidebar({ farms, activeFarm, onSelectFarm, activeTab, on
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-white absolute right-2 top-2.5 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-white absolute right-2.5 pointer-events-none" />
         </div>
       </div>
 

@@ -74,7 +74,7 @@ export default function InspectionHub({ farm, onInspectionComplete, onNavigateTo
       {/* 2-Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Input / Config (5 Columns) */}
-        <div className="lg:col-span-5 flex flex-col gap-6 border-r border-border-subtle pr-8">
+        <div className="lg:col-span-5 flex flex-col gap-6 lg:border-r border-border-subtle lg:pr-8 pr-0">
           <section>
             <h2 className="font-label-caps text-label-caps text-secondary tracking-[0.1em] mb-3 border-b border-border-subtle pb-2 uppercase">
               1. DATA SOURCE SELECTION

@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 export default function DigitalTwinGrid({ modules, selectedModule, onSelectModule, farm }) {
   const rows = farm?.rows || 20;
   const cols = farm?.cols || 60;
+  const inverterCount = farm?.inverter_count || 6;
 
   const moduleMap = useMemo(() => {
     const map = {};
@@ -17,10 +18,15 @@ export default function DigitalTwinGrid({ modules, selectedModule, onSelectModul
 
   return (
     <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-surface-container-low relative select-none min-w-0">
-      <div className="min-w-[1100px]">
-        {/* Inverter Column Headers */}
-        <div className="grid grid-cols-6 gap-2 mb-3">
-          {Array.from({ length: farm?.inverter_count || 6 }, (_, i) => (
+      <div className="min-w-[1100px] mx-auto">
+        {/* Dynamic Inverter Column Headers */}
+        <div 
+          className="grid gap-2 mb-3"
+          style={{
+            gridTemplateColumns: `repeat(${inverterCount}, minmax(0, 1fr))`
+          }}
+        >
+          {Array.from({ length: inverterCount }, (_, i) => (
             <div key={i} className="text-center font-mono-data text-xs font-bold border-b-2 border-border-strong pb-1 text-primary uppercase">
               INV-0{i + 1}
             </div>
@@ -29,7 +35,7 @@ export default function DigitalTwinGrid({ modules, selectedModule, onSelectModul
 
         {/* Matrix Grid Canvas */}
         <div 
-          className="grid gap-[2px]"
+          className="grid gap-[2px] bg-border-subtle p-1 border border-border-strong"
           style={{
             gridTemplateColumns: `repeat(${cols}, minmax(12px, 1fr))`,
           }}
