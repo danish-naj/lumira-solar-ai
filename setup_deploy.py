@@ -1,4 +1,30 @@
-const API_BASE = "http://localhost:8000/api";
+﻿import os
+
+BASE_DIR = r"D:\AntigravityProjects\solarguard-ai"
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+GITHUB_WORKFLOWS_DIR = os.path.join(BASE_DIR, ".github", "workflows")
+os.makedirs(GITHUB_WORKFLOWS_DIR, exist_ok=True)
+
+# 1. Update vite.config.js with base: './' for universal path resolution
+vite_config_code = """import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  base: './',
+  plugins: [react()],
+  server: {
+    port: 5173,
+    host: true
+  }
+})
+"""
+with open(os.path.join(FRONTEND_DIR, "vite.config.js"), "w", encoding="utf-8") as f:
+    f.write(vite_config_code)
+print("Updated vite.config.js with universal relative base path.")
+
+# 2. Update frontend/src/services/api.js with embedded cloud/offline fail-safe data
+api_js_code = """const API_BASE = "http://localhost:8000/api";
 
 // Fallback Embedded Real-World Data for Cloud Deployment (GitHub Pages / Vercel)
 const FALLBACK_FARMS = [
@@ -385,3 +411,112 @@ export const fetchExecutiveReport = fetchReportSummary;
 export function getExportCsvUrl(farmId) {
   return `${API_BASE}/reports/${farmId}/export-csv`;
 }
+"""
+
+with open(os.path.join(FRONTEND_DIR, "src", "services", "api.js"), "w", encoding="utf-8") as f:
+    f.write(api_js_code)
+print("Updated frontend/src/services/api.js with robust fallback data store.")
+
+# 3. Create GitHub Actions Workflow for automatic GitHub Pages deployment
+gh_pages_workflow = """name: Deploy Lumira to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Frontend Dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build Production Web App
+        working-directory: frontend
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'frontend/dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+"""
+
+with open(os.path.join(GITHUB_WORKFLOWS_DIR, "deploy.yml"), "w", encoding="utf-8") as f:
+    f.write(gh_pages_workflow)
+print("Created .github/workflows/deploy.yml for automated GitHub Pages deployment.")
+
+# 4. Create vercel.json in root and frontend for 1-click Vercel deployment
+vercel_json = """{
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "framework": "vite"
+}
+"""
+with open(os.path.join(BASE_DIR, "vercel.json"), "w", encoding="utf-8") as f:
+    f.write(vercel_json)
+print("Created vercel.json")
+
+# 5. Create netlify.toml for 1-click Netlify deployment
+netlify_toml = """[build]
+  base = "frontend"
+  publish = "dist"
+  command = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+"""
+with open(os.path.join(BASE_DIR, "netlify.toml"), "w", encoding="utf-8") as f:
+    f.write(netlify_toml)
+print("Created netlify.toml")
+
+# 6. Create Dockerfile & render.yaml for Backend Cloud Deployment (Render / Railway / Fly.io)
+render_yaml = """services:
+  - type: web
+    name: lumira-diagnostic-engine
+    env: python
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+"""
+with open(os.path.join(BASE_DIR, "render.yaml"), "w", encoding="utf-8") as f:
+    f.write(render_yaml)
+print("Created render.yaml")
