@@ -1,4 +1,10 @@
-import React from "react";
+﻿import os
+
+BASE_DIR = r"D:\AntigravityProjects\solarguard-ai\frontend\src\components\SolarMap"
+
+# 1. Update MapControls.jsx
+controls_path = os.path.join(BASE_DIR, "MapControls.jsx")
+controls_code = """import React from "react";
 import { Search, Thermometer, ShieldCheck, Zap, Crosshair } from "lucide-react";
 
 export default function MapControls({ 
@@ -156,3 +162,184 @@ export default function MapControls({
     </div>
   );
 }
+"""
+
+with open(controls_path, "w", encoding="utf-8") as f:
+    f.write(controls_code)
+print("Updated MapControls.jsx with Radiometric Thermal Ironbow Mode & Anomaly Sweep.")
+
+# 2. Update DigitalTwinGrid.jsx for Thermal Ironbow rendering
+grid_path = os.path.join(BASE_DIR, "DigitalTwinGrid.jsx")
+grid_code = """import React, { useMemo } from "react";
+
+export default function DigitalTwinGrid({ modules, selectedModule, onSelectModule, farm, colorMode = "health" }) {
+  const rows = farm?.rows || 20;
+  const cols = farm?.cols || 60;
+  const inverterCount = farm?.inverter_count || 6;
+
+  const moduleMap = useMemo(() => {
+    const map = {};
+    modules.forEach((m) => {
+      map[`${m.row}-${m.col}`] = m;
+    });
+    return map;
+  }, [modules]);
+
+  const rowIndices = Array.from({ length: rows }, (_, i) => i + 1);
+  const colIndices = Array.from({ length: cols }, (_, i) => i + 1);
+
+  return (
+    <div className="flex-1 overflow-auto custom-scrollbar p-6 bg-surface-container-low relative select-none min-w-0">
+      <div className="min-w-[1100px] mx-auto">
+        {/* Dynamic Inverter Column Headers */}
+        <div 
+          className="grid gap-2 mb-3"
+          style={{
+            gridTemplateColumns: `repeat(${inverterCount}, minmax(0, 1fr))`
+          }}
+        >
+          {Array.from({ length: inverterCount }, (_, i) => (
+            <div key={i} className="text-center font-mono-data text-xs font-bold border-b-2 border-border-strong pb-1 text-primary uppercase">
+              INV-0{i + 1}
+            </div>
+          ))}
+        </div>
+
+        {/* Matrix Grid Canvas */}
+        <div 
+          className="grid gap-[2px] bg-border-subtle p-1 border border-border-strong"
+          style={{
+            gridTemplateColumns: `repeat(${cols}, minmax(12px, 1fr))`,
+          }}
+        >
+          {rowIndices.map((r) =>
+            colIndices.map((c) => {
+              const mod = moduleMap[`${r}-${c}`];
+              const isSelected = selectedModule?.id === mod?.id;
+              const score = mod ? mod.health_score : 100;
+              const isCritical = score < 50;
+              const isWarning = score >= 50 && score < 85;
+              const defect = mod?.defects?.[0];
+              const deltaT = defect?.temperature_delta_c || 0.0;
+
+              let cellStyle = "bg-[#ecfdf3] border border-[#abefc6]";
+
+              if (colorMode === "thermal") {
+                // Radiometric IR Ironbow Colormap
+                if (isCritical || deltaT > 15.0) {
+                  cellStyle = "bg-[#fef08a] border-2 border-white animate-pulse shadow-xs"; // Bright glowing yellow/white hotspot
+                } else if (deltaT > 5.0 || score < 65) {
+                  cellStyle = "bg-[#ea580c] border border-[#ffedd5]"; // High orange/red
+                } else if (deltaT > 1.0 || isWarning) {
+                  cellStyle = "bg-[#9a3412] border border-[#fed7aa]"; // Warm amber
+                } else {
+                  cellStyle = "bg-[#1e1b4b] border border-[#312e81]"; // Deep cool violet/navy (Nominal baseline ~38°C)
+                }
+              } else {
+                // Health Score Mode
+                if (isCritical) {
+                  cellStyle = "bg-[#fef3f2] border border-[#d92d20] animate-pulse";
+                } else if (isWarning) {
+                  cellStyle = "bg-[#fffaeb] border border-[#fedf89]";
+                }
+              }
+
+              return (
+                <div
+                  key={`${r}-${c}`}
+                  id={`module-${r}-${c}`}
+                  onClick={() => mod && onSelectModule(mod)}
+                  title={
+                    mod
+                      ? `PANEL ${mod.id} (${mod.health_score}/100) | ΔT +${deltaT}°C | ${
+                          defect ? defect.type : "Healthy (Nominal)"
+                        }`
+                      : `R${r}-C${c}`
+                  }
+                  className={`aspect-square cursor-pointer transition-all ${cellStyle} ${
+                    isSelected ? "ring-2 ring-primary scale-125 z-10 shadow-md" : "hover:opacity-75"
+                  }`}
+                />
+              );
+            })
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+"""
+
+with open(grid_path, "w", encoding="utf-8") as f:
+    f.write(grid_code)
+print("Updated DigitalTwinGrid.jsx with Radiometric Thermal colormap.")
+
+# 3. Update SolarMapView.jsx
+map_view_path = os.path.join(BASE_DIR, "SolarMapView.jsx")
+map_view_code = """import React, { useState } from "react";
+import MapControls from "./MapControls";
+import DigitalTwinGrid from "./DigitalTwinGrid";
+import ModuleDrawer from "./ModuleDrawer";
+
+export default function SolarMapView({ modules, farm, selectedModule, onSelectModule, onCreateWorkOrder, isCreatingWO, filters, onFilterChange }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [colorMode, setColorMode] = useState("health"); // 'health' | 'thermal'
+
+  const inverters = farm ? Array.from({ length: farm.inverter_count }, (_, i) => `INV-0${i + 1}`) : [];
+
+  const filteredModules = modules.filter((m) => {
+    if (searchTerm && !m.id.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
+    return true;
+  });
+
+  const handleAutoSweep = () => {
+    // Finds the next anomalous module and selects it
+    const defectModules = modules.filter(m => m.health_score < 85);
+    if (defectModules.length > 0) {
+      const currentIdx = defectModules.findIndex(m => m.id === selectedModule?.id);
+      const nextIdx = (currentIdx + 1) % defectModules.length;
+      onSelectModule(defectModules[nextIdx]);
+    }
+  };
+
+  return (
+    <div className="flex flex-col h-full overflow-hidden bg-background">
+      <MapControls
+        filters={filters}
+        onFilterChange={onFilterChange}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        inverters={inverters}
+        colorMode={colorMode}
+        onColorModeChange={setColorMode}
+        onAutoSweep={handleAutoSweep}
+      />
+
+      <div className="flex-1 flex overflow-hidden relative min-w-0">
+        <DigitalTwinGrid
+          modules={filteredModules}
+          selectedModule={selectedModule}
+          onSelectModule={onSelectModule}
+          farm={farm}
+          colorMode={colorMode}
+        />
+
+        {selectedModule && (
+          <ModuleDrawer
+            module={selectedModule}
+            onClose={() => onSelectModule(null)}
+            onCreateWorkOrder={onCreateWorkOrder}
+            isCreatingWO={isCreatingWO}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+"""
+
+with open(map_view_path, "w", encoding="utf-8") as f:
+    f.write(map_view_code)
+print("Updated SolarMapView.jsx with state management for Radiometric IR Mode & Anomaly Sweep.")
