@@ -9,7 +9,8 @@ import {
   ChevronDown,
   Building2,
   Camera,
-  Users
+  Users,
+  Award
 } from "lucide-react";
 
 export default function Sidebar({ 
@@ -28,6 +29,7 @@ export default function Sidebar({
     { id: "scada", label: "AI-Guided SCADA", icon: Zap },
     { id: "maintenance", label: "Work Orders & O&M", icon: Wrench },
     { id: "reports", label: "Audit Reports", icon: FileSpreadsheet },
+    { id: "plan-roi", label: "Enterprise Plan & ROI", icon: Award },
   ];
 
   const rolePortals = [

@@ -7,6 +7,7 @@ import InspectionHub from "./components/InspectionHub/InspectionHub";
 import GuidedInspection from "./components/GuidedInspection/GuidedInspection";
 import MaintenanceHub from "./components/Maintenance/MaintenanceHub";
 import ReportsHub from "./components/Reports/ReportsHub";
+import SubscriptionROIView from "./components/Subscription/SubscriptionROIView";
 import FieldInspectorPortal from "./components/Portals/FieldInspectorPortal";
 import ClientApprovalPortal from "./components/Portals/ClientApprovalPortal";
 import ServiceTeamHub from "./components/Portals/ServiceTeamHub";
@@ -214,7 +215,14 @@ export default function App() {
             />
           )}
 
-          {/* 7. [ROLE PORTAL 1] Field Inspector Hub */}
+          {/* 7. [NEW] Enterprise Plan & ROI Audit Section */}
+          {activeTab === "plan-roi" && (
+            <SubscriptionROIView
+              farm={activeFarm}
+            />
+          )}
+
+          {/* 8. [ROLE PORTAL 1] Field Inspector Hub */}
           {activeTab === "inspector-portal" && (
             <FieldInspectorPortal
               farm={activeFarm}
@@ -223,7 +231,7 @@ export default function App() {
             />
           )}
 
-          {/* 8. [ROLE PORTAL 2] Client Approval Portal */}
+          {/* 9. [ROLE PORTAL 2] Client Approval Portal */}
           {activeTab === "client-portal" && (
             <ClientApprovalPortal
               farm={activeFarm}
@@ -233,7 +241,7 @@ export default function App() {
             />
           )}
 
-          {/* 9. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
+          {/* 10. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
           {activeTab === "service-portal" && (
             <ServiceTeamHub
               farm={activeFarm}

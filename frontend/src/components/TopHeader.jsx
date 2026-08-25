@@ -17,6 +17,7 @@ export default function TopHeader({
     scada: "SCADA TELEMETRY",
     maintenance: "WORK ORDERS & O&M",
     reports: "AUDIT REPORTS",
+    "plan-roi": "ENTERPRISE PLAN & ROI AUDIT",
     "inspector-portal": "FIELD INSPECTOR WORKSPACE",
     "client-portal": "CLIENT APPROVAL PORTAL",
     "service-portal": "SERVICE TEAM HUB"
