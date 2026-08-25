@@ -165,7 +165,7 @@ def generate_bhadla_farm():
             defect_type=DefectType.HOTSPOT,
             severity=SeverityLevel.CRITICAL,
             priority="Critical (P1)",
-            status=WorkOrderStatus.IN_PROGRESS,
+            status=WorkOrderStatus.IN_REPAIR,
             assigned_to="Technician #02 (K. Verma)",
             created_at="2026-08-24 09:15:00",
             updated_at="2026-08-25 09:00:00",

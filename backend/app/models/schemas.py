@@ -42,6 +42,7 @@ class SeverityLevel(str, Enum):
 
 class InspectionSource(str, Enum):
     PHONE = "Smartphone RGB"
+    SMARTPHONE = "Smartphone RGB"
     THERMAL = "Handheld Thermal"
     VEHICLE = "Vehicle Camera"
     DRONE = "Drone Survey"
@@ -68,6 +69,7 @@ class WorkOrderStatus(str, Enum):
     DETECTED = "Detected"
     ASSIGNED = "Assigned"
     IN_REPAIR = "In Repair"
+    IN_PROGRESS = "In Repair"
     RESOLVED = "Resolved"
     VERIFIED = "Verified"
 
