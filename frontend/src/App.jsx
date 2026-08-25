@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar";
 import TopHeader from "./components/TopHeader";
 import DashboardView from "./components/Dashboard/DashboardView";
 import SolarMapView from "./components/SolarMap/SolarMapView";
+import SolarFarm3DVisualizer from "./components/Twin3D/SolarFarm3DVisualizer";
 import InspectionHub from "./components/InspectionHub/InspectionHub";
 import GuidedInspection from "./components/GuidedInspection/GuidedInspection";
 import MaintenanceHub from "./components/Maintenance/MaintenanceHub";
@@ -13,6 +14,9 @@ import PredictiveYieldEngine from "./components/Predictive/PredictiveYieldEngine
 import PortfolioFleetMap from "./components/Portfolio/PortfolioFleetMap";
 import VoiceCopilot from "./components/VoiceCopilot/VoiceCopilot";
 import BreakthroughLabs from "./components/BreakthroughLabs/BreakthroughLabs";
+import WarrantyClaimEngine from "./components/Warranty/WarrantyClaimEngine";
+import StormDefenseCockpit from "./components/StormDefense/StormDefenseCockpit";
+import RoboticSwarmFleet from "./components/SwarmFleet/RoboticSwarmFleet";
 import FieldInspectorPortal from "./components/Portals/FieldInspectorPortal";
 import ClientApprovalPortal from "./components/Portals/ClientApprovalPortal";
 import ServiceTeamHub from "./components/Portals/ServiceTeamHub";
@@ -185,7 +189,15 @@ export default function App() {
             />
           )}
 
-          {/* 3. [NEW] Breakthrough Innovation Labs (9 World-First Engines) */}
+          {/* 3. [NEW] Interactive 3D Solar Farm Digital Twin */}
+          {activeTab === "3d-twin" && (
+            <SolarFarm3DVisualizer
+              farm={activeFarm}
+              onNavigateTab={setActiveTab}
+            />
+          )}
+
+          {/* 4. Breakthrough Innovation Labs (9 World-First Engines) */}
           {activeTab === "breakthrough" && (
             <BreakthroughLabs
               farm={activeFarm}
@@ -193,7 +205,7 @@ export default function App() {
             />
           )}
 
-          {/* 4. Autonomous 3D Drone Flight Path Planner */}
+          {/* 5. Autonomous 3D Drone Flight Path Planner */}
           {activeTab === "planner" && (
             <DroneFlightPlanner
               farm={activeFarm}
@@ -201,14 +213,28 @@ export default function App() {
             />
           )}
 
-          {/* 5. Predictive ML Yield & Cloud Shadow Simulator */}
+          {/* 6. [NEW] Autonomous Robotic Swarm Fleet Manager */}
+          {activeTab === "swarm" && (
+            <RoboticSwarmFleet
+              farm={activeFarm}
+            />
+          )}
+
+          {/* 7. Predictive ML Yield & Cloud Shadow Simulator */}
           {activeTab === "predictive" && (
             <PredictiveYieldEngine
               farm={activeFarm}
             />
           )}
 
-          {/* 6. Executive Multi-Source AI Studio */}
+          {/* 8. [NEW] Severe Weather & Storm Defense Cockpit */}
+          {activeTab === "storm" && (
+            <StormDefenseCockpit
+              farm={activeFarm}
+            />
+          )}
+
+          {/* 9. Executive Multi-Source AI Studio */}
           {activeTab === "inspect" && (
             <InspectionHub
               farm={activeFarm}
@@ -217,7 +243,7 @@ export default function App() {
             />
           )}
 
-          {/* 7. AI-Guided SCADA Telemetry */}
+          {/* 10. AI-Guided SCADA Telemetry */}
           {activeTab === "scada" && (
             <GuidedInspection
               farm={activeFarm}
@@ -228,7 +254,7 @@ export default function App() {
             />
           )}
 
-          {/* 8. Hands-Free Voice AI Copilot */}
+          {/* 11. Hands-Free Voice AI Copilot */}
           {activeTab === "voice" && (
             <VoiceCopilot
               farm={activeFarm}
@@ -236,7 +262,14 @@ export default function App() {
             />
           )}
 
-          {/* 9. Closed-Loop Work Orders & O&M Hub */}
+          {/* 12. [NEW] OEM Warranty Claim & Legal Dispute Engine */}
+          {activeTab === "warranty" && (
+            <WarrantyClaimEngine
+              farm={activeFarm}
+            />
+          )}
+
+          {/* 13. Closed-Loop Work Orders & O&M Hub */}
           {activeTab === "maintenance" && (
             <MaintenanceHub
               farm={activeFarm}
@@ -249,7 +282,7 @@ export default function App() {
             />
           )}
 
-          {/* 10. Multi-Farm Global Portfolio Map */}
+          {/* 14. Multi-Farm Global Portfolio Map */}
           {activeTab === "portfolio" && (
             <PortfolioFleetMap
               onSelectFarmSite={(park) => {
@@ -260,21 +293,21 @@ export default function App() {
             />
           )}
 
-          {/* 11. Certified Executive Audit Reports */}
+          {/* 15. Certified Executive Audit Reports */}
           {activeTab === "reports" && (
             <ReportsHub
               farm={activeFarm}
             />
           )}
 
-          {/* 12. Enterprise Plan & ROI Audit Section */}
+          {/* 16. Enterprise Plan & ROI Audit Section */}
           {activeTab === "plan-roi" && (
             <SubscriptionROIView
               farm={activeFarm}
             />
           )}
 
-          {/* 13. [ROLE PORTAL 1] Field Inspector Hub */}
+          {/* 17. [ROLE PORTAL 1] Field Inspector Hub */}
           {activeTab === "inspector-portal" && (
             <FieldInspectorPortal
               farm={activeFarm}
@@ -283,7 +316,7 @@ export default function App() {
             />
           )}
 
-          {/* 14. [ROLE PORTAL 2] Client Approval Portal */}
+          {/* 18. [ROLE PORTAL 2] Client Approval Portal */}
           {activeTab === "client-portal" && (
             <ClientApprovalPortal
               farm={activeFarm}
@@ -293,7 +326,7 @@ export default function App() {
             />
           )}
 
-          {/* 15. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
+          {/* 19. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
           {activeTab === "service-portal" && (
             <ServiceTeamHub
               farm={activeFarm}
