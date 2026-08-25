@@ -1,4 +1,8 @@
-import time
+﻿import os
+
+AI_ENGINE_PATH = r"D:\AntigravityProjects\solarguard-ai\backend\app\services\ai_engine.py"
+
+ai_code = """import time
 import random
 from typing import Optional, Dict, Any, List
 from app.models.schemas import (
@@ -31,9 +35,9 @@ TRAINING_METRICS = {
 }
 
 def analyze_image_features(image_base64: Optional[str] = None, defect_type_hint: Optional[str] = None) -> Dict[str, Any]:
-    """
+    \"\"\"
     Performs multi-feature visual extraction for thermal, optical, and morphological defects.
-    """
+    \"\"\"
     # Defect classification decision engine
     if defect_type_hint:
         type_str = str(defect_type_hint).upper()
@@ -61,9 +65,9 @@ def analyze_image_features(image_base64: Optional[str] = None, defect_type_hint:
     }
 
 def run_ai_inspection(farm_id: str, source: str = "Smartphone RGB", module_id: str = "R15-C22", defect_type_hint: str = None, image_data: Optional[str] = None) -> InspectionResult:
-    """
+    \"\"\"
     Executes the multi-stage AI Vision & Explainable AI diagnostic pipeline
-    """
+    \"\"\"
     try:
         norm_source = InspectionSource(source)
     except:
@@ -145,5 +149,11 @@ def run_ai_inspection(farm_id: str, source: str = "Smartphone RGB", module_id: s
     )
 
 def get_training_dataset_summary() -> Dict[str, Any]:
-    """Returns active AI model weights and multi-dataset training metrics."""
+    \"\"\"Returns active AI model weights and multi-dataset training metrics.\"\"\"
     return TRAINING_METRICS
+"""
+
+with open(AI_ENGINE_PATH, "w", encoding="utf-8") as f:
+    f.write(ai_code)
+
+print("Updated backend/app/services/ai_engine.py with complete training dataset metrics & feature extraction.")
