@@ -1,4 +1,9 @@
-import React, { useState, useRef } from "react";
+﻿import os
+
+BASE_DIR = r"D:\AntigravityProjects\solarguard-ai\frontend\src\components\InspectionHub"
+file_path = os.path.join(BASE_DIR, "InspectionHub.jsx")
+
+insp_code = """import React, { useState, useRef } from "react";
 import { 
   Smartphone, 
   Thermometer, 
@@ -482,3 +487,9 @@ export default function InspectionHub({ farm, onInspectionComplete, onNavigateTo
     </div>
   );
 }
+"""
+
+with open(file_path, "w", encoding="utf-8") as f:
+    f.write(insp_code)
+
+print("Updated InspectionHub.jsx with full Smartphone camera/upload capabilities and interactive field presets.")
