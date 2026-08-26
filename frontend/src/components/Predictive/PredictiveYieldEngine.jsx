@@ -1,3 +1,4 @@
+import SolarFarm3DVisualizer from "../Twin3D/SolarFarm3DVisualizer";
 import React, { useState, useEffect } from "react";
 import { 
   TrendingUp, 
@@ -203,6 +204,11 @@ export default function PredictiveYieldEngine({ farm }) {
             <strong className="text-primary font-mono-data">Real-Time Simulation Active</strong>
           </div>
         </div>
+      </div>
+
+      {/* 4. [GROUNDBREAKING INTEGRATION] Supercharged 3D Solar Farm Twin & Celestial Physics Simulator */}
+      <div className="border-t-2 border-primary pt-6">
+        <SolarFarm3DVisualizer farm={farm} />
       </div>
     </div>
   );

@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+﻿import os
+
+TWIN_FILE = r"D:\AntigravityProjects\solarguard-ai\frontend\src\components\Twin3D\SolarFarm3DVisualizer.jsx"
+
+code = """import React, { useState, useEffect } from "react";
 import { 
   Box, 
   Sun, 
@@ -422,3 +426,8 @@ export default function SolarFarm3DVisualizer({ farm, onNavigateTab }) {
     </div>
   );
 }
+"""
+
+with open(TWIN_FILE, "w", encoding="utf-8") as f:
+    f.write(code)
+print("Supercharged SolarFarm3DVisualizer.jsx with advanced direct ray physics, per-panel generation, and cloud shadow dynamics!")

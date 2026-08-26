@@ -13,9 +13,8 @@ export default function TopHeader({
   const tabTitles = {
     dashboard: "FLEET OVERVIEW",
     map: "DIGITAL TWIN GRID",
-    "3d-twin": "3D SOLAR FARM DIGITAL TWIN",
+    predictive: "PREDICTIVE ML YIELD & 3D CELESTIAL TWIN",
     breakthrough: "BREAKTHROUGH INNOVATION LABS (9 ENGINES)",
-    predictive: "PREDICTIVE ML & CLOUD SHADOW SIMULATOR",
     storm: "SEVERE WEATHER & STORM DEFENSE COCKPIT",
     inspect: "MULTI-SOURCE AI STUDIO",
     scada: "SCADA TELEMETRY",
@@ -51,7 +50,6 @@ export default function TopHeader({
 
       {/* Role Switcher & Action Controls */}
       <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-        {/* Interactive Multi-Persona Role Switcher */}
         <div className="relative flex items-center">
           <select
             value={activeRole}
