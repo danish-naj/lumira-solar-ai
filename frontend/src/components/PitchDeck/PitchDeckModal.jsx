@@ -25,7 +25,11 @@ import {
   Layers, 
   Sun,
   ShieldCheck,
-  Scale
+  Scale,
+  LineChart,
+  Lock,
+  Server,
+  Gauge
 } from "lucide-react";
 
 export default function PitchDeckModal({ isOpen, onClose }) {
@@ -53,132 +57,147 @@ export default function PitchDeckModal({ isOpen, onClose }) {
   const slides = [
     {
       number: 1,
-      title: "Vision & Executive Overview",
+      title: "Executive Vision & Architecture",
       subtitle: "The Autonomous Operating System for Gigawatt-Scale Solar Asset Intelligence",
-      tag: "EXECUTIVE SUMMARY",
+      tag: "EXECUTIVE OVERVIEW",
       content: (
-        <div className="space-y-6">
+        <div className="space-y-4 font-mono-data text-xs">
           <div className="border-l-4 border-primary pl-4 py-1">
             <h2 className="text-2xl sm:text-3xl font-bold text-primary font-headline-lg tracking-tight">
               LUMIRA SOLAR AI
             </h2>
-            <p className="text-secondary text-sm font-sans mt-1">
+            <p className="text-secondary text-xs font-sans mt-0.5">
               Transforming invisible optical and electrical degradation into recoverable energy, OEM warranty capital, and verified carbon assets.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono-data text-xs">
-            <div className="bg-surface p-4 border border-border-subtle shadow-2xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">ASSETS MANAGED</span>
-              <strong className="text-2xl font-bold text-primary block mt-1">2.25 GW</strong>
-              <span className="text-[#027a48] text-[11px]">Bhadla Mega Solar Park Deployment</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
+              <span className="text-secondary text-[9px] uppercase font-bold block">ASSETS MANAGED</span>
+              <strong className="text-xl font-bold text-primary block mt-0.5">2.25 GW</strong>
+              <span className="text-[#027a48] text-[10px]">Bhadla Solar Park</span>
             </div>
-            <div className="bg-surface p-4 border border-border-subtle shadow-2xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">MEASURABLE ROI</span>
-              <strong className="text-2xl font-bold text-[#027a48] block mt-1">14.2x</strong>
-              <span className="text-secondary text-[11px]">Client Capital Value Multiplier</span>
+            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
+              <span className="text-secondary text-[9px] uppercase font-bold block">MEASURED ROI</span>
+              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">14.2x</strong>
+              <span className="text-secondary text-[10px]">Capital Multiplier</span>
             </div>
-            <div className="bg-surface p-4 border border-border-subtle shadow-2xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">HARDWARE ECOSYSTEM</span>
-              <strong className="text-2xl font-bold text-primary block mt-1">4 MODALITIES</strong>
-              <span className="text-secondary text-[11px]">Drone, Handheld, FLIR, Rover</span>
+            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
+              <span className="text-secondary text-[9px] uppercase font-bold block">HARDWARE ECOSYSTEM</span>
+              <strong className="text-xl font-bold text-primary block mt-0.5">4 MODES</strong>
+              <span className="text-secondary text-[10px]">Drone, Handheld, FLIR, Rover</span>
+            </div>
+            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
+              <span className="text-secondary text-[9px] uppercase font-bold block">STANDARDS COMPLIANCE</span>
+              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">IEC 62446-3</strong>
+              <span className="text-secondary text-[10px]">Class 1 &amp; IEEE 1547</span>
             </div>
           </div>
 
-          <div className="bg-[#f0fdf4] border border-[#abefc6] p-4 text-xs font-sans text-primary">
-            <strong className="text-[#027a48] font-mono-data block mb-1 uppercase">CORE MISSION:</strong>
-            Empowering global independent power producers (IPPs), asset managers, and EPCs with continuous sub-wafer diagnostics, automated OEM warranty recovery, and closed-loop field technician dispatch.
+          <div className="bg-[#f0fdf4] border-2 border-[#027a48] p-3 text-xs font-sans text-primary">
+            <strong className="text-[#027a48] font-mono-data block mb-0.5 uppercase text-xs">CORE CAPABILITY:</strong>
+            Full-stack continuous SCADA telemetry, 4-layer multispectral computer vision, and closed-loop 24h field service dispatch for global Independent Power Producers (IPPs), asset owners, and EPCs.
           </div>
         </div>
       )
     },
     {
       number: 2,
-      title: "The Macro Problem",
-      subtitle: "The $34B/yr Global Solar Asset Inefficiency & Warranty Loss Crisis",
-      tag: "MARKET PAIN POINT",
+      title: "The $34B/yr Solar Inefficiency Crisis",
+      subtitle: "Uncaptured Sub-String Degradation, Diode Thermal Runaways & Warranty Losses",
+      tag: "THE PROBLEM",
       content: (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-sans text-xs">
-            <div className="border border-critical bg-[#fef3f2] p-4 space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+            <div className="border border-critical bg-[#fef3f2] p-4 space-y-1.5 shadow-2xs">
               <div className="flex items-center gap-1.5 text-critical font-bold font-mono-data text-xs uppercase">
                 <ShieldAlert className="w-4 h-4 shrink-0" />
-                <span>1. HIDDEN DEGRADATION</span>
+                <span>1. SUB-STRING LOSSES</span>
               </div>
-              <strong className="text-base text-primary block font-mono-data">3.8% - 7.2% Yield Loss</strong>
+              <strong className="text-base text-primary block font-mono-data">3.8% - 7.2% Yield Leakage</strong>
               <p className="text-secondary text-[11px] leading-relaxed">
-                Central SCADA only flags whole inverter outages, missing sub-string microcracks, bypass diode short-circuits, and optical sand encrustation.
+                Central inverters mask localized string degradation. A single bypassed sub-string causes a -18.2V drop, generating ₹44,050/yr in uncaptured revenue loss per 50-module string.
               </p>
             </div>
 
-            <div className="border border-critical bg-[#fef3f2] p-4 space-y-2">
+            <div className="border border-critical bg-[#fef3f2] p-4 space-y-1.5 shadow-2xs">
               <div className="flex items-center gap-1.5 text-critical font-bold font-mono-data text-xs uppercase">
                 <Scale className="w-4 h-4 shrink-0" />
                 <span>2. UNRECOVERED OEM CLAIMS</span>
               </div>
-              <strong className="text-base text-primary block font-mono-data">$12.4B Unclaimed Claims</strong>
+              <strong className="text-base text-primary block font-mono-data">$12.4B Unclaimed Capital</strong>
               <p className="text-secondary text-[11px] leading-relaxed">
-                Asset owners lose warranty claims because Tier-1 module manufacturers demand calibrated IEC 62446-3 radiometric and EL evidence before paying settlements.
+                Tier-1 module manufacturers (LONGi, Jinko, Trina) reject warranty claims without calibrated IEC 62446-3 radiometric and EL wafer evidence with SHA-256 signatures.
               </p>
             </div>
 
-            <div className="border border-critical bg-[#fef3f2] p-4 space-y-2">
+            <div className="border border-critical bg-[#fef3f2] p-4 space-y-1.5 shadow-2xs">
               <div className="flex items-center gap-1.5 text-critical font-bold font-mono-data text-xs uppercase">
                 <Wrench className="w-4 h-4 shrink-0" />
-                <span>3. STATIC DISCONNECTED AUDITS</span>
+                <span>3. DISCONNECTED MANUAL O&amp;M</span>
               </div>
-              <strong className="text-base text-primary block font-mono-data">14-Day Report Lag</strong>
+              <strong className="text-base text-primary block font-mono-data">14-Day Audit Turnaround</strong>
               <p className="text-secondary text-[11px] leading-relaxed">
-                Legacy drone vendors email static PDF heatmaps weeks later with zero integration into real-time SCADA or field technician work order queues.
+                Legacy drone vendors email static PDF heatmaps weeks after flights, with zero closed-loop integration into technician work orders or SCADA systems.
               </p>
             </div>
           </div>
 
-          <div className="border-2 border-primary bg-white p-4 font-mono-data text-xs flex justify-between items-center">
+          <div className="border-2 border-primary bg-white p-3.5 font-mono-data text-xs flex flex-col sm:flex-row justify-between items-center gap-2">
             <div>
-              <span className="text-[10px] text-secondary uppercase font-bold block">FINANCIAL IMPACT ON 100 MW FLEET</span>
-              <strong className="text-sm text-critical">₹44,050 / yr Revenue Leakage per 50-Module String</strong>
+              <span className="text-[10px] text-secondary uppercase font-bold block">FINANCIAL IMPACT BENCHMARK (100 MW FLEET)</span>
+              <strong className="text-xs sm:text-sm text-critical">Average Annual Generation Loss: $480,000 / yr per 100 MW</strong>
             </div>
-            <span className="bg-critical text-white px-2.5 py-1 text-[10px] font-bold uppercase">CRITICAL CAPITAL LOSS</span>
+            <span className="bg-critical text-white px-2.5 py-1 text-[10px] font-bold uppercase shrink-0">CRITICAL LEAKAGE</span>
           </div>
         </div>
       )
     },
     {
       number: 3,
-      title: "The Solution — Lumira AI OS",
-      subtitle: "Autonomous Continuous Intelligence from Silicon Wafer to Grid Interconnection",
-      tag: "PRODUCT PLATFORM",
+      title: "Autonomous Solar AI OS Architecture",
+      subtitle: "Continuous Hardware-to-Cloud Data Ingestion & Automated Service Dispatch",
+      tag: "SYSTEM ARCHITECTURE",
       content: (
         <div className="space-y-4 font-sans text-xs">
           <p className="text-secondary leading-relaxed">
-            Lumira is a full-stack, hardware-agnostic autonomous operating system that unifies real-time SCADA string telemetry with multi-modal optical and radiometric computer vision.
+            Lumira replaces fragmented drone audits with an integrated, continuous intelligence operating system that binds field robotics, SCADA Modbus/TCP telemetry, and automated maintenance workflows.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="border border-border-strong bg-surface p-4 space-y-2">
-              <strong className="text-primary uppercase text-xs flex items-center gap-2 font-mono-data">
-                <Zap className="w-4 h-4 text-[#027a48]" />
-                <span>CONTINUOUS 1-SECOND SCADA INGESTION</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="border border-border-strong bg-surface p-3.5 space-y-1.5 shadow-2xs">
+              <strong className="text-primary uppercase text-xs flex items-center gap-1.5 font-mono-data">
+                <Cpu className="w-4 h-4 text-primary" />
+                <span>1. EDGE SENSOR INGESTION</span>
               </strong>
               <p className="text-secondary text-[11px]">
-                Samples 48 string combiner boxes simultaneously via Modbus/TCP, calculating Fill Factor (FF), Series Resistance (Rs), and Shunt Resistance (Rsh) in real time.
+                High-GSD UAV orthomosaics, Field Handheld Cameras, FLIR spot radiometers, and Autonomous Crawler Rovers.
               </p>
             </div>
 
-            <div className="border border-border-strong bg-surface p-4 space-y-2">
-              <strong className="text-primary uppercase text-xs flex items-center gap-2 font-mono-data">
-                <CheckCircle2 className="w-4 h-4 text-[#027a48]" />
-                <span>CLOSED-LOOP 24H SERVICE DISPATCH</span>
+            <div className="border border-border-strong bg-surface p-3.5 space-y-1.5 shadow-2xs">
+              <strong className="text-primary uppercase text-xs flex items-center gap-1.5 font-mono-data">
+                <Zap className="w-4 h-4 text-[#027a48]" />
+                <span>2. 1 Hz SCADA MODBUS POLLING</span>
               </strong>
               <p className="text-secondary text-[11px]">
-                Automatically generates Level-III repair protocols, torque specifications, and dielectric Lockout/Tagout safety checklists for certified field technicians.
+                Continuous DC bus voltage, current, and pyranometer normalized irradiance tracking across all 48 string combiners.
+              </p>
+            </div>
+
+            <div className="border border-border-strong bg-surface p-3.5 space-y-1.5 shadow-2xs">
+              <strong className="text-primary uppercase text-xs flex items-center gap-1.5 font-mono-data">
+                <CheckCircle2 className="w-4 h-4 text-[#027a48]" />
+                <span>3. CLOSED-LOOP 24H SLA DISPATCH</span>
+              </strong>
+              <p className="text-secondary text-[11px]">
+                Automated generation of Level-III repair protocols, torque specifications, and Lockout/Tagout dielectric safety checks.
               </p>
             </div>
           </div>
 
-          <div className="bg-[#f6fef9] border-2 border-[#027a48] p-3 text-center font-mono-data text-xs text-[#027a48] font-bold">
-            ✓ 100% AUTOMATED · ZERO MANUAL HUMAN DATA ENTRY REQUIRED
+          <div className="bg-[#f6fef9] border-2 border-[#027a48] p-2.5 text-center font-mono-data text-xs text-[#027a48] font-bold">
+            ✓ 100% AUTOMATED STREAMING PIPELINE · ZERO HUMAN DELAY
           </div>
         </div>
       )
@@ -186,39 +205,39 @@ export default function PitchDeckModal({ isOpen, onClose }) {
     {
       number: 4,
       title: "Proprietary 4-Layer Multispectral Vision",
-      subtitle: "Sub-Millimeter Defect Isolation Across 4 Calibrated Diagnostic Modalities",
-      tag: "CORE TECHNOLOGY",
+      subtitle: "Sub-Millimeter Defect Isolation Across 4 Calibrated Diagnostic Feeds",
+      tag: "CORE AI VISION",
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono-data text-xs">
-            <div className="border border-border-subtle bg-white p-3 space-y-1 shadow-2xs">
+            <div className="border-2 border-critical bg-white p-3 space-y-1 shadow-2xs">
               <span className="bg-critical text-white px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 1</span>
               <strong className="text-primary text-xs block">Radiometric Thermal IR</strong>
-              <p className="text-secondary text-[10px] font-sans">Ironbow heat gradient with live spot temperature probing (ΔT = +18.4°C).</p>
+              <p className="text-secondary text-[10px] font-sans">Ironbow gradient with live pixel temperature probe (38.2°C → 78.4°C, ΔT = +18.4°C).</p>
             </div>
 
-            <div className="border border-border-subtle bg-white p-3 space-y-1 shadow-2xs">
+            <div className="border-2 border-[#027a48] bg-white p-3 space-y-1 shadow-2xs">
               <span className="bg-[#027a48] text-white px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 2</span>
               <strong className="text-primary text-xs block">High-GSD Optical RGB</strong>
-              <p className="text-secondary text-[10px] font-sans">0.5 cm/px wafer resolution resolving silver busbar fractures & snail trails.</p>
+              <p className="text-secondary text-[10px] font-sans">0.5 cm/px wafer surface resolving silver busbar fractures &amp; snail trails.</p>
             </div>
 
-            <div className="border border-border-subtle bg-white p-3 space-y-1 shadow-2xs">
+            <div className="border-2 border-primary bg-white p-3 space-y-1 shadow-2xs">
               <span className="bg-primary text-white px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 3</span>
               <strong className="text-primary text-xs block">EL Wafer Tomography</strong>
               <p className="text-secondary text-[10px] font-sans">1150 nm NIR photon emission exposing internal silicon microcrack shunts.</p>
             </div>
 
-            <div className="border border-border-subtle bg-white p-3 space-y-1 shadow-2xs">
+            <div className="border-2 border-warning bg-white p-3 space-y-1 shadow-2xs">
               <span className="bg-warning text-primary px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 4</span>
               <strong className="text-primary text-xs block">Grad-CAM XAI Mask</strong>
               <p className="text-secondary text-[10px] font-sans">Explainable AI neural activation mask with 99.2% classification certainty.</p>
             </div>
           </div>
 
-          <div className="bg-surface border border-border-strong p-4 font-mono-data text-xs space-y-1">
-            <div className="flex justify-between"><span>Supported Hardware:</span> <strong className="text-primary">Aerial UAV Drones, Field Handheld Cameras, FLIR Spot Radiometers, Autonomous Rover Crawlers</strong></div>
-            <div className="flex justify-between"><span>Standards Compliance:</span> <strong className="text-[#027a48]">IEC 62446-3 Class 1 & IEEE 1547 Certified</strong></div>
+          <div className="bg-surface border border-border-strong p-3.5 font-mono-data text-xs space-y-1">
+            <div className="flex justify-between"><span>Hardware Feeds:</span> <strong className="text-primary">Aerial UAV Drones, Field Handheld Cameras, FLIR Radiometers, Solar Rover Crawlers</strong></div>
+            <div className="flex justify-between"><span>Standard Compliance:</span> <strong className="text-[#027a48]">IEC 62446-3 Class 1 &amp; IEEE 1547 Certified</strong></div>
           </div>
         </div>
       )
@@ -227,44 +246,44 @@ export default function PitchDeckModal({ isOpen, onClose }) {
       number: 5,
       title: "World-First Breakthrough Innovation Labs",
       subtitle: "9 Automated Sensor Engines for Optimization, Safety & Energy Arbitrage",
-      tag: "PROPRIETARY IP",
+      tag: "PROPRIETARY ENGINES",
       content: (
         <div className="space-y-4 font-mono-data text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3 border border-border-subtle bg-white shadow-2xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
               <strong className="text-primary block text-xs">1. Bifacial Ground Albedo</strong>
               <span className="text-[#027a48] font-bold">+18.5% Rear Yield Boost</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Dual Kipp & Zonen pyranometers + optical albedo eye sensor.</p>
+              <p className="text-secondary text-[10px] font-sans mt-0.5">Dual Kipp &amp; Zonen pyranometers + optical albedo eye.</p>
             </div>
 
-            <div className="p-3 border border-border-subtle bg-white shadow-2xs">
+            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
               <strong className="text-primary block text-xs">2. LiDAR 3D Backtracking</strong>
               <span className="text-[#027a48] font-bold">0.00% Mutual Shading</span>
               <p className="text-secondary text-[10px] font-sans mt-0.5">LiDAR slope DEM + NEXTracker motorized inclinometers.</p>
             </div>
 
-            <div className="p-3 border border-border-subtle bg-white shadow-2xs">
+            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
               <strong className="text-primary block text-xs">3. Combiner PT100 Thermal</strong>
               <span className="text-critical font-bold">+56.6°C Flashpoint Margin</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">48-channel thermocouple array preventing DC bus fire runaway.</p>
+              <p className="text-secondary text-[10px] font-sans mt-0.5">48-channel thermocouple matrix preventing DC bus fires.</p>
             </div>
 
-            <div className="p-3 border border-border-subtle bg-white shadow-2xs">
+            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
               <strong className="text-primary block text-xs">4. Verra VCS Carbon Token</strong>
               <span className="text-[#027a48] font-bold">+₹2.88L / day MTM Value</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Live Verra spot feed ($17.40/ton) + automated ESG credit minting.</p>
+              <p className="text-secondary text-[10px] font-sans mt-0.5">Live Verra spot feed ($17.40/ton) + ESG credit minting.</p>
             </div>
 
-            <div className="p-3 border border-border-subtle bg-white shadow-2xs">
+            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
               <strong className="text-primary block text-xs">5. Satellite InSAR Subsidence</strong>
               <span className="text-primary font-bold">-1.2 mm Pile Displacement</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Sentinel-1 C-Band radar tracking structural pile settling.</p>
+              <p className="text-secondary text-[10px] font-sans mt-0.5">Sentinel-1 C-Band radar tracking tracker pile settling.</p>
             </div>
 
-            <div className="p-3 border border-border-subtle bg-white shadow-2xs">
+            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
               <strong className="text-primary block text-xs">6. Zero-Trust SCADA Firewall</strong>
               <span className="text-[#027a48] font-bold">12,450 pkts/sec Inspected</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Modbus/TCP & IEC 60870-5-104 deep packet inspection.</p>
+              <p className="text-secondary text-[10px] font-sans mt-0.5">Modbus/TCP &amp; IEC 60870-5-104 deep packet inspection.</p>
             </div>
           </div>
         </div>
@@ -274,11 +293,11 @@ export default function PitchDeckModal({ isOpen, onClose }) {
       number: 6,
       title: "Automated Storm & Hail Defense Cockpit",
       subtitle: "Physics-Based 75° Pro-Stow Reducing Normal Kinetic Impact Energy by 87.9%",
-      tag: "RESILIENCE & DEFENSE",
+      tag: "WEATHER RESILIENCE",
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-sans text-xs">
-            <div className="border border-border-strong bg-white p-4 space-y-2">
+            <div className="border border-border-strong bg-white p-4 space-y-2 shadow-2xs">
               <strong className="text-primary uppercase text-xs flex items-center gap-2 font-mono-data">
                 <CloudRain className="w-4 h-4 text-primary" />
                 <span>X-BAND DOPPLER RADAR PIPELINE</span>
@@ -291,7 +310,7 @@ export default function PitchDeckModal({ isOpen, onClose }) {
               </div>
             </div>
 
-            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-4 space-y-2">
+            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-4 space-y-2 shadow-2xs">
               <strong className="text-[#027a48] uppercase text-xs flex items-center gap-2 font-mono-data">
                 <ShieldCheck className="w-4 h-4 text-[#027a48]" />
                 <span>75.0° HAIL PRO-STOW KINEMATICS</span>
@@ -306,91 +325,130 @@ export default function PitchDeckModal({ isOpen, onClose }) {
           </div>
 
           <div className="bg-surface border border-border-subtle p-3 text-center text-xs font-mono-data text-primary">
-            Saves an estimated <strong>$2.4M per 100 MW</strong> in avoided glass replacement during severe hail storms.
+            Saves an estimated <strong>$2.4M per 100 MW</strong> in avoided glass replacement during severe hail events.
           </div>
         </div>
       )
     },
     {
       number: 7,
-      title: "Market Opportunity & TAM / SAM / SOM",
-      subtitle: "A $42.8B Global Market Growing Rapidly with Worldwide Solar Capacity Expansion",
-      tag: "MARKET SIZE",
+      title: "Advanced String I-V & P-V Curve Analytics",
+      subtitle: "Single-Diode Physics Modeling & IEC 60891 STC Temperature Normalization",
+      tag: "ELECTRICAL DIAGNOSTICS",
       content: (
         <div className="space-y-4 font-mono-data text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="border-2 border-primary bg-white p-4 space-y-1 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">TAM (TOTAL ADDRESSABLE)</span>
-              <strong className="text-2xl font-bold text-primary block">$42.8 BILLION</strong>
-              <p className="text-secondary text-[11px] font-sans">Global Solar O&M, Inspection & Asset Software Market.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-xs">
+              <strong className="text-primary text-xs uppercase block">SINGLE-DIODE TRANSCENDENTAL MODEL</strong>
+              <div className="bg-surface p-2.5 border border-border-subtle text-[11px] text-primary">
+                I(V) = I_ph - I_0 [ exp(q(V + I·Rs)/(n·k·T)) - 1 ] - (V + I·Rs)/Rsh
+              </div>
+              <p className="text-secondary text-[10px] font-sans">
+                Computes Fill Factor (FF), Series Resistance (Rs = -dV/dI at Voc), and Shunt Resistance (Rsh = -dV/dI at Isc) across 100 discrete sampling points.
+              </p>
             </div>
 
-            <div className="border-2 border-primary bg-white p-4 space-y-1 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">SAM (SERVICEABLE ADDRESSABLE)</span>
-              <strong className="text-2xl font-bold text-[#027a48] block">$14.2 BILLION</strong>
-              <p className="text-secondary text-[11px] font-sans">Utility-Scale (&gt;50 MW) &amp; C&amp;I Solar Fleets (&gt;5 MW).</p>
-            </div>
-
-            <div className="border-2 border-primary bg-white p-4 space-y-1 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">SOM (INITIAL BEACHHEAD)</span>
-              <strong className="text-2xl font-bold text-primary block">$1.8 BILLION</strong>
-              <p className="text-secondary text-[11px] font-sans">45 GW Target Portfolio in APAC, MENA &amp; North America.</p>
+            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-4 space-y-2 shadow-xs">
+              <strong className="text-[#027a48] text-xs uppercase block">IEC 60891 TEMPERATURE CORRECTION</strong>
+              <div className="bg-white p-2.5 border border-[#abefc6] text-[11px] text-[#027a48]">
+                α = +0.048%/°C (Current) · β = -0.27%/°C (Voltage)
+              </div>
+              <p className="text-secondary text-[10px] font-sans">
+                Normalizes live Operating Conditions (OPC @ 58.4°C) to Standard Test Conditions (STC @ 25°C, 1000 W/m²) with step-notch bypass detection.
+              </p>
             </div>
           </div>
 
-          <div className="bg-surface p-4 border border-border-subtle space-y-2 font-sans text-xs">
-            <strong className="text-primary font-mono-data uppercase block">KEY MACRO GROWTH DRIVERS:</strong>
-            <ul className="space-y-1 text-secondary list-disc pl-4 text-[11px]">
-              <li>Global PV capacity expanding from 1.6 TW (2024) to 5.4 TW by 2030 (IEA Net Zero 2050 Roadmap).</li>
-              <li>Insurers mandating certified automated storm defense and IEC 62446-3 compliance to maintain coverage.</li>
-            </ul>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Voc Open-Circuit</span><strong className="text-primary">46.2 V</strong></div>
+            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Isc Short-Circuit</span><strong className="text-primary">11.2 A</strong></div>
+            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Fill Factor (FF)</span><strong className="text-primary">73.2%</strong></div>
+            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Power Deficit</span><strong className="text-critical">-22.5%</strong></div>
           </div>
         </div>
       )
     },
     {
       number: 8,
-      title: "Business Model & Unit Economics",
-      subtitle: "Predictable Annual SaaS Retainers + 15% Performance Gainshare",
-      tag: "UNIT ECONOMICS",
+      title: "Global Market Opportunity & Tailwinds",
+      subtitle: "A $42.8B Global Addressable Market Expanding with Terawatt Solar Buildout",
+      tag: "MARKET DYNAMICS",
       content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono-data text-xs">
-            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">1. ENTERPRISE SAAS RETAINER</span>
-              <strong className="text-xl font-bold text-primary block">$2,880 / yr per 100 MW</strong>
-              <p className="text-secondary text-[11px] font-sans">
-                Base subscription covering unlimited AI drone processing, real-time SCADA telemetry, and 24h work order dispatch.
-              </p>
+        <div className="space-y-4 font-mono-data text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1 shadow-xs">
+              <span className="text-secondary text-[9px] uppercase font-bold block">TAM (TOTAL ADDRESSABLE)</span>
+              <strong className="text-xl font-bold text-primary block">$42.8 BILLION</strong>
+              <p className="text-secondary text-[10px] font-sans">Global Solar O&amp;M, AI Inspection &amp; Monitoring Market.</p>
             </div>
 
-            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">2. PERFORMANCE GAINSHARE</span>
-              <strong className="text-xl font-bold text-[#027a48] block">15% Success Fee</strong>
-              <p className="text-secondary text-[11px] font-sans">
-                Cut on all recovered OEM manufacturer warranty cash settlements and minted Verra/I-REC carbon credits.
-              </p>
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1 shadow-xs">
+              <span className="text-secondary text-[9px] uppercase font-bold block">SAM (SERVICEABLE ADDRESSABLE)</span>
+              <strong className="text-xl font-bold text-[#027a48] block">$14.2 BILLION</strong>
+              <p className="text-secondary text-[10px] font-sans">Utility-Scale (&gt;50 MW) &amp; Large C&amp;I Solar Fleets (&gt;5 MW).</p>
+            </div>
+
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1 shadow-xs">
+              <span className="text-secondary text-[9px] uppercase font-bold block">SOM (SERVICEABLE OBTAINABLE)</span>
+              <strong className="text-xl font-bold text-primary block">$1.8 BILLION</strong>
+              <p className="text-secondary text-[10px] font-sans">45 GW Target Portfolio in APAC, MENA &amp; North America.</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-surface p-4 border border-border-strong text-center font-mono-data text-xs">
-            <div><span className="text-[10px] text-secondary uppercase block">Gross Margin</span><strong className="text-primary text-base">88.4%</strong></div>
-            <div><span className="text-[10px] text-secondary uppercase block">LTV / CAC</span><strong className="text-[#027a48] text-base">14.2x</strong></div>
-            <div><span className="text-[10px] text-secondary uppercase block">Net Retention</span><strong className="text-primary text-base">134%</strong></div>
-            <div><span className="text-[10px] text-secondary uppercase block">Payback Period</span><strong className="text-[#027a48] text-base">&lt; 1.3 mo</strong></div>
+          <div className="bg-surface p-3.5 border border-border-subtle space-y-1.5 font-sans text-xs">
+            <strong className="text-primary font-mono-data uppercase block text-xs">KEY INDUSTRY TAILWINDS:</strong>
+            <ul className="space-y-1 text-secondary list-disc pl-4 text-[11px]">
+              <li>Global PV capacity expanding from 1.6 TW (2024) to 5.4 TW by 2030 (IEA Net Zero Roadmap).</li>
+              <li>Insurance underwriters mandating automated storm pro-stow and certified IEC 62446-3 audits.</li>
+              <li>Carbon credit and Green Hydrogen compliance requiring cryptographic generation provenance.</li>
+            </ul>
           </div>
         </div>
       )
     },
     {
       number: 9,
+      title: "Enterprise Plan, ROI Multipliers & Unit Economics",
+      subtitle: "Predictable Annual Enterprise Retainers + 15% Performance Gainshare",
+      tag: "FINANCIAL MODEL",
+      content: (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono-data text-xs">
+            <div className="border-2 border-primary bg-white p-4 space-y-1.5 shadow-xs">
+              <span className="text-secondary text-[10px] uppercase font-bold block">1. ENTERPRISE ASSET RETAINER</span>
+              <strong className="text-lg font-bold text-primary block">$2,880 / yr per 100 MW</strong>
+              <p className="text-secondary text-[11px] font-sans">
+                Base subscription covering unlimited AI drone processing, real-time SCADA telemetry, and 24h work order dispatch.
+              </p>
+            </div>
+
+            <div className="border-2 border-primary bg-white p-4 space-y-1.5 shadow-xs">
+              <span className="text-secondary text-[10px] uppercase font-bold block">2. PERFORMANCE GAINSHARE</span>
+              <strong className="text-lg font-bold text-[#027a48] block">15% Success Fee</strong>
+              <p className="text-secondary text-[11px] font-sans">
+                Cut on all recovered OEM manufacturer warranty cash settlements and minted Verra/I-REC carbon credits.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-surface p-3.5 border border-border-strong text-center font-mono-data text-xs">
+            <div><span className="text-[9px] text-secondary uppercase block">Gross Margin</span><strong className="text-primary text-sm">88.4%</strong></div>
+            <div><span className="text-[9px] text-secondary uppercase block">LTV / CAC</span><strong className="text-[#027a48] text-sm">14.2x</strong></div>
+            <div><span className="text-[9px] text-secondary uppercase block">Net Retention</span><strong className="text-primary text-sm">134%</strong></div>
+            <div><span className="text-[9px] text-secondary uppercase block">Payback Period</span><strong className="text-[#027a48] text-sm">&lt; 1.3 mo</strong></div>
+          </div>
+        </div>
+      )
+    },
+    {
+      number: 10,
       title: "Closed-Loop 3-Portal Ecosystem",
       subtitle: "Unifying Asset Owners, Drone Pilots, and Field Technicians in Real Time",
-      tag: "ECOSYSTEM",
+      tag: "ROLE ARCHITECTURE",
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
-            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-2xs">
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-2xs">
               <div className="flex items-center gap-1.5 font-bold font-mono-data text-primary text-xs uppercase">
                 <Building2 className="w-4 h-4 shrink-0" />
                 <span>1. ASSET OWNER PORTAL</span>
@@ -403,7 +461,7 @@ export default function PitchDeckModal({ isOpen, onClose }) {
               </ul>
             </div>
 
-            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-2xs">
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-2xs">
               <div className="flex items-center gap-1.5 font-bold font-mono-data text-primary text-xs uppercase">
                 <Camera className="w-4 h-4 shrink-0" />
                 <span>2. INSPECTOR PILOT HUB</span>
@@ -416,7 +474,7 @@ export default function PitchDeckModal({ isOpen, onClose }) {
               </ul>
             </div>
 
-            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-2xs">
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-2xs">
               <div className="flex items-center gap-1.5 font-bold font-mono-data text-primary text-xs uppercase">
                 <Wrench className="w-4 h-4 shrink-0" />
                 <span>3. SERVICE O&amp;M HUB</span>
@@ -425,7 +483,7 @@ export default function PitchDeckModal({ isOpen, onClose }) {
                 <li>24h SLA Service Ticket Dispatch</li>
                 <li>OEM Spare Part &amp; Torque Specs</li>
                 <li>Lockout/Tagout Safety Protocol</li>
-                <li>Photo Verification &amp; Ticket Resolution</li>
+                <li>Photo Verification &amp; Resolution</li>
               </ul>
             </div>
           </div>
@@ -433,44 +491,44 @@ export default function PitchDeckModal({ isOpen, onClose }) {
       )
     },
     {
-      number: 10,
-      title: "Verified Case Study — Bhadla Mega Solar Park",
+      number: 11,
+      title: "Verified Track Record — Bhadla Mega Solar Park",
       subtitle: "2.25 GW Deployment: $31.3K Net Capital Lift & 14.2x Client ROI Multiplier",
       tag: "CASE STUDY",
       content: (
         <div className="space-y-4 font-mono-data text-xs">
-          <div className="bg-surface p-4 border border-border-subtle flex justify-between items-center">
+          <div className="bg-surface p-3.5 border border-border-subtle flex justify-between items-center">
             <div>
-              <span className="text-[10px] text-secondary uppercase font-bold block">CLIENT PROFILE</span>
-              <strong className="text-sm text-primary">CleanEnergy Global Assets India Ltd. (Bhadla 2.25 GW)</strong>
+              <span className="text-[10px] text-secondary uppercase font-bold block">CLIENT DEPLOYMENT PROFILE</span>
+              <strong className="text-xs sm:text-sm text-primary">CleanEnergy Global Assets India Ltd. (Bhadla 2.25 GW)</strong>
             </div>
-            <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold uppercase">
+            <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2 py-0.5 text-xs font-bold uppercase">
               TIER-1 CONFORMANCE
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
             <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[10px] text-secondary uppercase block">Plant Health Lift</span>
-              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">82% → 97.4%</strong>
+              <span className="text-[9px] text-secondary uppercase block">Plant Health Lift</span>
+              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">82% → 97.4%</strong>
               <span className="text-[10px] text-secondary">In 90 days</span>
             </div>
 
             <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[10px] text-secondary uppercase block">Avoided Generation Loss</span>
-              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">+₹18,42,500</strong>
+              <span className="text-[9px] text-secondary uppercase block">Avoided Generation Loss</span>
+              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">+₹18,42,500</strong>
               <span className="text-[10px] text-secondary">20.3 MWh recovered</span>
             </div>
 
             <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[10px] text-secondary uppercase block">OEM Claims Recovered</span>
-              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">+₹10,07,600</strong>
+              <span className="text-[9px] text-secondary uppercase block">OEM Claims Recovered</span>
+              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">+₹10,07,600</strong>
               <span className="text-[10px] text-secondary">Settled by vendor</span>
             </div>
 
             <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[10px] text-secondary uppercase block">Net Capital Gain</span>
-              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">+₹26,10,100</strong>
+              <span className="text-[9px] text-secondary uppercase block">Net Capital Gain</span>
+              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">+₹26,10,100</strong>
               <span className="text-[10px] text-secondary">14.2x ROI</span>
             </div>
           </div>
@@ -478,92 +536,48 @@ export default function PitchDeckModal({ isOpen, onClose }) {
       )
     },
     {
-      number: 11,
-      title: "Competitive Moat & IP Defensibility",
-      subtitle: "Why Lumira Outperforms Legacy Drone Vendors and Traditional SCADA",
-      tag: "COMPETITIVE MOAT",
-      content: (
-        <div className="space-y-4">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left font-mono-data text-xs">
-              <thead className="bg-surface text-secondary uppercase text-[10px] border-b">
-                <tr>
-                  <th className="p-2.5">Feature / Metric</th>
-                  <th className="p-2.5">Legacy Drone Audits</th>
-                  <th className="p-2.5">Traditional SCADA</th>
-                  <th className="p-2.5 bg-[#f0fdf4] text-[#027a48] font-bold">Lumira Solar AI OS</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border-subtle text-[11px]">
-                <tr>
-                  <td className="p-2.5 font-bold text-primary">Sensor Modalities</td>
-                  <td className="p-2.5 text-secondary">Drone Only</td>
-                  <td className="p-2.5 text-secondary">Sensors Only</td>
-                  <td className="p-2.5 bg-[#f0fdf4] text-[#027a48] font-bold">Drone + Handheld + FLIR + Rover + SCADA</td>
-                </tr>
-                <tr>
-                  <td className="p-2.5 font-bold text-primary">Wafer Tomography</td>
-                  <td className="p-2.5 text-secondary">None</td>
-                  <td className="p-2.5 text-secondary">None</td>
-                  <td className="p-2.5 bg-[#f0fdf4] text-[#027a48] font-bold">1150 nm NIR Forward-Bias EL</td>
-                </tr>
-                <tr>
-                  <td className="p-2.5 font-bold text-primary">Turnaround Time</td>
-                  <td className="p-2.5 text-critical">10 - 14 Days</td>
-                  <td className="p-2.5 text-secondary">Real-Time (No Vision)</td>
-                  <td className="p-2.5 bg-[#f0fdf4] text-[#027a48] font-bold">Real-Time (1 Hz SCADA + Instant AI)</td>
-                </tr>
-                <tr>
-                  <td className="p-2.5 font-bold text-primary">OEM Legal Claims</td>
-                  <td className="p-2.5 text-secondary">Uncalibrated JPGs</td>
-                  <td className="p-2.5 text-secondary">None</td>
-                  <td className="p-2.5 bg-[#f0fdf4] text-[#027a48] font-bold">IEC 62446-3 Signed Legal Dossiers</td>
-                </tr>
-                <tr>
-                  <td className="p-2.5 font-bold text-primary">Storm &amp; Hail Defense</td>
-                  <td className="p-2.5 text-secondary">None</td>
-                  <td className="p-2.5 text-secondary">Manual Wind Stow</td>
-                  <td className="p-2.5 bg-[#f0fdf4] text-[#027a48] font-bold">Automated Radar 75° Pro-Stow</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )
-    },
-    {
       number: 12,
-      title: "The Ask & 24-Month Growth Roadmap",
-      subtitle: "$5.0M Series Seed / Series A to Scale from 2.5 GW to 45 GW Under Management",
-      tag: "THE ASK & ROADMAP",
+      title: "Enterprise Scalability, Security & Global Architecture",
+      subtitle: "Zero-Trust SCADA Hardening, SOC2 Compliance & Multi-Gigawatt Cloud Reliability",
+      tag: "ENTERPRISE SCALABILITY",
       content: (
         <div className="space-y-4 font-mono-data text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">FINANCING ROUND</span>
-              <strong className="text-2xl font-bold text-primary block">$5.0M SEED / SERIES A</strong>
-              <div className="space-y-1 text-[11px] font-sans text-secondary pt-1">
-                <div>• <strong>50%</strong> Foundational Vision Models &amp; Edge Autonomy</div>
-                <div>• <strong>30%</strong> Global Sales Expansion (US, MENA, APAC)</div>
-                <div>• <strong>20%</strong> OEM Warranty Partnerships &amp; Operations</div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-xs">
+              <div className="flex items-center gap-1.5 font-bold text-primary text-xs uppercase">
+                <Lock className="w-4 h-4 text-primary" />
+                <span>ZERO-TRUST SCADA SECURITY</span>
               </div>
+              <p className="text-secondary text-[11px] font-sans">
+                Deep packet inspection for Modbus/TCP, DNP3, and IEC 60870-5-104 with air-gapped gateway isolation and mutual TLS (mTLS).
+              </p>
             </div>
 
-            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-4 space-y-2 shadow-xs">
-              <span className="text-[#027a48] text-[10px] uppercase font-bold block">24-MONTH TARGET MILESTONES</span>
-              <strong className="text-2xl font-bold text-[#027a48] block">45 GW UNDER AI OS</strong>
-              <div className="space-y-1 text-[11px] font-sans text-primary pt-1">
-                <div>• <strong>Q4 2026:</strong> 5.0 GW Managed Across India &amp; UAE</div>
-                <div>• <strong>Q4 2027:</strong> 18.0 GW Managed ($4.2M ARR)</div>
-                <div>• <strong>Q4 2028:</strong> 45.0 GW Managed ($12.8M ARR, 88% Margins)</div>
+            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-xs">
+              <div className="flex items-center gap-1.5 font-bold text-primary text-xs uppercase">
+                <Server className="w-4 h-4 text-primary" />
+                <span>99.99% MULTI-REGION CLOUD</span>
               </div>
+              <p className="text-secondary text-[11px] font-sans">
+                Geo-redundant Kubernetes clusters with automated failover, sub-50ms query response on 50M+ wafer time-series records.
+              </p>
+            </div>
+
+            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-3.5 space-y-1.5 shadow-xs">
+              <div className="flex items-center gap-1.5 font-bold text-[#027a48] text-xs uppercase">
+                <Globe className="w-4 h-4 text-[#027a48]" />
+                <span>GLOBAL DEPLOYMENT READINESS</span>
+              </div>
+              <p className="text-secondary text-[11px] font-sans">
+                Certified for utility interconnection across North America (NERC CIP), APAC (CEA Grid Standards), and MENA (GCCIA Grid Code).
+              </p>
             </div>
           </div>
 
-          <div className="bg-surface p-4 border border-border-strong flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div className="bg-surface p-3.5 border border-border-strong flex flex-col sm:flex-row justify-between items-center gap-3">
             <div>
-              <span className="text-[10px] text-secondary uppercase font-bold block">INVESTOR RELATIONS:</span>
-              <strong className="text-primary text-sm">invest@lumira-solar.ai</strong>
+              <span className="text-[10px] text-secondary uppercase font-bold block">ENTERPRISE INTEGRATIONS &amp; PARTNERSHIPS:</span>
+              <strong className="text-primary text-xs">enterprise@lumira-solar.ai</strong>
             </div>
             <a 
               href="https://lumira-solar-ai.vercel.app" 
@@ -571,7 +585,7 @@ export default function PitchDeckModal({ isOpen, onClose }) {
               rel="noreferrer"
               className="px-4 py-2 bg-primary text-white font-bold uppercase hover:bg-white hover:text-primary border border-primary transition-all text-xs cursor-pointer shadow-xs"
             >
-              LAUNCH LIVE SYSTEM DEMO →
+              EXPLORE LIVE PRODUCTION PLATFORM →
             </a>
           </div>
         </div>
@@ -594,7 +608,7 @@ export default function PitchDeckModal({ isOpen, onClose }) {
           <div className="flex items-center gap-2">
             <Presentation className="w-5 h-5 text-primary" />
             <span className="bg-primary text-white font-mono-data text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-              LUMIRA SOLAR AI · 12-PAGE PITCH DECK
+              LUMIRA SOLAR AI · 12-PAGE ENTERPRISE PITCH DECK
             </span>
             <span className="font-mono-data text-xs text-secondary hidden sm:inline">
               Slide {currentSlide} of {totalSlides}
