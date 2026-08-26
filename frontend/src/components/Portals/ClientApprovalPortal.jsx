@@ -40,7 +40,7 @@ export default function ClientApprovalPortal({
   onNavigateTab 
 }) {
   // 5-Section Sidebar Navigation
-  // 1 = Plant Overview & Health, 2 = Energy & Financial ROI, 3 = Pending Reports Approval, 4 = Ongoing Repairs Tracker, 5 = Book Inspection & Subscription
+  // 1 = Plant Overview & Health, 2 = Energy & Financial ROI, 3 = Pending Reports Approval, 4 = Ongoing Repairs Tracker, 5 = Book Inspection & Enterprise Plan
   const [activeTab, setActiveTab] = useState(1);
 
   // Currency Switcher for Tab 2: 'INR' | 'USD'
@@ -302,7 +302,7 @@ export default function ClientApprovalPortal({
                 9
               </span>
               <div>
-                <span className="block uppercase text-[11px]">SUBSCRIPTION & ROI</span>
+                <span className="block uppercase text-[11px]">ENTERPRISE PLAN & ROI</span>
                 <span className={`text-[9px] font-sans ${activeTab === 9 ? "text-white/80" : "text-secondary"}`}>Enterprise Plan & ROI Audit</span>
               </div>
             </button>
@@ -1215,7 +1215,7 @@ export default function ClientApprovalPortal({
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 9: SUBSCRIPTION & ENTERPRISE ROI AUDIT COMMAND CENTER                 */}
+        {/* TAB 9: ENTERPRISE PLAN & ENTERPRISE ROI AUDIT COMMAND CENTER                 */}
         {/* ========================================================================= */}
         {activeTab === 9 && (
           <div className="space-y-6 max-w-6xl font-mono-data text-xs">
@@ -1225,14 +1225,14 @@ export default function ClientApprovalPortal({
                 <div className="flex items-center gap-2 mb-1">
                   <Award className="w-4 h-4 text-primary" />
                   <span className="bg-primary text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-                    ENTERPRISE ASSET SUBSCRIPTION & FINANCIAL ROI
+                    ENTERPRISE ASSET PLAN & FINANCIAL ROI
                   </span>
                   <span className="text-xs text-secondary">
                     Client: CleanEnergy Global Assets India Ltd.
                   </span>
                 </div>
                 <h1 className="font-headline-lg text-2xl font-bold text-primary tracking-tight">
-                  Subscription Benefits, Cumulative Financial ROI & Billing Ledger
+                  Enterprise Plan Benefits, Cumulative Financial ROI & Billing Ledger
                 </h1>
               </div>
 
@@ -1264,7 +1264,7 @@ export default function ClientApprovalPortal({
                   <div className="flex justify-between items-start border-b border-border-subtle pb-3 mb-3">
                     <div>
                       <span className="text-[10px] font-bold text-secondary uppercase block">
-                        ACTIVE ENTERPRISE SUBSCRIPTION
+                        ACTIVE ENTERPRISE PLAN
                       </span>
                       <h3 className="font-bold text-base text-primary">
                         LUMIRA ENTERPRISE ASSET TIER
@@ -1320,7 +1320,7 @@ export default function ClientApprovalPortal({
                     onClick={() => alert("Enterprise plan upgraded to Multi-Gigawatt Portfolio Tier!")}
                     className="w-full bg-primary text-white font-bold py-2.5 px-4 uppercase hover:bg-white hover:text-primary border border-primary transition-all cursor-pointer shadow-xs"
                   >
-                    UPGRADE SUBSCRIPTION TIER
+                    UPGRADE ENTERPRISE PLAN TIER
                   </button>
                 </div>
               </div>
@@ -1364,13 +1364,13 @@ export default function ClientApprovalPortal({
                       <strong className="text-xl font-bold text-[#027a48] block mt-0.5">
                         {currency === "INR" ? "+₹26,10,100" : "+$31,320"}
                       </strong>
-                      <span className="text-[10px] text-secondary">Net of Lumira subscription</span>
+                      <span className="text-[10px] text-secondary">Net of Lumira enterprise plan</span>
                     </div>
                   </div>
 
                   <div className="bg-white p-4 border border-[#abefc6] space-y-2 text-xs font-sans">
                     <div className="flex justify-between items-center border-b border-border-subtle pb-1.5">
-                      <span>Total Subscription Invested (12 Months):</span>
+                      <span>Total Enterprise Plan Invested (12 Months):</span>
                       <strong className="font-mono-data text-primary">{currency === "INR" ? "₹2,40,000" : "$2,880"}</strong>
                     </div>
                     <div className="flex justify-between items-center border-b border-border-subtle pb-1.5">

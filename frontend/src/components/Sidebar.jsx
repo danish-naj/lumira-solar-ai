@@ -37,6 +37,7 @@ export default function Sidebar({
     { id: "warranty", label: "OEM Warranty Claims", icon: Scale },
     { id: "maintenance", label: "Work Orders & O&M", icon: Wrench },
     { id: "reports", label: "Audit Reports", icon: FileSpreadsheet },
+    { id: "plan-roi", label: "Enterprise Plan & ROI", icon: Award },
   ];
 
   const rolePortals = [

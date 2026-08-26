@@ -283,6 +283,13 @@ export default function App() {
             />
           )}
 
+          {/* 14. Enterprise Plan & Financial ROI Audit */}
+          {activeTab === "plan-roi" && (
+            <SubscriptionROIView
+              farm={activeFarm}
+            />
+          )}
+
           {/* 16. [ROLE PORTAL 1] Field Inspector Hub (Unified 5-Stage Drone Pipeline) */}
           {activeTab === "inspector-portal" && (
             <FieldInspectorPortal

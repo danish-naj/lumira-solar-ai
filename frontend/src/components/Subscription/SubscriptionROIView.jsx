@@ -58,14 +58,14 @@ export default function SubscriptionROIView({ farm }) {
           <div className="flex items-center gap-2 mb-1">
             <Award className="w-4 h-4 text-primary" />
             <span className="bg-primary text-white font-mono-data text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-              ENTERPRISE SUBSCRIPTION & ROI AUDIT
+              ENTERPRISE ASSET PLAN & ROI AUDIT
             </span>
             <span className="font-mono-data text-xs text-secondary">
               Client: CleanEnergy Global Assets India Ltd.
             </span>
           </div>
           <h1 className="font-headline-lg text-2xl font-bold text-primary tracking-tight">
-            Subscription Benefits, Financial ROI & Inspection History
+            Enterprise Plan Benefits, Financial ROI & Inspection History
           </h1>
         </div>
 
@@ -153,7 +153,7 @@ export default function SubscriptionROIView({ farm }) {
           </div>
 
           <div className="border border-border-strong bg-white p-5 space-y-1 shadow-xs">
-            <span className="text-[10px] text-secondary uppercase font-sans font-bold block">Net Subscription ROI</span>
+            <span className="text-[10px] text-secondary uppercase font-sans font-bold block">Net Enterprise Plan ROI</span>
             <strong className="text-3xl font-black text-primary block">
               11.3x ROI
             </strong>
@@ -216,7 +216,7 @@ export default function SubscriptionROIView({ farm }) {
       <div className="border border-border-strong bg-white p-6 space-y-4 shadow-xs font-mono-data text-xs">
         <div className="flex justify-between items-center border-b border-border-subtle pb-2">
           <h3 className="font-headline-md text-xs font-bold uppercase tracking-wider text-primary">
-            INSPECTION MISSIONS CONDUCTED OVER SUBSCRIPTION PERIOD (28 TOTAL)
+            INSPECTION MISSIONS CONDUCTED OVER ENTERPRISE PLAN PERIOD (28 TOTAL)
           </h3>
           <span className="text-[10px] text-secondary">Showing Recent 6 Flights</span>
         </div>
@@ -259,7 +259,7 @@ export default function SubscriptionROIView({ farm }) {
       <div className="border border-border-strong bg-white p-6 space-y-4 shadow-xs font-mono-data text-xs">
         <div className="flex justify-between items-center border-b border-border-subtle pb-2">
           <h3 className="font-headline-md text-xs font-bold uppercase tracking-wider text-primary">
-            SUBSCRIPTION INVOICES & PAYMENT RECEIPTS
+            ENTERPRISE PLAN INVOICES & PAYMENT RECEIPTS
           </h3>
           <span className="text-[10px] text-[#027a48] font-bold">ALL PAYMENTS CURRENT</span>
         </div>
@@ -270,7 +270,7 @@ export default function SubscriptionROIView({ farm }) {
               <tr className="bg-surface border-b border-border-subtle text-secondary uppercase font-bold text-[10px]">
                 <th className="py-3 px-4">Invoice #</th>
                 <th className="py-3 px-4">Billing Date</th>
-                <th className="py-3 px-4 font-sans">Subscription Description</th>
+                <th className="py-3 px-4 font-sans">Enterprise Plan Description</th>
                 <th className="py-3 px-4">Amount</th>
                 <th className="py-3 px-4">Payment Status</th>
                 <th className="py-3 px-4 text-right">Receipt</th>
