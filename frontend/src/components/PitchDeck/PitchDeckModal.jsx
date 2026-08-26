@@ -7,36 +7,16 @@ import {
   Download, 
   Maximize2, 
   Minimize2, 
-  Zap, 
-  TrendingUp, 
-  ShieldAlert, 
-  Award, 
-  Cpu, 
-  Sparkles, 
-  CloudRain, 
-  Building2, 
-  Camera, 
-  Wrench, 
-  Globe, 
-  CheckCircle2, 
-  FileText, 
-  DollarSign, 
-  Activity, 
-  Layers, 
-  Sun,
-  ShieldCheck,
-  Scale,
-  LineChart,
-  Lock,
-  Server,
-  Gauge
+  ArrowRight,
+  Sun
 } from "lucide-react";
 
 export default function PitchDeckModal({ isOpen, onClose }) {
   const [currentSlide, setCurrentSlide] = useState(1);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const totalSlides = 12;
 
-  // Keyboard navigation (Arrow keys, Escape)
+  // Keyboard navigation (Arrow keys, Spacebar, Escape, F for Fullscreen)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isOpen) return;
@@ -46,546 +26,1090 @@ export default function PitchDeckModal({ isOpen, onClose }) {
         setCurrentSlide((prev) => Math.max(1, prev - 1));
       } else if (e.key === "Escape") {
         onClose();
+      } else if (e.key === "f" || e.key === "F") {
+        toggleBrowserFullscreen();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
+  const toggleBrowserFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+      }
+    }
+  };
+
   if (!isOpen) return null;
 
   const slides = [
+    // SLIDE 1: Cover
     {
       number: 1,
-      title: "Executive Vision & Architecture",
-      subtitle: "The Autonomous Operating System for Gigawatt-Scale Solar Asset Intelligence",
-      tag: "EXECUTIVE OVERVIEW",
-      content: (
-        <div className="space-y-4 font-mono-data text-xs">
-          <div className="border-l-4 border-primary pl-4 py-1">
-            <h2 className="text-2xl sm:text-3xl font-bold text-primary font-headline-lg tracking-tight">
-              LUMIRA SOLAR AI
-            </h2>
-            <p className="text-secondary text-xs font-sans mt-0.5">
-              Transforming invisible optical and electrical degradation into recoverable energy, OEM warranty capital, and verified carbon assets.
-            </p>
+      verticalTag: "SOLAR ASSET INTELLIGENCE OS / 2026",
+      render: () => (
+        <div className="grid grid-cols-1 lg:grid-cols-12 h-full gap-8 items-center">
+          {/* Left Column (7 Cols) */}
+          <div className="lg:col-span-7 flex flex-col justify-between h-full py-4 sm:py-8 space-y-6">
+            <div>
+              <div className="flex items-center gap-2 mb-6">
+                <span className="text-white font-bold text-lg tracking-tight font-headline-md flex items-center gap-1">
+                  <span>Lumira</span>
+                  <span className="text-white text-xs">✦</span>
+                </span>
+              </div>
+
+              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-3">
+                LUMIRA SOLAR AI
+              </span>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1] mb-6">
+                The operating system for solar asset intelligence.
+              </h1>
+
+              <p className="text-lg sm:text-xl text-white/80 font-sans leading-relaxed max-w-xl mb-6">
+                Continuous visibility from physical condition to financial action.
+              </p>
+
+              <div className="border-t border-white/20 pt-6 max-w-lg">
+                <p className="text-sm text-white/70 font-sans leading-relaxed">
+                  Detect hidden degradation. Orchestrate action. Recover measurable value.
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono text-white/50">
+              <span>BUILT FOR UTILITY-SCALE, C&amp;I, AND MULTI-GIGAWATT SOLAR PORTFOLIOS.</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
-              <span className="text-secondary text-[9px] uppercase font-bold block">ASSETS MANAGED</span>
-              <strong className="text-xl font-bold text-primary block mt-0.5">2.25 GW</strong>
-              <span className="text-[#027a48] text-[10px]">Bhadla Solar Park</span>
+          {/* Right Column (5 Cols) - Visual Hero */}
+          <div className="lg:col-span-5 h-full flex flex-col justify-between py-4 sm:py-8">
+            <div className="w-full h-full min-h-[320px] lg:min-h-[420px] bg-[#0c1017] border border-white/15 relative overflow-hidden flex items-center justify-center p-6 group">
+              {/* Geometric High-Contrast Solar Grid Illustration */}
+              <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]" />
+              
+              {/* Perspective Solar Array Matrix */}
+              <div className="relative w-full h-full flex flex-col justify-center items-center space-y-3">
+                {[...Array(6)].map((_, i) => (
+                  <div 
+                    key={i} 
+                    className="w-full h-7 border border-white/30 bg-gradient-to-r from-white/5 via-white/20 to-white/5 flex items-center justify-between px-3 transform -skew-x-12 shadow-sm"
+                    style={{ opacity: 0.4 + i * 0.12 }}
+                  >
+                    <span className="text-[9px] font-mono text-white/60">STR-0{i+1}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />
+                    <span className="text-[9px] font-mono text-white/60">41.8V · 12.9A</span>
+                  </div>
+                ))}
+                <div className="absolute w-24 h-24 rounded-full bg-white/10 blur-xl pointer-events-none" />
+              </div>
             </div>
-            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
-              <span className="text-secondary text-[9px] uppercase font-bold block">MEASURED ROI</span>
-              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">14.2x</strong>
-              <span className="text-secondary text-[10px]">Capital Multiplier</span>
-            </div>
-            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
-              <span className="text-secondary text-[9px] uppercase font-bold block">HARDWARE ECOSYSTEM</span>
-              <strong className="text-xl font-bold text-primary block mt-0.5">4 MODES</strong>
-              <span className="text-secondary text-[10px]">Drone, Handheld, FLIR, Rover</span>
-            </div>
-            <div className="bg-surface p-3.5 border border-border-subtle shadow-2xs">
-              <span className="text-secondary text-[9px] uppercase font-bold block">STANDARDS COMPLIANCE</span>
-              <strong className="text-xl font-bold text-[#027a48] block mt-0.5">IEC 62446-3</strong>
-              <span className="text-secondary text-[10px]">Class 1 &amp; IEEE 1547</span>
-            </div>
-          </div>
 
-          <div className="bg-[#f0fdf4] border-2 border-[#027a48] p-3 text-xs font-sans text-primary">
-            <strong className="text-[#027a48] font-mono-data block mb-0.5 uppercase text-xs">CORE CAPABILITY:</strong>
-            Full-stack continuous SCADA telemetry, 4-layer multispectral computer vision, and closed-loop 24h field service dispatch for global Independent Power Producers (IPPs), asset owners, and EPCs.
+            <div className="text-right text-[10px] font-mono uppercase tracking-widest text-white/40 pt-3">
+              ASSET INTELLIGENCE / OPERATIONS / VALUE
+            </div>
           </div>
         </div>
       )
     },
+
+    // SLIDE 2: 01 / THE PROBLEM
     {
       number: 2,
-      title: "The $34B/yr Solar Inefficiency Crisis",
-      subtitle: "Uncaptured Sub-String Degradation, Diode Thermal Runaways & Warranty Losses",
-      tag: "THE PROBLEM",
-      content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
-            <div className="border border-critical bg-[#fef3f2] p-4 space-y-1.5 shadow-2xs">
-              <div className="flex items-center gap-1.5 text-critical font-bold font-mono-data text-xs uppercase">
-                <ShieldAlert className="w-4 h-4 shrink-0" />
-                <span>1. SUB-STRING LOSSES</span>
-              </div>
-              <strong className="text-base text-primary block font-mono-data">3.8% - 7.2% Yield Leakage</strong>
-              <p className="text-secondary text-[11px] leading-relaxed">
-                Central inverters mask localized string degradation. A single bypassed sub-string causes a -18.2V drop, generating ₹44,050/yr in uncaptured revenue loss per 50-module string.
-              </p>
-            </div>
+      verticalTag: "01 / THE PROBLEM",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              SOLAR OPERATIONS TODAY
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              Solar operations are scaling faster than visibility.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Portfolio size, geographic spread, and equipment complexity are increasing. The operating stack beneath them is still fragmented across dashboards, inspection vendors, alerts, and field records.
+            </p>
 
-            <div className="border border-critical bg-[#fef3f2] p-4 space-y-1.5 shadow-2xs">
-              <div className="flex items-center gap-1.5 text-critical font-bold font-mono-data text-xs uppercase">
-                <Scale className="w-4 h-4 shrink-0" />
-                <span>2. UNRECOVERED OEM CLAIMS</span>
+            <div className="border-t border-white/20 divide-y divide-white/10">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-4 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  Aggregate blind spots
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  A module-level fault can be diluted inside an inverter-level average, especially when signals are sampled every 5–15 minutes.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">IMPACT</span>
+                  LOST GENERATION STAYS INVISIBLE.
+                </div>
               </div>
-              <strong className="text-base text-primary block font-mono-data">$12.4B Unclaimed Capital</strong>
-              <p className="text-secondary text-[11px] leading-relaxed">
-                Tier-1 module manufacturers (LONGi, Jinko, Trina) reject warranty claims without calibrated IEC 62446-3 radiometric and EL wafer evidence with SHA-256 signatures.
-              </p>
-            </div>
 
-            <div className="border border-critical bg-[#fef3f2] p-4 space-y-1.5 shadow-2xs">
-              <div className="flex items-center gap-1.5 text-critical font-bold font-mono-data text-xs uppercase">
-                <Wrench className="w-4 h-4 shrink-0" />
-                <span>3. DISCONNECTED MANUAL O&amp;M</span>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-4 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  Symptom without cause
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  Thermal or statistical anomalies may not distinguish a dirty module, cracked wafer, bypass-diode failure, tracker issue, or inverter fault.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">IMPACT</span>
+                  FALSE POSITIVES AND MISDIRECTED CREWS.
+                </div>
               </div>
-              <strong className="text-base text-primary block font-mono-data">14-Day Audit Turnaround</strong>
-              <p className="text-secondary text-[11px] leading-relaxed">
-                Legacy drone vendors email static PDF heatmaps weeks after flights, with zero closed-loop integration into technician work orders or SCADA systems.
-              </p>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-4 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  Alert without action
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  An alert can become a static report, unassigned alarm, or email thread rather than an approved, routed, time-bound work order.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">IMPACT</span>
+                  SLOW RESOLUTION AND REPEAT VISITS.
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-4 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  Value without proof
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  Warranty claims, carbon records, compliance evidence, and BESS decisions require traceability that is rarely connected to the original plant signal.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">IMPACT</span>
+                  RECOVERABLE VALUE REMAINS UNMONETIZED.
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="border-2 border-primary bg-white p-3.5 font-mono-data text-xs flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div>
-              <span className="text-[10px] text-secondary uppercase font-bold block">FINANCIAL IMPACT BENCHMARK (100 MW FLEET)</span>
-              <strong className="text-xs sm:text-sm text-critical">Average Annual Generation Loss: $480,000 / yr per 100 MW</strong>
-            </div>
-            <span className="bg-critical text-white px-2.5 py-1 text-[10px] font-bold uppercase shrink-0">CRITICAL LEAKAGE</span>
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Bottom line.</strong> Data exists at every stage, but value is lost between stages.
           </div>
         </div>
       )
     },
+
+    // SLIDE 3: 02 / MONEY AT RISK
     {
       number: 3,
-      title: "Autonomous Solar AI OS Architecture",
-      subtitle: "Continuous Hardware-to-Cloud Data Ingestion & Automated Service Dispatch",
-      tag: "SYSTEM ARCHITECTURE",
-      content: (
-        <div className="space-y-4 font-sans text-xs">
-          <p className="text-secondary leading-relaxed">
-            Lumira replaces fragmented drone audits with an integrated, continuous intelligence operating system that binds field robotics, SCADA Modbus/TCP telemetry, and automated maintenance workflows.
-          </p>
+      verticalTag: "02 / MONEY AT RISK",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              THE SOLAR OPERATIONS GAP
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              Small blind spots become multi-million-rupee losses at portfolio scale.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Solar teams collect signals, images, alarms, and field notes. The financial problem is what happens between detection, diagnosis, execution, and recovery.
+            </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="border border-border-strong bg-surface p-3.5 space-y-1.5 shadow-2xs">
-              <strong className="text-primary uppercase text-xs flex items-center gap-1.5 font-mono-data">
-                <Cpu className="w-4 h-4 text-primary" />
-                <span>1. EDGE SENSOR INGESTION</span>
-              </strong>
-              <p className="text-secondary text-[11px]">
-                High-GSD UAV orthomosaics, Field Handheld Cameras, FLIR spot radiometers, and Autonomous Crawler Rovers.
-              </p>
+            {/* 2 Big Headline Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 border-t border-b border-white/20 py-6 mb-6">
+              <div className="border-l-2 border-white pl-4">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 block">GLOBAL INEFFICIENCY EXPOSURE</span>
+                <strong className="text-4xl sm:text-5xl font-serif text-white block mt-1">$34B <span className="text-base font-sans font-normal text-white/60">/ year</span></strong>
+                <p className="text-xs text-white/70 font-sans mt-1">Solar inefficiency crisis identified in the Lumira market thesis.</p>
+              </div>
+
+              <div className="border-l-2 border-white pl-4">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 block">UNRECOVERED MANUFACTURER VALUE</span>
+                <strong className="text-4xl sm:text-5xl font-serif text-white block mt-1">$12.4B</strong>
+                <p className="text-xs text-white/70 font-sans mt-1">Estimated OEM warranty claims left unrecovered because evidence is incomplete, slow, or disconnected.</p>
+              </div>
             </div>
 
-            <div className="border border-border-strong bg-surface p-3.5 space-y-1.5 shadow-2xs">
-              <strong className="text-primary uppercase text-xs flex items-center gap-1.5 font-mono-data">
-                <Zap className="w-4 h-4 text-[#027a48]" />
-                <span>2. 1 Hz SCADA MODBUS POLLING</span>
-              </strong>
-              <p className="text-secondary text-[11px]">
-                Continuous DC bus voltage, current, and pyranometer normalized irradiance tracking across all 48 string combiners.
-              </p>
-            </div>
+            {/* 4 Gap Columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-3.5 border border-white/10 bg-white/[0.02]">
+                <span className="text-lg font-mono text-white/40 block mb-1">01</span>
+                <strong className="text-sm font-serif text-white block mb-1">Detection gap</strong>
+                <p className="text-xs text-white/60 font-sans mb-3">Inverter and plant dashboards average away module-level faults. Traditional SCADA commonly works at 5–15-minute intervals.</p>
+                <div className="text-[10px] font-mono uppercase text-white/90 border-t border-white/10 pt-2">
+                  <span className="text-white/40 block">COST OF DELAY</span>
+                  LOST YIELD STAYS INVISIBLE.
+                </div>
+              </div>
 
-            <div className="border border-border-strong bg-surface p-3.5 space-y-1.5 shadow-2xs">
-              <strong className="text-primary uppercase text-xs flex items-center gap-1.5 font-mono-data">
-                <CheckCircle2 className="w-4 h-4 text-[#027a48]" />
-                <span>3. CLOSED-LOOP 24H SLA DISPATCH</span>
-              </strong>
-              <p className="text-secondary text-[11px]">
-                Automated generation of Level-III repair protocols, torque specifications, and Lockout/Tagout dielectric safety checks.
-              </p>
+              <div className="p-3.5 border border-white/10 bg-white/[0.02]">
+                <span className="text-lg font-mono text-white/40 block mb-1">02</span>
+                <strong className="text-sm font-serif text-white block mb-1">Diagnosis gap</strong>
+                <p className="text-xs text-white/60 font-sans mb-3">Thermal or statistical anomalies may not separate dirt, cracks, bypass diodes, tracker issues, or inverter faults without physical confirmation.</p>
+                <div className="text-[10px] font-mono uppercase text-white/90 border-t border-white/10 pt-2">
+                  <span className="text-white/40 block">COST OF ERROR</span>
+                  FALSE POSITIVES &amp; MISDIRECTED CREWS.
+                </div>
+              </div>
+
+              <div className="p-3.5 border border-white/10 bg-white/[0.02]">
+                <span className="text-lg font-mono text-white/40 block mb-1">03</span>
+                <strong className="text-sm font-serif text-white block mb-1">Execution gap</strong>
+                <p className="text-xs text-white/60 font-sans mb-3">Drone-only inspection vendors can take 10–14 business days to return processed results, while alerts still lack an assigned repair owner.</p>
+                <div className="text-[10px] font-mono uppercase text-white/90 border-t border-white/10 pt-2">
+                  <span className="text-white/40 block">COST OF FRICTION</span>
+                  SLOW RESOLUTION &amp; REPEAT VISITS.
+                </div>
+              </div>
+
+              <div className="p-3.5 border border-white/10 bg-white/[0.02]">
+                <span className="text-lg font-mono text-white/40 block mb-1">04</span>
+                <strong className="text-sm font-serif text-white block mb-1">Monetization gap</strong>
+                <p className="text-xs text-white/60 font-sans mb-3">Variable inspection services can cost $15–$30/MW; static files rarely flow into claims, carbon records, or compliance evidence.</p>
+                <div className="text-[10px] font-mono uppercase text-white/90 border-t border-white/10 pt-2">
+                  <span className="text-white/40 block">COST OF FRAGMENTATION</span>
+                  RECOVERABLE VALUE UNMONETIZED.
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="bg-[#f6fef9] border-2 border-[#027a48] p-2.5 text-center font-mono-data text-xs text-[#027a48] font-bold">
-            ✓ 100% AUTOMATED STREAMING PIPELINE · ZERO HUMAN DELAY
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Bottom line.</strong> The market does not need another isolated dashboard. It needs a connected decision layer that turns loss into action and proof.
           </div>
         </div>
       )
     },
+
+    // SLIDE 4: 05 / OPERATING WORKFLOW
     {
       number: 4,
-      title: "Proprietary 4-Layer Multispectral Vision",
-      subtitle: "Sub-Millimeter Defect Isolation Across 4 Calibrated Diagnostic Feeds",
-      tag: "CORE AI VISION",
-      content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono-data text-xs">
-            <div className="border-2 border-critical bg-white p-3 space-y-1 shadow-2xs">
-              <span className="bg-critical text-white px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 1</span>
-              <strong className="text-primary text-xs block">Radiometric Thermal IR</strong>
-              <p className="text-secondary text-[10px] font-sans">Ironbow gradient with live pixel temperature probe (38.2°C → 78.4°C, ΔT = +18.4°C).</p>
-            </div>
+      verticalTag: "05 / OPERATING WORKFLOW",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              FROM SIGNAL TO FIELD OUTCOME
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              From field signal to field repair in five operational steps.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-8">
+              The same operating thread follows an issue from detection to verification—across portable inspections, permanent sensors, autonomous hardware, and human teams.
+            </p>
 
-            <div className="border-2 border-[#027a48] bg-white p-3 space-y-1 shadow-2xs">
-              <span className="bg-[#027a48] text-white px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 2</span>
-              <strong className="text-primary text-xs block">High-GSD Optical RGB</strong>
-              <p className="text-secondary text-[10px] font-sans">0.5 cm/px wafer surface resolving silver busbar fractures &amp; snail trails.</p>
-            </div>
+            {/* 5 Step Process Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 border-t border-b border-white/20 py-8">
+              <div className="space-y-2 pr-2">
+                <span className="text-2xl font-mono text-white block">01</span>
+                <strong className="text-lg font-serif text-white block">Connect</strong>
+                <p className="text-xs text-white/70 font-sans leading-relaxed">
+                  Install a lightweight Modbus/TCP edge gateway and connect existing inverter, weather, combiner, and tracker signals.
+                </p>
+              </div>
 
-            <div className="border-2 border-primary bg-white p-3 space-y-1 shadow-2xs">
-              <span className="bg-primary text-white px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 3</span>
-              <strong className="text-primary text-xs block">EL Wafer Tomography</strong>
-              <p className="text-secondary text-[10px] font-sans">1150 nm NIR photon emission exposing internal silicon microcrack shunts.</p>
-            </div>
+              <div className="space-y-2 pr-2 border-l border-white/10 pl-3">
+                <span className="text-2xl font-mono text-white block">→ 02</span>
+                <strong className="text-lg font-serif text-white block">Inspect</strong>
+                <p className="text-xs text-white/70 font-sans leading-relaxed">
+                  Run a scheduled bring-in UAV mission, activate permanent dock scans, or dispatch handheld and FLIR follow-up to a specific row.
+                </p>
+              </div>
 
-            <div className="border-2 border-warning bg-white p-3 space-y-1 shadow-2xs">
-              <span className="bg-warning text-primary px-1.5 py-0.2 text-[9px] font-bold uppercase block w-fit">LAYER 4</span>
-              <strong className="text-primary text-xs block">Grad-CAM XAI Mask</strong>
-              <p className="text-secondary text-[10px] font-sans">Explainable AI neural activation mask with 99.2% classification certainty.</p>
+              <div className="space-y-2 pr-2 border-l border-white/10 pl-3">
+                <span className="text-2xl font-mono text-white block">→ 03</span>
+                <strong className="text-lg font-serif text-white block">Diagnose</strong>
+                <p className="text-xs text-white/70 font-sans leading-relaxed">
+                  Fuse thermal, RGB, EL, SCADA, and physics evidence; classify the defect and estimate the associated loss mechanism.
+                </p>
+              </div>
+
+              <div className="space-y-2 pr-2 border-l border-white/10 pl-3">
+                <span className="text-2xl font-mono text-white block">→ 04</span>
+                <strong className="text-lg font-serif text-white block">Execute</strong>
+                <p className="text-xs text-white/70 font-sans leading-relaxed">
+                  Obtain approval, route the work order, provide part numbers and torque specifications, and enforce Lockout/Tagout safety checks.
+                </p>
+              </div>
+
+              <div className="space-y-2 border-l border-white/10 pl-3">
+                <span className="text-2xl font-mono text-white block">→ 05</span>
+                <strong className="text-lg font-serif text-white block">Verify + monetize</strong>
+                <p className="text-xs text-white/70 font-sans leading-relaxed">
+                  Confirm resolution, close the ticket, generate the audit dossier, and route eligible evidence into OEM claims, carbon records, or reports.
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="bg-surface border border-border-strong p-3.5 font-mono-data text-xs space-y-1">
-            <div className="flex justify-between"><span>Hardware Feeds:</span> <strong className="text-primary">Aerial UAV Drones, Field Handheld Cameras, FLIR Radiometers, Solar Rover Crawlers</strong></div>
-            <div className="flex justify-between"><span>Standard Compliance:</span> <strong className="text-[#027a48]">IEC 62446-3 Class 1 &amp; IEEE 1547 Certified</strong></div>
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Result.</strong> One operating thread replaces multiple disconnected handoffs.
           </div>
         </div>
       )
     },
+
+    // SLIDE 5: 04 / HARDWARE MODEL
     {
       number: 5,
-      title: "World-First Breakthrough Innovation Labs",
-      subtitle: "9 Automated Sensor Engines for Optimization, Safety & Energy Arbitrage",
-      tag: "PROPRIETARY ENGINES",
-      content: (
-        <div className="space-y-4 font-mono-data text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
-              <strong className="text-primary block text-xs">1. Bifacial Ground Albedo</strong>
-              <span className="text-[#027a48] font-bold">+18.5% Rear Yield Boost</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Dual Kipp &amp; Zonen pyranometers + optical albedo eye.</p>
+      verticalTag: "04 / HARDWARE MODEL",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              HYBRID DEPLOYMENT ARCHITECTURE
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              The hardware model is hybrid by design.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Lumira does not require every customer to purchase a full robotics stack. Hardware is deployed according to portfolio size, inspection cadence, remoteness, and risk profile.
+            </p>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 border-t border-white/20 py-6 mb-6">
+              {/* Bring In On Demand */}
+              <div className="p-5 border border-white/15 bg-white/[0.02] space-y-4">
+                <div>
+                  <h3 className="font-serif text-xl text-white">Bring-In On-Demand</h3>
+                  <span className="text-[10px] font-mono uppercase text-white/50 tracking-wider">LOW CAPEX · FLEXIBLE INSPECTION CADENCE</span>
+                </div>
+                <div className="space-y-3 text-xs font-sans text-white/70">
+                  <p>
+                    <strong>Standard UAV kit.</strong> A certified pilot arrives with a portable drone, runs a Lumira-generated 3D flight grid, and uploads radiometric thermal and RGB data through 4G/5G.
+                  </p>
+                  <p>
+                    <strong>Handheld camera + FLIR.</strong> A technician follows a flagged row, captures macro optical and spot-thermal evidence, and uploads it through the Service Hub.
+                  </p>
+                  <p className="text-white/90 pt-1 border-t border-white/10">
+                    <strong>Best fit:</strong> Quarterly or annual audits, C&amp;I fleets, standard O&amp;M, and targeted emergency follow-up.
+                  </p>
+                </div>
+              </div>
+
+              {/* Permanent On-Site */}
+              <div className="p-5 border border-white/15 bg-white/[0.02] space-y-4">
+                <div>
+                  <h3 className="font-serif text-xl text-white">Permanent On-Site</h3>
+                  <span className="text-[10px] font-mono uppercase text-white/50 tracking-wider">CONTINUOUS SENSING · AUTONOMOUS RESPONSE</span>
+                </div>
+                <div className="space-y-3 text-xs font-sans text-white/70">
+                  <p>
+                    <strong>Autonomous drone dock.</strong> Scheduled or event-triggered flights, RTK return, fast charging, and automatic data synchronization for remote 100 MW+ parks.
+                  </p>
+                  <p>
+                    <strong>Rover crawler.</strong> Night crawling with 3D LiDAR, optical probes, and forward-bias EL contacts for wafer-level diagnostics.
+                  </p>
+                  <p>
+                    <strong>Fixed sensors.</strong> Combiner PT100s, pyranometers, albedometers, tracker inclinometers, and a Modbus/TCP edge gateway stream continuously.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
-              <strong className="text-primary block text-xs">2. LiDAR 3D Backtracking</strong>
-              <span className="text-[#027a48] font-bold">0.00% Mutual Shading</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">LiDAR slope DEM + NEXTracker motorized inclinometers.</p>
+            {/* What Sits Where Strip */}
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block mb-2">WHAT SITS WHERE</span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-sans">
+                <div className="border border-white/10 p-2.5">
+                  <strong className="text-white block font-mono text-[11px]">Portable</strong>
+                  <span className="text-white/60 text-[11px]">UAV, handheld macro camera, and FLIR radiometer carried by crews.</span>
+                </div>
+                <div className="border border-white/10 p-2.5">
+                  <strong className="text-white block font-mono text-[11px]">Permanent</strong>
+                  <span className="text-white/60 text-[11px]">SCADA, meteo, mechanical sensors, edge gateway, drone dock, rover.</span>
+                </div>
+                <div className="border border-white/10 p-2.5">
+                  <strong className="text-white block font-mono text-[11px]">Commercial</strong>
+                  <span className="text-white/60 text-[11px]">Standard workflows in SaaS; dock/rover license at ₹37,500/mo.</span>
+                </div>
+                <div className="border border-white/10 p-2.5">
+                  <strong className="text-white block font-mono text-[11px]">Gateway</strong>
+                  <span className="text-white/60 text-[11px]">Lightweight industrial gateway is a one-time setup at ₹25,000.</span>
+                </div>
+              </div>
             </div>
+          </div>
 
-            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
-              <strong className="text-primary block text-xs">3. Combiner PT100 Thermal</strong>
-              <span className="text-critical font-bold">+56.6°C Flashpoint Margin</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">48-channel thermocouple matrix preventing DC bus fires.</p>
-            </div>
-
-            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
-              <strong className="text-primary block text-xs">4. Verra VCS Carbon Token</strong>
-              <span className="text-[#027a48] font-bold">+₹2.88L / day MTM Value</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Live Verra spot feed ($17.40/ton) + ESG credit minting.</p>
-            </div>
-
-            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
-              <strong className="text-primary block text-xs">5. Satellite InSAR Subsidence</strong>
-              <span className="text-primary font-bold">-1.2 mm Pile Displacement</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Sentinel-1 C-Band radar tracking tracker pile settling.</p>
-            </div>
-
-            <div className="p-2.5 border border-border-subtle bg-white shadow-2xs">
-              <strong className="text-primary block text-xs">6. Zero-Trust SCADA Firewall</strong>
-              <span className="text-[#027a48] font-bold">12,450 pkts/sec Inspected</span>
-              <p className="text-secondary text-[10px] font-sans mt-0.5">Modbus/TCP &amp; IEC 60870-5-104 deep packet inspection.</p>
-            </div>
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Customer-friendly principle.</strong> Start with the minimum viable hardware footprint, then add autonomy where inspection frequency and avoided dispatch costs justify it.
           </div>
         </div>
       )
     },
+
+    // SLIDE 6: 03 / HERO FEATURES
     {
       number: 6,
-      title: "Automated Storm & Hail Defense Cockpit",
-      subtitle: "Physics-Based 75° Pro-Stow Reducing Normal Kinetic Impact Energy by 87.9%",
-      tag: "WEATHER RESILIENCE",
-      content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-sans text-xs">
-            <div className="border border-border-strong bg-white p-4 space-y-2 shadow-2xs">
-              <strong className="text-primary uppercase text-xs flex items-center gap-2 font-mono-data">
-                <CloudRain className="w-4 h-4 text-primary" />
-                <span>X-BAND DOPPLER RADAR PIPELINE</span>
-              </strong>
-              <div className="space-y-1 font-mono-data text-[11px]">
-                <div className="flex justify-between"><span>Reflectivity (Z):</span> <strong className="text-critical">58.4 dBZ</strong></div>
-                <div className="flex justify-between"><span>Hail Probability (POSH):</span> <strong className="text-critical">88%</strong></div>
-                <div className="flex justify-between"><span>Max Hail Size (MEHS):</span> <strong className="text-critical">42 mm</strong></div>
-                <div className="flex justify-between"><span>Gust Velocity:</span> <strong className="text-primary">94.2 km/h</strong></div>
+      verticalTag: "03 / HERO FEATURES",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              THE FULL-STACK DIFFERENCE
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              More than a dashboard: Lumira connects the asset, the action, and the value.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Four hero capabilities combine into one operating layer—where category competitors typically stop at imagery, plant telemetry, or statistical alerts.
+            </p>
+
+            {/* 4 Hero Blocks */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 border-t border-white/20 py-6 mb-6">
+              <div className="p-4 border border-white/15 bg-white/[0.02] space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-white/50 text-sm">01</span>
+                  <h3 className="font-serif text-lg text-white">Multi-modal sensor fusion</h3>
+                </div>
+                <p className="text-xs text-white/70 font-sans">
+                  <strong>What it does:</strong> Synchronizes UAV, handheld camera, FLIR radiometer, rover, 1 Hz SCADA, weather, tracker, satellite, market, and storm inputs in one digital twin.
+                </p>
+                <span className="text-[10px] font-mono uppercase text-white/90 block pt-1 border-t border-white/10">
+                  WHY IT DIFFERS: DRONE-ONLY AND SCADA-ONLY SYSTEMS SEE ONLY ONE SIDE.
+                </span>
+              </div>
+
+              <div className="p-4 border border-white/15 bg-white/[0.02] space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-white/50 text-sm">02</span>
+                  <h3 className="font-serif text-lg text-white">Wafer-level + physics diagnosis</h3>
+                </div>
+                <p className="text-xs text-white/70 font-sans">
+                  <strong>What it does:</strong> Combines 1150 nm forward-bias EL tomography, I–V/P–V/dP/dV traces, single-diode models, and Grad-CAM explainability.
+                </p>
+                <span className="text-[10px] font-mono uppercase text-white/90 block pt-1 border-t border-white/10">
+                  WHY IT DIFFERS: STATISTICAL ALERTS BECOME ROOT-CAUSE EVIDENCE.
+                </span>
+              </div>
+
+              <div className="p-4 border border-white/15 bg-white/[0.02] space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-white/50 text-sm">03</span>
+                  <h3 className="font-serif text-lg text-white">Closed-loop O&amp;M execution</h3>
+                </div>
+                <p className="text-xs text-white/70 font-sans">
+                  <strong>What it does:</strong> Moves from issue location to client approval, 24-hour SLA dispatch, Level-III repair guidance, safety checks, and before/after verification.
+                </p>
+                <span className="text-[10px] font-mono uppercase text-white/90 block pt-1 border-t border-white/10">
+                  WHY IT DIFFERS: STATIC PDFS AND UNASSIGNED ALARMS DO NOT CLOSE THE LOOP.
+                </span>
+              </div>
+
+              <div className="p-4 border border-white/15 bg-white/[0.02] space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-white/50 text-sm">04</span>
+                  <h3 className="font-serif text-lg text-white">Protection + monetization</h3>
+                </div>
+                <p className="text-xs text-white/70 font-sans">
+                  <strong>What it does:</strong> Connects Doppler weather defense, automated tracker stow, OEM warranty dossiers, carbon/I-REC records, and BESS arbitrage.
+                </p>
+                <span className="text-[10px] font-mono uppercase text-white/90 block pt-1 border-t border-white/10">
+                  WHY IT DIFFERS: TURNS VERIFIED DATA INTO AVOIDED DAMAGE AND RECOVERED CASH.
+                </span>
               </div>
             </div>
 
-            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-4 space-y-2 shadow-2xs">
-              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-2 font-mono-data">
-                <ShieldCheck className="w-4 h-4 text-[#027a48]" />
-                <span>75.0° HAIL PRO-STOW KINEMATICS</span>
-              </strong>
-              <p className="text-secondary text-[11px]">
-                When severe hail criteria is met, motorized trackers auto-slew to 75.0°, converting perpendicular destructive impacts into glancing ricochets.
-              </p>
-              <div className="bg-white p-2 border border-[#abefc6] font-mono-data text-xs text-center text-[#027a48] font-bold">
-                E_n = E_0 · cos²(75°) = 0.067 · E_0 (-87.9% Force)
+            {/* Technical Proof Points Strip */}
+            <div className="border-t border-white/10 pt-4">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block mb-2">TECHNICAL PROOF POINTS</span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+                <div className="p-2 border border-white/10 bg-white/[0.02]">
+                  <strong className="text-base text-white block">1 Hz</strong>
+                  <span className="text-[10px] text-white/60">Real-time DC telemetry across strings &amp; inverters.</span>
+                </div>
+                <div className="p-2 border border-white/10 bg-white/[0.02]">
+                  <strong className="text-base text-white block">1150 nm</strong>
+                  <span className="text-[10px] text-white/60">EL tomography for internal microcracks &amp; shunts.</span>
+                </div>
+                <div className="p-2 border border-white/10 bg-white/[0.02]">
+                  <strong className="text-base text-white block">24h SLA</strong>
+                  <span className="text-[10px] text-white/60">Automated dispatch from approval to field response.</span>
+                </div>
+                <div className="p-2 border border-white/10 bg-white/[0.02]">
+                  <strong className="text-base text-white block">IEC 62446-3</strong>
+                  <span className="text-[10px] text-white/60">Signed dossiers with SHA-256 verification hashes.</span>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="bg-surface border border-border-subtle p-3 text-center text-xs font-mono-data text-primary">
-            Saves an estimated <strong>$2.4M per 100 MW</strong> in avoided glass replacement during severe hail events.
           </div>
         </div>
       )
     },
+
+    // SLIDE 7: 06 / COMPETITIVE LANDSCAPE
     {
       number: 7,
-      title: "Advanced String I-V & P-V Curve Analytics",
-      subtitle: "Single-Diode Physics Modeling & IEC 60891 STC Temperature Normalization",
-      tag: "ELECTRICAL DIAGNOSTICS",
-      content: (
-        <div className="space-y-4 font-mono-data text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="border-2 border-primary bg-white p-4 space-y-2 shadow-xs">
-              <strong className="text-primary text-xs uppercase block">SINGLE-DIODE TRANSCENDENTAL MODEL</strong>
-              <div className="bg-surface p-2.5 border border-border-subtle text-[11px] text-primary">
-                I(V) = I_ph - I_0 [ exp(q(V + I·Rs)/(n·k·T)) - 1 ] - (V + I·Rs)/Rsh
-              </div>
-              <p className="text-secondary text-[10px] font-sans">
-                Computes Fill Factor (FF), Series Resistance (Rs = -dV/dI at Voc), and Shunt Resistance (Rsh = -dV/dI at Isc) across 100 discrete sampling points.
-              </p>
-            </div>
+      verticalTag: "06 / COMPETITIVE LANDSCAPE",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              HEAD-TO-HEAD POSITIONING
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              Lumira competes by unifying categories that remain separate.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              The market is split between inspection vendors, SCADA platforms, and analytics startups. Lumira links the physical asset, electrical signal, diagnosis, field action, and financial proof.
+            </p>
 
-            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-4 space-y-2 shadow-xs">
-              <strong className="text-[#027a48] text-xs uppercase block">IEC 60891 TEMPERATURE CORRECTION</strong>
-              <div className="bg-white p-2.5 border border-[#abefc6] text-[11px] text-[#027a48]">
-                α = +0.048%/°C (Current) · β = -0.27%/°C (Voltage)
-              </div>
-              <p className="text-secondary text-[10px] font-sans">
-                Normalizes live Operating Conditions (OPC @ 58.4°C) to Standard Test Conditions (STC @ 25°C, 1000 W/m²) with step-notch bypass detection.
-              </p>
+            {/* Comparison Table */}
+            <div className="border border-white/20 overflow-x-auto mb-6">
+              <table className="w-full text-left font-sans text-xs">
+                <thead className="bg-white/5 border-b border-white/20 font-mono text-[10px] uppercase text-white/60">
+                  <tr>
+                    <th className="p-3">DIMENSION</th>
+                    <th className="p-3">DRONE INSPECTION<br/><span className="text-[9px] text-white/40">RAPTOR MAPS · ZEITVIEW</span></th>
+                    <th className="p-3">TRADITIONAL SCADA<br/><span className="text-[9px] text-white/40">ALSOENERGY · SMA · SCHNEIDER</span></th>
+                    <th className="p-3">ANALYTICS STARTUPS<br/><span className="text-[9px] text-white/40">RAYCATCH · SMARTHELIO</span></th>
+                    <th className="p-3 bg-white/10 text-white font-bold">LUMIRA SOLAR AI</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10 text-[11px]">
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">Primary input</td>
+                    <td className="p-2.5 text-white/60">Aerial UAV imagery</td>
+                    <td className="p-2.5 text-white/60">Inverter / combiner Modbus</td>
+                    <td className="p-2.5 text-white/60">Historical SCADA logs</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">Drone + handheld + FLIR + rover + 1 Hz SCADA</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">Telemetry depth</td>
+                    <td className="p-2.5 text-white/60">None or post-flight</td>
+                    <td className="p-2.5 text-white/60">5–15 minute averages</td>
+                    <td className="p-2.5 text-white/60">15-minute logs</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">1-second real-time DC MPPT context</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">Root-cause evidence</td>
+                    <td className="p-2.5 text-white/60">Thermal / visual</td>
+                    <td className="p-2.5 text-white/60">Electrical aggregate</td>
+                    <td className="p-2.5 text-white/60">Statistical inference</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">Multispectral + electrical + physics + XAI</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">Wafer-level EL</td>
+                    <td className="p-2.5 text-white/40">No</td>
+                    <td className="p-2.5 text-white/40">No</td>
+                    <td className="p-2.5 text-white/40">No</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">1150 nm forward-bias tomography</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">I–V / P–V</td>
+                    <td className="p-2.5 text-white/40">No</td>
+                    <td className="p-2.5 text-white/60">Basic / limited</td>
+                    <td className="p-2.5 text-white/60">Mathematical estimates</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">4 modes + IEC 60891 normalization</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">O&amp;M workflow</td>
+                    <td className="p-2.5 text-white/60">Static report</td>
+                    <td className="p-2.5 text-white/60">Unassigned alarms</td>
+                    <td className="p-2.5 text-white/60">Alert list / email</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">Approval → 24h SLA → verification</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">Warranty evidence</td>
+                    <td className="p-2.5 text-white/60">Uncalibrated files</td>
+                    <td className="p-2.5 text-white/40">None</td>
+                    <td className="p-2.5 text-white/40">None</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">IEC 62446-3 signed dossier</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-mono text-white/70 font-bold">Commercial model</td>
+                    <td className="p-2.5 text-white/60">Per-MW flight fees</td>
+                    <td className="p-2.5 text-white/60">Hardware + software</td>
+                    <td className="p-2.5 text-white/60">Annual subscription</td>
+                    <td className="p-2.5 bg-white/5 text-white font-medium">INR SaaS + performance gainshare</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Voc Open-Circuit</span><strong className="text-primary">46.2 V</strong></div>
-            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Isc Short-Circuit</span><strong className="text-primary">11.2 A</strong></div>
-            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Fill Factor (FF)</span><strong className="text-primary">73.2%</strong></div>
-            <div className="bg-white p-2.5 border border-border-subtle"><span className="text-[9px] text-secondary uppercase block">Power Deficit</span><strong className="text-critical">-22.5%</strong></div>
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Positioning.</strong> Not another drone vendor, SCADA dashboard, or alerting layer—the system of record between physical asset condition and financial action.
           </div>
         </div>
       )
     },
+
+    // SLIDE 8: 07 / COMPETITIVE MOATS
     {
       number: 8,
-      title: "Global Market Opportunity & Tailwinds",
-      subtitle: "A $42.8B Global Addressable Market Expanding with Terawatt Solar Buildout",
-      tag: "MARKET DYNAMICS",
-      content: (
-        <div className="space-y-4 font-mono-data text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1 shadow-xs">
-              <span className="text-secondary text-[9px] uppercase font-bold block">TAM (TOTAL ADDRESSABLE)</span>
-              <strong className="text-xl font-bold text-primary block">$42.8 BILLION</strong>
-              <p className="text-secondary text-[10px] font-sans">Global Solar O&amp;M, AI Inspection &amp; Monitoring Market.</p>
-            </div>
+      verticalTag: "07 / COMPETITIVE MOATS",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              WHY LUMIRA WINS OVER TIME
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              Five defensible moats compound with every deployment.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Lumira’s advantage is not one isolated model or sensor. It is the synchronized data, physics, workflow, and monetization layer built around the asset.
+            </p>
 
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1 shadow-xs">
-              <span className="text-secondary text-[9px] uppercase font-bold block">SAM (SERVICEABLE ADDRESSABLE)</span>
-              <strong className="text-xl font-bold text-[#027a48] block">$14.2 BILLION</strong>
-              <p className="text-secondary text-[10px] font-sans">Utility-Scale (&gt;50 MW) &amp; Large C&amp;I Solar Fleets (&gt;5 MW).</p>
-            </div>
+            <div className="border-t border-white/20 divide-y divide-white/10 mb-6">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-3.5 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  01 · Sensor fusion
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  A synchronized digital twin combines drone, handheld camera, FLIR, rover, SCADA, weather, tracker, satellite, market, and storm inputs.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">STRATEGIC EFFECT</span>
+                  ONE OPERATING TRUTH ACROSS PORTFOLIO
+                </div>
+              </div>
 
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1 shadow-xs">
-              <span className="text-secondary text-[9px] uppercase font-bold block">SOM (SERVICEABLE OBTAINABLE)</span>
-              <strong className="text-xl font-bold text-primary block">$1.8 BILLION</strong>
-              <p className="text-secondary text-[10px] font-sans">45 GW Target Portfolio in APAC, MENA &amp; North America.</p>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-3.5 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  02 · Wafer-level EL
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  1150 nm NIR forward-bias imaging exposes internal microcracks and diode shunts that standard thermal inspection can miss.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">STRATEGIC EFFECT</span>
+                  DIAGNOSIS BELOW THE VISIBLE LAYER
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-3.5 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  03 · Physics + XAI
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  Single-diode models, I–V/P–V traces, dP/dV conductance, solar geometry, and Grad-CAM attention maps reduce black-box decision risk.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">STRATEGIC EFFECT</span>
+                  DEFENSIBLE ACTIONS &amp; FEWER FALSE POSITIVES
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-3.5 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  04 · Closed-loop execution
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  Three synchronized portals connect asset owners, field inspectors, and service teams with approvals, work orders, safety protocols, and evidence closure.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">STRATEGIC EFFECT</span>
+                  SIGNAL BECOMES VERIFIED FIELD OUTCOME
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 py-3.5 items-center">
+                <div className="lg:col-span-3 font-serif text-base sm:text-lg text-white font-medium">
+                  05 · Monetization infrastructure
+                </div>
+                <div className="lg:col-span-6 text-xs sm:text-sm text-white/70 font-sans">
+                  The same verified evidence can support OEM warranty recovery, carbon / I-REC records, BESS decisions, storm protection, and audit reporting.
+                </div>
+                <div className="lg:col-span-3 lg:text-right font-mono text-[11px] uppercase tracking-wider text-white">
+                  <span className="text-white/40 block text-[9px]">STRATEGIC EFFECT</span>
+                  MORE VALUE POOLS WITHOUT MORE SILOS
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="bg-surface p-3.5 border border-border-subtle space-y-1.5 font-sans text-xs">
-            <strong className="text-primary font-mono-data uppercase block text-xs">KEY INDUSTRY TAILWINDS:</strong>
-            <ul className="space-y-1 text-secondary list-disc pl-4 text-[11px]">
-              <li>Global PV capacity expanding from 1.6 TW (2024) to 5.4 TW by 2030 (IEA Net Zero Roadmap).</li>
-              <li>Insurance underwriters mandating automated storm pro-stow and certified IEC 62446-3 audits.</li>
-              <li>Carbon credit and Green Hydrogen compliance requiring cryptographic generation provenance.</li>
-            </ul>
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Strategic advantage.</strong> Each new workflow increases the value of the shared data foundation rather than creating another silo.
           </div>
         </div>
       )
     },
+
+    // SLIDE 9: 08 / REVENUE MODEL
     {
       number: 9,
-      title: "Enterprise Plan, ROI Multipliers & Unit Economics",
-      subtitle: "Predictable Annual Enterprise Retainers + 15% Performance Gainshare",
-      tag: "FINANCIAL MODEL",
-      content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono-data text-xs">
-            <div className="border-2 border-primary bg-white p-4 space-y-1.5 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">1. ENTERPRISE ASSET RETAINER</span>
-              <strong className="text-lg font-bold text-primary block">$2,880 / yr per 100 MW</strong>
-              <p className="text-secondary text-[11px] font-sans">
-                Base subscription covering unlimited AI drone processing, real-time SCADA telemetry, and 24h work order dispatch.
-              </p>
-            </div>
+      verticalTag: "08 / REVENUE MODEL",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              INR-DENOMINATED MONETIZATION
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              Revenue is anchored by recurring software and expanded by performance.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Lumira uses a hybrid model: predictable SaaS revenue at the base, plus upside from value pools that traditional software pricing ignores.
+            </p>
 
-            <div className="border-2 border-primary bg-white p-4 space-y-1.5 shadow-xs">
-              <span className="text-secondary text-[10px] uppercase font-bold block">2. PERFORMANCE GAINSHARE</span>
-              <strong className="text-lg font-bold text-[#027a48] block">15% Success Fee</strong>
-              <p className="text-secondary text-[11px] font-sans">
-                Cut on all recovered OEM manufacturer warranty cash settlements and minted Verra/I-REC carbon credits.
-              </p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 border-t border-white/20 py-6 mb-6">
+              {/* Left: Five Revenue Streams Table (7 Cols) */}
+              <div className="lg:col-span-7 space-y-3">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block">FIVE REVENUE STREAMS</span>
+                <table className="w-full text-left font-sans text-xs border border-white/10">
+                  <thead className="bg-white/5 font-mono text-[10px] text-white/60 uppercase border-b border-white/10">
+                    <tr>
+                      <th className="p-2.5">STREAM</th>
+                      <th className="p-2.5">MECHANISM</th>
+                      <th className="p-2.5 text-right">INDICATIVE ECONOMICS</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/10 text-[11px]">
+                    <tr>
+                      <td className="p-2 font-mono font-bold text-white">01 · Enterprise SaaS</td>
+                      <td className="p-2 text-white/70">Recurring asset intelligence, telemetry, workflow, and audit platform.</td>
+                      <td className="p-2 text-right font-mono text-white">₹1.00L–₹18.30L / yr</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 font-mono font-bold text-white">02 · OEM warranty</td>
+                      <td className="p-2 text-white/70">Success fee when IEC 62446-3 evidence produces approved settlements.</td>
+                      <td className="p-2 text-right font-mono text-white">15% of recovered cash</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 font-mono font-bold text-white">03 · Carbon / I-REC</td>
+                      <td className="p-2 text-white/70">Registry and tokenization fee on verified environmental credits.</td>
+                      <td className="p-2 text-right font-mono text-white">5% of credit value</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 font-mono font-bold text-white">04 · BESS arbitrage</td>
+                      <td className="p-2 text-white/70">Dynamic 15-minute dispatch against peak spreads above baseline tariffs.</td>
+                      <td className="p-2 text-right font-mono text-white">10% of net profit</td>
+                    </tr>
+                    <tr>
+                      <td className="p-2 font-mono font-bold text-white">05 · Robotics license</td>
+                      <td className="p-2 text-white/70">Edge vision, obstacle avoidance, and charging telemetry for dock/rover.</td>
+                      <td className="p-2 text-right font-mono text-white">₹37,500 / mo / unit</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Right: SaaS Pricing Ladder (5 Cols) */}
+              <div className="lg:col-span-5 space-y-3">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block">SAAS PRICING LADDER</span>
+                <div className="space-y-3 font-sans text-xs">
+                  <div className="p-3 border border-white/10 bg-white/[0.02]">
+                    <div className="flex justify-between items-center mb-1">
+                      <strong className="text-white font-serif text-sm">C&amp;I fleets · 5–50 MW</strong>
+                      <span className="font-mono text-white font-bold text-xs">₹1,00,000 / yr</span>
+                    </div>
+                    <p className="text-white/60 text-[11px]">Handheld + FLIR ingestion, sub-string thermal mapping, automated dispatch.</p>
+                  </div>
+
+                  <div className="p-3 border border-white/20 bg-white/[0.04]">
+                    <div className="flex justify-between items-center mb-1">
+                      <strong className="text-white font-serif text-sm">Utility scale · 50–250 MW</strong>
+                      <span className="font-mono text-white font-bold text-xs">₹2,40,000 / yr / 100 MW</span>
+                    </div>
+                    <p className="text-white/60 text-[11px]">UAV planner, 1 Hz SCADA, I–V analytics, 24-hour SLA queue, storm defense.</p>
+                  </div>
+
+                  <div className="p-3 border border-white/10 bg-white/[0.02]">
+                    <div className="flex justify-between items-center mb-1">
+                      <strong className="text-white font-serif text-sm">Portfolio tier · &gt;1 GW</strong>
+                      <span className="font-mono text-white font-bold text-xs">₹18,30,000 / yr / GW</span>
+                    </div>
+                    <p className="text-white/60 text-[11px]">Multi-region cluster, air-gapped SCADA firewall, OEM routing, dedicated engineering.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-surface p-3.5 border border-border-strong text-center font-mono-data text-xs">
-            <div><span className="text-[9px] text-secondary uppercase block">Gross Margin</span><strong className="text-primary text-sm">88.4%</strong></div>
-            <div><span className="text-[9px] text-secondary uppercase block">LTV / CAC</span><strong className="text-[#027a48] text-sm">14.2x</strong></div>
-            <div><span className="text-[9px] text-secondary uppercase block">Net Retention</span><strong className="text-primary text-sm">134%</strong></div>
-            <div><span className="text-[9px] text-secondary uppercase block">Payback Period</span><strong className="text-[#027a48] text-sm">&lt; 1.3 mo</strong></div>
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Land-and-expand path.</strong> Start with inspection and yield recovery, then add warranty, carbon, BESS, storm defense, and enterprise compliance modules.
           </div>
         </div>
       )
     },
+
+    // SLIDE 10: 09 / UNIT ECONOMICS
     {
       number: 10,
-      title: "Closed-Loop 3-Portal Ecosystem",
-      subtitle: "Unifying Asset Owners, Drone Pilots, and Field Technicians in Real Time",
-      tag: "ROLE ARCHITECTURE",
-      content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-2xs">
-              <div className="flex items-center gap-1.5 font-bold font-mono-data text-primary text-xs uppercase">
-                <Building2 className="w-4 h-4 shrink-0" />
-                <span>1. ASSET OWNER PORTAL</span>
-              </div>
-              <ul className="text-secondary text-[11px] space-y-1 list-disc pl-4">
-                <li>1-Click Repair Authorization Queue</li>
-                <li>OEM Warranty Legal Claim Generator</li>
-                <li>Live Carbon &amp; ESG Asset Ledger</li>
-                <li>Downloadable Billing Invoices</li>
-              </ul>
-            </div>
+      verticalTag: "09 / UNIT ECONOMICS",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              SCALE ECONOMICS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              The model scales with portfolio coverage, not field headcount.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Recurring revenue compounds with coverage; performance fees capture upside.
+            </p>
 
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-2xs">
-              <div className="flex items-center gap-1.5 font-bold font-mono-data text-primary text-xs uppercase">
-                <Camera className="w-4 h-4 shrink-0" />
-                <span>2. INSPECTOR PILOT HUB</span>
-              </div>
-              <ul className="text-secondary text-[11px] space-y-1 list-disc pl-4">
-                <li>5-Stage Automated Flight Planner</li>
-                <li>DJI RTK Telemetry &amp; GSD Validator</li>
-                <li>Instant Radiometric Defect Ingestion</li>
-                <li>Certified QA Sign-Off &amp; Export</li>
-              </ul>
-            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 border-t border-white/20 py-6 mb-6">
+              {/* Left Column: Unit Economics (5 Cols) */}
+              <div className="lg:col-span-5 space-y-3">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block">UNIT ECONOMICS</span>
+                <div className="space-y-3">
+                  <div className="flex items-baseline justify-between border-b border-white/10 pb-2">
+                    <span className="text-3xl font-serif text-white">88.4%</span>
+                    <div className="text-right">
+                      <strong className="text-xs font-mono text-white block">Gross margin</strong>
+                      <span className="text-[10px] text-white/50">Cloud-native; compute offloaded to edge.</span>
+                    </div>
+                  </div>
 
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-2xs">
-              <div className="flex items-center gap-1.5 font-bold font-mono-data text-primary text-xs uppercase">
-                <Wrench className="w-4 h-4 shrink-0" />
-                <span>3. SERVICE O&amp;M HUB</span>
+                  <div className="flex items-baseline justify-between border-b border-white/10 pb-2">
+                    <span className="text-3xl font-serif text-white">₹10.4L</span>
+                    <div className="text-right">
+                      <strong className="text-xs font-mono text-white block">Customer acquisition cost</strong>
+                      <span className="text-[10px] text-white/50">Direct enterprise sales.</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-baseline justify-between border-b border-white/10 pb-2">
+                    <span className="text-3xl font-serif text-white">₹1.48 Cr</span>
+                    <div className="text-right">
+                      <strong className="text-xs font-mono text-white block">Customer lifetime value</strong>
+                      <span className="text-[10px] text-white/50">Five-year contracts + gainshare.</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-baseline justify-between border-b border-white/10 pb-2">
+                    <span className="text-3xl font-serif text-white">14.2×</span>
+                    <div className="text-right">
+                      <strong className="text-xs font-mono text-white block">LTV / CAC ratio</strong>
+                      <span className="text-[10px] text-white/50">Top-decile capital efficiency.</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-baseline justify-between pt-1">
+                    <span className="text-xl font-serif text-white">134% / &lt;1.3 mo</span>
+                    <div className="text-right">
+                      <strong className="text-xs font-mono text-white block">NRR / payback</strong>
+                      <span className="text-[10px] text-white/50">Expansion across new sites.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <ul className="text-secondary text-[11px] space-y-1 list-disc pl-4">
-                <li>24h SLA Service Ticket Dispatch</li>
-                <li>OEM Spare Part &amp; Torque Specs</li>
-                <li>Lockout/Tagout Safety Protocol</li>
-                <li>Photo Verification &amp; Resolution</li>
-              </ul>
+
+              {/* Right Column: Bottom-Up Revenue Trajectory (7 Cols) */}
+              <div className="lg:col-span-7 space-y-3">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block">BOTTOM-UP REVENUE TRAJECTORY</span>
+                <table className="w-full text-left font-sans text-xs border border-white/10">
+                  <thead className="bg-white/5 font-mono text-[10px] text-white/60 uppercase border-b border-white/10">
+                    <tr>
+                      <th className="p-3">YEAR</th>
+                      <th className="p-3">ASSETS</th>
+                      <th className="p-3">SAAS BASE ARR</th>
+                      <th className="p-3">PERFORMANCE GAINSHARE</th>
+                      <th className="p-3 text-right">TOTAL REVENUE</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/10 font-mono text-xs">
+                    <tr>
+                      <td className="p-3 font-bold text-white">2026</td>
+                      <td className="p-3 text-white/70">2.5 GW</td>
+                      <td className="p-3 text-white/70">₹3.50 Cr</td>
+                      <td className="p-3 text-white/70">₹1.50 Cr</td>
+                      <td className="p-3 text-right font-bold text-white">₹5.00 Cr</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-bold text-white">2027</td>
+                      <td className="p-3 text-white/70">12.0 GW</td>
+                      <td className="p-3 text-white/70">₹24.00 Cr</td>
+                      <td className="p-3 text-white/70">₹9.33 Cr</td>
+                      <td className="p-3 text-right font-bold text-white">₹33.33 Cr</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-bold text-white">2028</td>
+                      <td className="p-3 text-white/70">45.0 GW</td>
+                      <td className="p-3 text-white/70">₹78.75 Cr</td>
+                      <td className="p-3 text-white/70">₹27.91 Cr</td>
+                      <td className="p-3 text-right font-bold text-white">₹106.66 Cr</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="text-[10px] font-mono text-white/40 pt-1">
+                  PROJECTION BASIS · INSTITUTIONAL REVENUE MODEL.
+                </div>
+              </div>
             </div>
+          </div>
+
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Investor lens.</strong> Base revenue compounds with portfolio coverage; gainshare captures verified upside; add-ons lift retention.
           </div>
         </div>
       )
     },
+
+    // SLIDE 11: 10 / ROLE PORTALS
     {
       number: 11,
-      title: "Verified Track Record — Bhadla Mega Solar Park",
-      subtitle: "2.25 GW Deployment: $31.3K Net Capital Lift & 14.2x Client ROI Multiplier",
-      tag: "CASE STUDY",
-      content: (
-        <div className="space-y-4 font-mono-data text-xs">
-          <div className="bg-surface p-3.5 border border-border-subtle flex justify-between items-center">
-            <div>
-              <span className="text-[10px] text-secondary uppercase font-bold block">CLIENT DEPLOYMENT PROFILE</span>
-              <strong className="text-xs sm:text-sm text-primary">CleanEnergy Global Assets India Ltd. (Bhadla 2.25 GW)</strong>
-            </div>
-            <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2 py-0.5 text-xs font-bold uppercase">
-              TIER-1 CONFORMANCE
+      verticalTag: "10 / ROLE PORTALS",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              THE OPERATING ECOSYSTEM
             </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              Three role portals turn shared intelligence into shared execution.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Lumira is designed around the way solar organizations actually work: multiple teams, different permissions, one synchronized operating truth.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/20 py-6 mb-6">
+              {/* Asset Owner */}
+              <div className="p-4 border border-white/15 bg-white/[0.02] space-y-3">
+                <h3 className="font-serif text-lg text-white">Asset Owner / Client Portal</h3>
+                <ul className="text-xs font-sans text-white/70 space-y-2">
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Portfolio ESG &amp; ROI.</strong> Real-time energy recovery and financial capital preservation tracking.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Approvals queue.</strong> One-click authorization for field interventions and OEM warranty claims.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Innovation labs.</strong> Access to storm defense, BESS arbitrage, and carbon tokenization modules.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Executive audit.</strong> Cryptographically signed IEC 62446-3 compliance certificates.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Field Inspector Hub */}
+              <div className="p-4 border border-white/15 bg-white/[0.02] space-y-3">
+                <h3 className="font-serif text-lg text-white">Field Inspector Hub</h3>
+                <ul className="text-xs font-sans text-white/70 space-y-2">
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>3D flight planner.</strong> Automated UAV grid generation with GSD and overlap validation.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Live sensor stream.</strong> Real-time monitoring of drone, rover, and handheld capture modalities.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Site setup.</strong> Polygon mapping and digital-twin initialization for new portfolio assets.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Signoff.</strong> Digital verification of inspection missions and raw data integrity.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Service Team */}
+              <div className="p-4 border border-white/15 bg-white/[0.02] space-y-3">
+                <h3 className="font-serif text-lg text-white">Service Team / O&amp;M Hub</h3>
+                <ul className="text-xs font-sans text-white/70 space-y-2">
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>24h SLA queue.</strong> Automated routing of approved repairs to certified field technicians.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Technical protocols.</strong> Level-III guidance with part numbers, torque specs, and safety checklists.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Evidence capture.</strong> Mobile upload of before/after photos for instant AI repair verification.</span>
+                  </li>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-white">■</span>
+                    <span><strong>Closure.</strong> Automated ticket resolution and notification to the asset owner.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
-            <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[9px] text-secondary uppercase block">Plant Health Lift</span>
-              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">82% → 97.4%</strong>
-              <span className="text-[10px] text-secondary">In 90 days</span>
-            </div>
-
-            <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[9px] text-secondary uppercase block">Avoided Generation Loss</span>
-              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">+₹18,42,500</strong>
-              <span className="text-[10px] text-secondary">20.3 MWh recovered</span>
-            </div>
-
-            <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[9px] text-secondary uppercase block">OEM Claims Recovered</span>
-              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">+₹10,07,600</strong>
-              <span className="text-[10px] text-secondary">Settled by vendor</span>
-            </div>
-
-            <div className="bg-white p-3 border border-border-strong shadow-2xs">
-              <span className="text-[9px] text-secondary uppercase block">Net Capital Gain</span>
-              <strong className="text-lg font-bold text-[#027a48] block mt-0.5">+₹26,10,100</strong>
-              <span className="text-[10px] text-secondary">14.2x ROI</span>
-            </div>
+          <div className="border-t border-white/20 pt-4 font-sans text-xs sm:text-sm text-white/80">
+            <strong>Closed-loop handoff.</strong> Inspector identifies → Owner approves → Service team repairs → Lumira verifies → Auditor receives evidence.
           </div>
         </div>
       )
     },
+
+    // SLIDE 12: 11 / DEPLOYMENT SPRINT
     {
       number: 12,
-      title: "Enterprise Scalability, Security & Global Architecture",
-      subtitle: "Zero-Trust SCADA Hardening, SOC2 Compliance & Multi-Gigawatt Cloud Reliability",
-      tag: "ENTERPRISE SCALABILITY",
-      content: (
-        <div className="space-y-4 font-mono-data text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-xs">
-              <div className="flex items-center gap-1.5 font-bold text-primary text-xs uppercase">
-                <Lock className="w-4 h-4 text-primary" />
-                <span>ZERO-TRUST SCADA SECURITY</span>
-              </div>
-              <p className="text-secondary text-[11px] font-sans">
-                Deep packet inspection for Modbus/TCP, DNP3, and IEC 60870-5-104 with air-gapped gateway isolation and mutual TLS (mTLS).
-              </p>
-            </div>
+      verticalTag: "11 / DEPLOYMENT SPRINT",
+      render: () => (
+        <div className="flex flex-col justify-between h-full py-4 space-y-6">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+              THE NEXT OPERATING LAYER
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white tracking-tight mb-3">
+              Make every recoverable asset visible, actionable, and monetizable.
+            </h2>
+            <p className="text-sm sm:text-base text-white/70 font-sans max-w-4xl leading-relaxed mb-6">
+              Lumira is built for asset owners, IPPs, EPCs, O&amp;M providers, insurers, and clean-energy investment teams that need one operating truth across distributed solar fleets.
+            </p>
 
-            <div className="border-2 border-primary bg-white p-3.5 space-y-1.5 shadow-xs">
-              <div className="flex items-center gap-1.5 font-bold text-primary text-xs uppercase">
-                <Server className="w-4 h-4 text-primary" />
-                <span>99.99% MULTI-REGION CLOUD</span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 border-t border-white/20 py-6 mb-6">
+              {/* Left: What Lumira Replaces */}
+              <div className="space-y-4">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block">WHAT LUMIRA REPLACES</span>
+                <div className="space-y-3 font-sans text-xs sm:text-sm text-white/70">
+                  <div className="border-l border-white/20 pl-3">
+                    Disconnected dashboards that show aggregate status without module-level context.
+                  </div>
+                  <div className="border-l border-white/20 pl-3">
+                    Episodic inspections that produce files instead of continuous decisions.
+                  </div>
+                  <div className="border-l border-white/20 pl-3">
+                    Unassigned alarms that lack an owner, SLA, or repair protocol.
+                  </div>
+                  <div className="border-l border-white/20 pl-3">
+                    Incomplete evidence that weakens claims, audits, and ESG records.
+                  </div>
+                </div>
               </div>
-              <p className="text-secondary text-[11px] font-sans">
-                Geo-redundant Kubernetes clusters with automated failover, sub-50ms query response on 50M+ wafer time-series records.
-              </p>
-            </div>
 
-            <div className="border-2 border-[#027a48] bg-[#f6fef9] p-3.5 space-y-1.5 shadow-xs">
-              <div className="flex items-center gap-1.5 font-bold text-[#027a48] text-xs uppercase">
-                <Globe className="w-4 h-4 text-[#027a48]" />
-                <span>GLOBAL DEPLOYMENT READINESS</span>
+              {/* Right: 30-Day Sprint */}
+              <div className="space-y-4">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block">30-DAY BASELINE-TO-VALUE SPRINT</span>
+                <div className="space-y-3 font-sans text-xs sm:text-sm">
+                  <div className="flex items-start gap-3">
+                    <span className="font-mono text-white/50 text-base">01</span>
+                    <span className="text-white/80">Select a 100–500 MW portfolio or representative C&amp;I cluster.</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="font-mono text-white/50 text-base">02</span>
+                    <span className="text-white/80">Connect SCADA, inspection, and O&amp;M data.</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="font-mono text-white/50 text-base">03</span>
+                    <span className="text-white/80">Measure baseline health, issues, and recoverable value.</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="font-mono text-white/50 text-base">04</span>
+                    <span className="text-white/80">Expand from yield recovery into warranty, storm, BESS, carbon, and compliance workflows.</span>
+                  </div>
+                </div>
               </div>
-              <p className="text-secondary text-[11px] font-sans">
-                Certified for utility interconnection across North America (NERC CIP), APAC (CEA Grid Standards), and MENA (GCCIA Grid Code).
-              </p>
             </div>
           </div>
 
-          <div className="bg-surface p-3.5 border border-border-strong flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div className="border-t border-white/20 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <span className="text-[10px] text-secondary uppercase font-bold block">ENTERPRISE INTEGRATIONS &amp; PARTNERSHIPS:</span>
-              <strong className="text-primary text-xs">enterprise@lumira-solar.ai</strong>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block">LUMIRA SOLAR AI</span>
+              <p className="font-serif text-sm sm:text-base text-white">
+                Detect hidden degradation. Orchestrate action. Recover measurable value.
+              </p>
             </div>
-            <a 
-              href="https://lumira-solar-ai.vercel.app" 
-              target="_blank" 
+            <a
+              href="https://lumira-solar-ai.vercel.app"
+              target="_blank"
               rel="noreferrer"
-              className="px-4 py-2 bg-primary text-white font-bold uppercase hover:bg-white hover:text-primary border border-primary transition-all text-xs cursor-pointer shadow-xs"
+              className="px-4 py-2 bg-white text-black font-mono text-xs font-bold uppercase hover:bg-white/80 transition-all cursor-pointer shrink-0"
             >
-              EXPLORE LIVE PRODUCTION PLATFORM →
+              EXPLORE LIVE OS →
             </a>
           </div>
         </div>
@@ -600,114 +1124,107 @@ export default function PitchDeckModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-2 sm:p-6 backdrop-blur-xs select-none">
-      <div className="bg-white border-2 border-primary w-full max-w-5xl h-[92vh] flex flex-col justify-between shadow-2xl animate-in fade-in zoom-in-95 duration-150">
-        
-        {/* Modal Top Bar */}
-        <div className="bg-surface border-b-2 border-primary p-4 flex justify-between items-center shrink-0">
-          <div className="flex items-center gap-2">
-            <Presentation className="w-5 h-5 text-primary" />
-            <span className="bg-primary text-white font-mono-data text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-              LUMIRA SOLAR AI · 12-PAGE ENTERPRISE PITCH DECK
-            </span>
-            <span className="font-mono-data text-xs text-secondary hidden sm:inline">
-              Slide {currentSlide} of {totalSlides}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleDownloadDeck}
-              className="px-3 py-1.5 border border-border-strong bg-white hover:bg-surface font-mono-data text-xs font-bold text-primary flex items-center gap-1.5 cursor-pointer shadow-2xs"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">PRINT / PDF</span>
-            </button>
-
-            <button
-              onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center border border-border-strong bg-white hover:bg-critical hover:text-white font-bold text-sm cursor-pointer transition-all shadow-2xs"
-            >
-              ✕
-            </button>
-          </div>
+    <div className="fixed inset-0 w-screen h-screen z-50 bg-[#08090a] text-white select-none flex flex-col justify-between overflow-hidden">
+      
+      {/* 1. Full-Screen Minimal Top Navigation Bar */}
+      <div className="h-14 border-b border-white/10 px-6 sm:px-10 flex justify-between items-center shrink-0 bg-[#08090a]/90 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <span className="font-serif text-base font-bold tracking-tight text-white flex items-center gap-1.5">
+            <span>Lumira</span>
+            <span className="text-white text-xs">✦</span>
+          </span>
+          <span className="text-white/20">|</span>
+          <span className="font-mono text-xs text-white/60 uppercase tracking-widest hidden sm:inline">
+            SOLAR ASSET INTELLIGENCE OS
+          </span>
         </div>
 
-        {/* Slide Canvas Body */}
-        <div className="p-6 sm:p-10 flex-1 overflow-y-auto flex flex-col justify-between space-y-6">
-          <div>
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3 mb-4">
-              <div>
-                <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
-                  {current.tag} · SLIDE {current.number} OF {totalSlides}
-                </span>
-                <h1 className="text-2xl sm:text-3xl font-bold text-primary font-headline-lg tracking-tight mt-0.5">
-                  {current.title}
-                </h1>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  {current.subtitle}
-                </p>
-              </div>
-              <span className="font-mono-data text-3xl font-bold text-border-strong hidden sm:block">
-                0{current.number}
-              </span>
-            </div>
-
-            {/* Render Slide Content */}
-            <div className="mt-4">
-              {current.content}
-            </div>
-          </div>
-
-          {/* Slide Navigator Dots */}
-          <div className="flex items-center justify-center gap-1.5 pt-4 border-t border-border-subtle shrink-0">
-            {slides.map((s) => (
-              <button
-                key={s.number}
-                onClick={() => setCurrentSlide(s.number)}
-                className={`h-2 transition-all cursor-pointer ${
-                  currentSlide === s.number ? "w-8 bg-primary" : "w-2 bg-border-strong hover:bg-primary/50"
-                }`}
-                title={`Slide ${s.number}: ${s.title}`}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Modal Bottom Bar Navigation Controls */}
-        <div className="bg-surface border-t-2 border-primary p-4 flex justify-between items-center font-mono-data text-xs shrink-0">
-          <button
-            onClick={() => setCurrentSlide((prev) => Math.max(1, prev - 1))}
-            disabled={currentSlide === 1}
-            className={`px-4 py-2 border font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
-              currentSlide === 1 
-                ? "border-border-subtle text-secondary/40 cursor-not-allowed" 
-                : "border-primary bg-white text-primary hover:bg-primary hover:text-white shadow-xs"
-            }`}
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>PREVIOUS SLIDE</span>
-          </button>
-
-          <div className="text-secondary text-[11px] hidden sm:block">
-            Use <kbd className="px-1.5 py-0.5 bg-white border border-border-strong text-primary">←</kbd> <kbd className="px-1.5 py-0.5 bg-white border border-border-strong text-primary">→</kbd> keys to navigate · <kbd className="px-1.5 py-0.5 bg-white border border-border-strong text-primary">ESC</kbd> to close
-          </div>
+        <div className="flex items-center gap-4">
+          <span className="font-mono text-xs text-white/50 tracking-wider">
+            {currentSlide < 10 ? `0${currentSlide}` : currentSlide} / {totalSlides < 10 ? `0${totalSlides}` : totalSlides}
+          </span>
 
           <button
-            onClick={() => setCurrentSlide((prev) => Math.min(totalSlides, prev + 1))}
-            disabled={currentSlide === totalSlides}
-            className={`px-4 py-2 border font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
-              currentSlide === totalSlides 
-                ? "border-border-subtle text-secondary/40 cursor-not-allowed" 
-                : "border-primary bg-primary text-white hover:bg-white hover:text-primary shadow-xs"
-            }`}
+            onClick={toggleBrowserFullscreen}
+            className="p-1.5 text-white/60 hover:text-white transition-colors cursor-pointer"
+            title="Toggle Fullscreen (F)"
           >
-            <span>NEXT SLIDE</span>
-            <ChevronRight className="w-4 h-4" />
+            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+          </button>
+
+          <button
+            onClick={handleDownloadDeck}
+            className="px-2.5 py-1 border border-white/20 hover:border-white text-white font-mono text-[11px] uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all"
+          >
+            <Download className="w-3 h-3" />
+            <span className="hidden sm:inline">PRINT / PDF</span>
+          </button>
+
+          <button
+            onClick={onClose}
+            className="w-7 h-7 flex items-center justify-center border border-white/20 hover:border-white hover:bg-white hover:text-black font-mono text-xs cursor-pointer transition-all"
+            title="Close (ESC)"
+          >
+            ✕
           </button>
         </div>
-
       </div>
+
+      {/* 2. Main Full-Screen Slide Body with Left Vertical Ribbon */}
+      <div className="flex-1 flex overflow-hidden">
+        
+        {/* Left Vertical Ribbon */}
+        <div className="w-12 sm:w-16 border-r border-white/10 flex items-center justify-center shrink-0">
+          <div className="transform -rotate-90 whitespace-nowrap text-[10px] font-mono tracking-[0.3em] uppercase text-white/40">
+            {current.verticalTag}
+          </div>
+        </div>
+
+        {/* Slide Canvas Content Area */}
+        <div className="flex-1 p-6 sm:p-10 lg:p-14 overflow-y-auto max-w-7xl mx-auto w-full flex flex-col justify-between">
+          {current.render()}
+        </div>
+      </div>
+
+      {/* 3. Full-Screen Bottom Control Strip */}
+      <div className="h-14 border-t border-white/10 px-6 sm:px-10 flex justify-between items-center shrink-0 bg-[#08090a]/90 backdrop-blur-md font-mono text-xs">
+        <button
+          onClick={() => setCurrentSlide((prev) => Math.max(1, prev - 1))}
+          disabled={currentSlide === 1}
+          className={`flex items-center gap-2 uppercase tracking-wider transition-all cursor-pointer ${
+            currentSlide === 1 ? "text-white/20 cursor-not-allowed" : "text-white hover:text-white/70"
+          }`}
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span className="hidden sm:inline">PREVIOUS</span>
+        </button>
+
+        {/* Slide Dots Scrubber */}
+        <div className="flex items-center gap-1.5">
+          {slides.map((s) => (
+            <button
+              key={s.number}
+              onClick={() => setCurrentSlide(s.number)}
+              className={`h-1.5 transition-all cursor-pointer ${
+                currentSlide === s.number ? "w-8 bg-white" : "w-2 bg-white/20 hover:bg-white/50"
+              }`}
+              title={`Slide ${s.number}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={() => setCurrentSlide((prev) => Math.min(totalSlides, prev + 1))}
+          disabled={currentSlide === totalSlides}
+          className={`flex items-center gap-2 uppercase tracking-wider transition-all cursor-pointer ${
+            currentSlide === totalSlides ? "text-white/20 cursor-not-allowed" : "text-white hover:text-white/70"
+          }`}
+        >
+          <span className="hidden sm:inline">NEXT</span>
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+
     </div>
   );
 }
