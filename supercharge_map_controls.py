@@ -1,4 +1,8 @@
-import React from "react";
+﻿import os
+
+MAP_CONTROLS_FILE = r"D:\AntigravityProjects\solarguard-ai\frontend\src\components\SolarMap\MapControls.jsx"
+
+code = """import React from "react";
 import { 
   Search, 
   Thermometer, 
@@ -194,3 +198,8 @@ export default function MapControls({
     </div>
   );
 }
+"""
+
+with open(MAP_CONTROLS_FILE, "w", encoding="utf-8") as f:
+    f.write(code)
+print("Supercharged MapControls.jsx!")

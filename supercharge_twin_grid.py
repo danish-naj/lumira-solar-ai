@@ -1,4 +1,8 @@
-import React, { useMemo, useState } from "react";
+﻿import os
+
+GRID_FILE = r"D:\AntigravityProjects\solarguard-ai\frontend\src\components\SolarMap\DigitalTwinGrid.jsx"
+
+code = """import React, { useMemo, useState } from "react";
 import { 
   Zap, 
   Thermometer, 
@@ -235,3 +239,8 @@ export default function DigitalTwinGrid({
     </div>
   );
 }
+"""
+
+with open(GRID_FILE, "w", encoding="utf-8") as f:
+    f.write(code)
+print("Supercharged DigitalTwinGrid.jsx with multi-spectral modes, string isolation, zoom scales, and hover micro-HUD!")
