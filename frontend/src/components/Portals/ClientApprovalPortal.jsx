@@ -1102,25 +1102,25 @@ export default function ClientApprovalPortal({
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 5: PREDICTIVE ML YIELD ENGINE & FORECASTER                            */}
+        {/* TAB 6: PREDICTIVE ML YIELD ENGINE & FORECASTER                            */}
         {/* ========================================================================= */}
-        {activeTab === 8 && (
+        {activeTab === 6 && (
           <div className="p-2">
             <PredictiveYieldEngine farm={farm} />
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 6: BREAKTHROUGH INNOVATION LABS (9 ENGINES)                           */}
+        {/* TAB 7: BREAKTHROUGH INNOVATION LABS (9 ENGINES)                           */}
         {/* ========================================================================= */}
-        {activeTab === 8 && (
+        {activeTab === 7 && (
           <div className="p-2">
             <BreakthroughLabs farm={farm} onNavigateTab={onNavigateTab} />
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 7: SEVERE WEATHER & STORM DEFENSE COCKPIT                             */}
+        {/* TAB 8: SEVERE WEATHER & STORM DEFENSE COCKPIT                             */}
         {/* ========================================================================= */}
         {activeTab === 8 && (
           <div className="p-2">
@@ -1131,7 +1131,7 @@ export default function ClientApprovalPortal({
         {/* ========================================================================= */}
         {/* TAB 4: ONGOING REPAIRS & TECHNICIAN DISPATCH                              */}
         {/* ========================================================================= */}
-        {activeTab === 8 && (
+        {activeTab === 4 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
               <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
