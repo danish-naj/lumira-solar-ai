@@ -165,7 +165,7 @@ export default function ClientApprovalPortal({
               </span>
               <div>
                 <span className="block uppercase text-[11px]">PLANT OVERVIEW</span>
-                <span className={`text-[9px] font-sans ${activeTab === 1 ? "text-white/80" : "text-secondary"}`}>Health & Hardware</span>
+                <span className={`text-[9px] font-sans ${activeTab === 1 ? "text-white/80" : "text-secondary"}`}>Health & Carbon Ledger</span>
               </div>
             </button>
 
@@ -218,7 +218,7 @@ export default function ClientApprovalPortal({
               </span>
               <div>
                 <span className="block uppercase text-[11px]">ONGOING REPAIRS</span>
-                <span className={`text-[9px] font-sans ${activeTab === 4 ? "text-white/80" : "text-secondary"}`}>Technician SLA Tracker</span>
+                <span className={`text-[9px] font-sans ${activeTab === 4 ? "text-white/80" : "text-secondary"}`}>Technician O&M Tracker</span>
               </div>
             </button>
 
@@ -234,8 +234,76 @@ export default function ClientApprovalPortal({
                 5
               </span>
               <div>
+                <span className="block uppercase text-[11px]">OEM LEGAL DISPUTES</span>
+                <span className={`text-[9px] font-sans ${activeTab === 5 ? "text-white/80" : "text-secondary"}`}>₹10.07L Settlements</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab(6)}
+              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+                activeTab === 6 
+                  ? "bg-primary text-white border-primary shadow-xs font-bold" 
+                  : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
+              }`}
+            >
+              <span className={`w-5 h-5 flex items-center justify-center text-[10px] font-bold border ${activeTab === 6 ? "bg-white text-primary border-white" : "border-border-strong"}`}>
+                6
+              </span>
+              <div>
+                <span className="block uppercase text-[11px]">PREDICTIVE ML YIELD</span>
+                <span className={`text-[9px] font-sans ${activeTab === 6 ? "text-white/80" : "text-secondary"}`}>72h Irradiance Forecast</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab(7)}
+              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+                activeTab === 7 
+                  ? "bg-primary text-white border-primary shadow-xs font-bold" 
+                  : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
+              }`}
+            >
+              <span className={`w-5 h-5 flex items-center justify-center text-[10px] font-bold border ${activeTab === 7 ? "bg-white text-primary border-white" : "border-border-strong"}`}>
+                7
+              </span>
+              <div>
+                <span className="block uppercase text-[11px]">BREAKTHROUGH LABS</span>
+                <span className={`text-[9px] font-sans ${activeTab === 7 ? "text-white/80" : "text-secondary"}`}>9 World-First Engines</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab(8)}
+              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+                activeTab === 8 
+                  ? "bg-primary text-white border-primary shadow-xs font-bold" 
+                  : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
+              }`}
+            >
+              <span className={`w-5 h-5 flex items-center justify-center text-[10px] font-bold border ${activeTab === 8 ? "bg-white text-primary border-white" : "border-border-strong"}`}>
+                8
+              </span>
+              <div>
+                <span className="block uppercase text-[11px]">STORM & HAIL DEFENSE</span>
+                <span className={`text-[9px] font-sans ${activeTab === 8 ? "text-white/80" : "text-secondary"}`}>Automated 75° Stow</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab(9)}
+              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+                activeTab === 9 
+                  ? "bg-primary text-white border-primary shadow-xs font-bold" 
+                  : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
+              }`}
+            >
+              <span className={`w-5 h-5 flex items-center justify-center text-[10px] font-bold border ${activeTab === 9 ? "bg-white text-primary border-white" : "border-border-strong"}`}>
+                9
+              </span>
+              <div>
                 <span className="block uppercase text-[11px]">BOOK & SUBSCRIPTION</span>
-                <span className={`text-[9px] font-sans ${activeTab === 5 ? "text-white/80" : "text-secondary"}`}>Plan & Invoices</span>
+                <span className={`text-[9px] font-sans ${activeTab === 9 ? "text-white/80" : "text-secondary"}`}>Plan & Invoices</span>
               </div>
             </button>
           </div>
@@ -808,9 +876,9 @@ export default function ClientApprovalPortal({
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 4: BESPOKE CLIENT OEM WARRANTY & SETTLEMENT COMMAND CENTER             */}
+        {/* TAB 5: BESPOKE CLIENT OEM WARRANTY & SETTLEMENT COMMAND CENTER             */}
         {/* ========================================================================= */}
-        {activeTab === 4 && (
+        {activeTab === 5 && (
           <div className="space-y-6 max-w-6xl font-sans select-none">
             {/* Header */}
             <div className="border-b-2 border-primary pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-5 border shadow-xs">
@@ -1036,7 +1104,7 @@ export default function ClientApprovalPortal({
         {/* ========================================================================= */}
         {/* TAB 5: PREDICTIVE ML YIELD ENGINE & FORECASTER                            */}
         {/* ========================================================================= */}
-        {activeTab === 5 && (
+        {activeTab === 8 && (
           <div className="p-2">
             <PredictiveYieldEngine farm={farm} />
           </div>
@@ -1045,7 +1113,7 @@ export default function ClientApprovalPortal({
         {/* ========================================================================= */}
         {/* TAB 6: BREAKTHROUGH INNOVATION LABS (9 ENGINES)                           */}
         {/* ========================================================================= */}
-        {activeTab === 6 && (
+        {activeTab === 8 && (
           <div className="p-2">
             <BreakthroughLabs farm={farm} onNavigateTab={onNavigateTab} />
           </div>
@@ -1054,14 +1122,14 @@ export default function ClientApprovalPortal({
         {/* ========================================================================= */}
         {/* TAB 7: SEVERE WEATHER & STORM DEFENSE COCKPIT                             */}
         {/* ========================================================================= */}
-        {activeTab === 7 && (
+        {activeTab === 8 && (
           <div className="p-2">
             <StormDefenseCockpit farm={farm} />
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 8: ONGOING REPAIRS & TECHNICIAN DISPATCH                              */}
+        {/* TAB 4: ONGOING REPAIRS & TECHNICIAN DISPATCH                              */}
         {/* ========================================================================= */}
         {activeTab === 8 && (
           <div className="space-y-6 max-w-5xl">
