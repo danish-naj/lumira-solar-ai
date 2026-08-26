@@ -57,6 +57,11 @@ export default function ClientApprovalPortal({
   const [clientSelectedOem, setClientSelectedOem] = useState("longi");
   const [authorizedClaims, setAuthorizedClaims] = useState(["CLM-JINKO-2026-07"]);
   const [showClientDossier, setShowClientDossier] = useState(false);
+  // Client Full Carbon Credit State
+  const [clientCarbonStandard, setClientCarbonStandard] = useState("irec");
+  const [clientCarbonPrice, setClientCarbonPrice] = useState(1000);
+  const [showClientEsgModal, setShowClientEsgModal] = useState(false);
+
 
 
   // Default initial pending proposals if none dynamically submitted
@@ -343,6 +348,215 @@ export default function ClientApprovalPortal({
                 <div><span className="text-secondary block">Wind Vector:</span> <strong className="text-primary">16.4 km/h NW</strong></div>
               </div>
             </div>
+
+            {/* FULL ENTERPRISE CARBON CREDIT LEDGER (I-REC / VERRA) & GREEN H2 ENGINE */}
+            <div className="border-2 border-primary bg-white p-6 space-y-6 shadow-xs select-none">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-primary pb-3 gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">🌿</span>
+                  <div>
+                    <h3 className="font-headline-lg text-lg font-bold uppercase tracking-tight text-primary">
+                      ENTERPRISE VERIFIED CARBON CREDIT LEDGER (I-REC / VERRA) & GREEN HYDROGEN YIELD ENGINE
+                    </h3>
+                    <p className="text-[11px] text-secondary font-sans mt-0.5">
+                      Real-time cryptographic tokenization of clean energy generation into tradeable environmental assets & PEM hydrogen
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowClientEsgModal(true)}
+                  className="bg-[#027a48] text-white font-mono-data text-xs font-bold px-3 py-1.5 uppercase hover:bg-white hover:text-[#027a48] border border-[#027a48] transition-all cursor-pointer shadow-xs flex items-center gap-1.5"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>VIEW OFFICIAL ESG CERTIFICATE →</span>
+                </button>
+              </div>
+
+              {/* Token Registry & Verification Banner */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-surface p-4 border border-border-strong font-mono-data text-xs">
+                <div><span className="text-secondary uppercase text-[10px] block font-bold font-sans">Token Registry:</span><strong className="text-[#027a48]">I-REC / Verra VCS Verified</strong></div>
+                <div><span className="text-secondary uppercase text-[10px] block font-bold font-sans">Registry Serial:</span><strong className="text-primary">VCS-2026-IND-04892</strong></div>
+                <div><span className="text-secondary uppercase text-[10px] block font-bold font-sans">On-Chain Tx Hash:</span><strong className="text-primary font-mono-data truncate block">0x7f48...c842</strong></div>
+                <div><span className="text-secondary uppercase text-[10px] block font-bold font-sans">Lifetime Avoided:</span><strong className="text-primary">72,562 Metric Tons CO₂</strong></div>
+              </div>
+
+              {/* Standard Selector Tabs */}
+              <div className="flex items-center gap-2 font-mono-data text-xs">
+                <span className="text-secondary uppercase text-[10px] font-bold font-sans">Active Standard Index:</span>
+                {[
+                  { id: "irec", label: "I-REC Standard (₹1,000 / tCO₂e)", price: 1000 },
+                  { id: "verra", label: "Verra VCS (₹1,450 / tCO₂e)", price: 1450 },
+                  { id: "gold", label: "Gold Standard (₹1,850 / tCO₂e)", price: 1850 },
+                ].map((std) => (
+                  <button
+                    key={std.id}
+                    onClick={() => {
+                      setClientCarbonStandard(std.id);
+                      setClientCarbonPrice(std.price);
+                    }}
+                    className={`px-3 py-1 text-[11px] font-bold uppercase transition-all cursor-pointer border ${
+                      clientCarbonStandard === std.id ? "bg-primary text-white border-primary shadow-xs" : "bg-white text-secondary border-border-subtle hover:border-primary"
+                    }`}
+                  >
+                    {std.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* 2-Column Ledger & Green Hydrogen Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-mono-data text-xs">
+                {/* Carbon Offsets & Monetization Box */}
+                <div className="bg-[#f6fef9] p-5 border-2 border-[#027a48] space-y-3 shadow-xs">
+                  <div className="flex justify-between items-center border-b border-[#abefc6] pb-2">
+                    <strong className="text-[#027a48] text-xs uppercase font-bold flex items-center gap-1.5">
+                      <span>🌿</span>
+                      <span>REAL-TIME CARBON CREDIT MONETIZATION ENGINE:</span>
+                    </strong>
+                    <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-0.5 text-[10px] font-bold">
+                      198.8 TONS CO₂ / DAY
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-3 text-xs font-sans text-primary">
+                    <div className="flex justify-between items-center">
+                      <span>Daily Verified Carbon Emissions Avoided:</span>
+                      <strong className="font-mono-data text-2xl font-black text-[#027a48]">198.8 Metric Tons</strong>
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between items-center mb-1">
+                        <span>Carbon Credit Market Index (I-REC / Verra):</span>
+                        <strong className="font-mono-data text-primary">₹{clientCarbonPrice.toLocaleString()} / Ton (${(clientCarbonPrice / 83.3).toFixed(2)} / tCO₂e)</strong>
+                      </div>
+                      <input 
+                        type="range" 
+                        min="500" 
+                        max="3000" 
+                        step="50" 
+                        value={clientCarbonPrice} 
+                        onChange={(e) => setClientCarbonPrice(Number(e.target.value))} 
+                        className="w-full accent-[#027a48] cursor-pointer"
+                      />
+                    </div>
+
+                    <div className="flex justify-between items-center border-t border-[#abefc6] pt-2">
+                      <span>Daily Tokenized Carbon Revenue:</span>
+                      <strong className="font-mono-data text-xl font-bold text-[#027a48]">+₹{Math.round(198.8 * clientCarbonPrice).toLocaleString()} / day (${Math.round((198.8 * clientCarbonPrice) / 83.3).toLocaleString()})</strong>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <span>Annualized Environmental Asset Valuation:</span>
+                      <strong className="font-mono-data text-[#027a48] text-lg font-bold">₹{((198.8 * clientCarbonPrice * 365) / 10000000).toFixed(2)} Crores / yr</strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Green Hydrogen Industrial Electrolyzer Hub */}
+                <div className="bg-surface p-5 border-2 border-primary space-y-3 shadow-xs">
+                  <div className="flex justify-between items-center border-b border-border-subtle pb-2">
+                    <strong className="text-primary text-xs uppercase font-bold flex items-center gap-1.5">
+                      <Zap className="w-4 h-4 text-warning" />
+                      <span>PEM GREEN HYDROGEN INDUSTRIAL ELECTROLYZER:</span>
+                    </strong>
+                    <span className="bg-primary text-white px-2.5 py-0.5 text-[10px] font-bold">
+                      1,093.4 KG H₂ / DAY
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 text-xs font-sans text-primary">
+                    <div className="flex justify-between items-center">
+                      <span>Electrolyzer Specific Energy Consumption:</span>
+                      <strong className="font-mono-data text-primary">55.0 kWh / kg H₂ (4.4 kg/MWh)</strong>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Daily High-Purity Green H₂ Production:</span>
+                      <strong className="font-mono-data text-2xl font-black text-primary">1,093.4 kg H₂ / day</strong>
+                    </div>
+                    <div className="flex justify-between items-center border-t border-border-subtle pt-2">
+                      <span>Green Hydrogen Spot Market Rate (₹400/kg):</span>
+                      <strong className="font-mono-data text-[#027a48] text-xl font-bold">₹4,37,360 / day ($5,250)</strong>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Annualized Green H₂ Yield:</span>
+                      <strong className="font-mono-data text-primary text-lg font-bold">399.1 Metric Tons H₂ / yr (₹15.96 Cr/yr)</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Printable Official ESG Certificate Modal for Client */}
+            {showClientEsgModal && (
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 select-none">
+                <div className="bg-white border-4 border-primary shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] w-full max-w-4xl max-h-[90vh] overflow-y-auto font-sans p-8 space-y-6 relative custom-scrollbar">
+                  <button
+                    onClick={() => setShowClientEsgModal(false)}
+                    className="absolute top-4 right-4 text-secondary hover:text-primary p-1 border border-transparent hover:border-primary cursor-pointer print:hidden"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+
+                  <div className="border-2 border-[#027a48] p-8 space-y-6 bg-[#f6fef9]">
+                    <div className="flex justify-between items-start border-b-2 border-[#027a48] pb-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xl">🌿</span>
+                          <span className="font-mono-data text-xs font-bold text-[#027a48] uppercase tracking-widest">
+                            INTERNATIONAL RENEWABLE ENERGY CERTIFICATE (I-REC) REGISTRY
+                          </span>
+                        </div>
+                        <h1 className="font-headline-lg text-2xl font-black text-primary tracking-tight">
+                          OFFICIAL VERIFIED CARBON OFFSET ASSET CERTIFICATE
+                        </h1>
+                        <p className="text-secondary text-xs mt-0.5">
+                          Issued to Asset Owner: CleanEnergy Global Assets India Ltd. · {farm?.name || "Bhadla Mega Solar Park - Sector 4"}
+                        </p>
+                      </div>
+                      <div className="text-right font-mono-data text-xs">
+                        <span className="text-[10px] text-secondary uppercase block font-bold">TOKEN SERIAL:</span>
+                        <strong className="text-[#027a48] text-sm font-bold">VCS-2026-IND-04892</strong>
+                        <span className="text-[#027a48] font-bold block text-[10px]">✓ VERRA MINTED</span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-4 border border-[#abefc6] font-mono-data text-xs">
+                      <div><span className="text-secondary text-[10px] uppercase font-bold block">Daily Offsets:</span><strong className="text-2xl font-black text-[#027a48] block">198.8 tCO₂</strong></div>
+                      <div><span className="text-secondary text-[10px] uppercase font-bold block">Annualized:</span><strong className="text-2xl font-black text-primary block">72,562 tCO₂</strong></div>
+                      <div><span className="text-secondary text-[10px] uppercase font-bold block">Asset Valuation:</span><strong className="text-2xl font-black text-[#027a48] block">₹7.25 Cr/yr</strong></div>
+                      <div><span className="text-secondary text-[10px] uppercase font-bold block">Clean Fuel Yield:</span><strong className="text-2xl font-black text-primary block">399.1 t H₂/yr</strong></div>
+                    </div>
+
+                    <div className="p-4 bg-white border border-border-strong flex justify-between items-center text-xs font-sans">
+                      <div>
+                        <span className="text-[10px] font-mono-data uppercase font-bold text-secondary block">ENVIRONMENTAL AUDITOR REGISTRAR:</span>
+                        <strong className="font-mono-data text-primary text-sm">Verra VCS & Gold Standard Registry</strong>
+                        <span className="text-secondary block text-[11px]">Cryptographic SHA-256 On-Chain Proof Recorded</span>
+                      </div>
+                      <span className="text-[#027a48] font-mono-data font-bold text-xs">✓ VERIFIED & MINTED</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center print:hidden border-t border-border-subtle pt-4 font-mono-data text-xs">
+                    <span className="text-secondary">Export to PDF for corporate ESG compliance and sustainability audits.</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setShowClientEsgModal(false)}
+                        className="bg-white border border-border-strong px-4 py-2 text-xs uppercase font-bold text-secondary hover:text-primary cursor-pointer"
+                      >
+                        Close
+                      </button>
+                      <button
+                        onClick={() => window.print()}
+                        className="bg-[#027a48] text-white font-bold px-6 py-2 text-xs uppercase tracking-wider flex items-center gap-2 hover:bg-white hover:text-[#027a48] border border-[#027a48] transition-all cursor-pointer shadow-xs"
+                      >
+                        <Printer className="w-4 h-4" />
+                        <span>PRINT / SAVE ESG CERTIFICATE (PDF)</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
