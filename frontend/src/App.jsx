@@ -9,7 +9,6 @@ import GuidedInspection from "./components/GuidedInspection/GuidedInspection";
 import MaintenanceHub from "./components/Maintenance/MaintenanceHub";
 import ReportsHub from "./components/Reports/ReportsHub";
 import SubscriptionROIView from "./components/Subscription/SubscriptionROIView";
-import DroneFlightPlanner from "./components/FlightPlanner/DroneFlightPlanner";
 import PredictiveYieldEngine from "./components/Predictive/PredictiveYieldEngine";
 import PortfolioFleetMap from "./components/Portfolio/PortfolioFleetMap";
 import VoiceCopilot from "./components/VoiceCopilot/VoiceCopilot";
@@ -152,7 +151,10 @@ export default function App() {
           activeTab={activeTab}
           onRefresh={loadData}
           loading={loading}
-          onNewInspection={() => setActiveTab("inspect")}
+          onNewInspection={() => {
+            setActiveRole("inspector");
+            setActiveTab("inspector-portal");
+          }}
           activeRole={activeRole}
           onSelectRole={handleRoleChange}
         />
@@ -189,7 +191,7 @@ export default function App() {
             />
           )}
 
-          {/* 3. [NEW] Interactive 3D Solar Farm Digital Twin */}
+          {/* 3. Interactive 3D Solar Farm Digital Twin */}
           {activeTab === "3d-twin" && (
             <SolarFarm3DVisualizer
               farm={activeFarm}
@@ -205,36 +207,28 @@ export default function App() {
             />
           )}
 
-          {/* 5. Autonomous 3D Drone Flight Path Planner */}
-          {activeTab === "planner" && (
-            <DroneFlightPlanner
-              farm={activeFarm}
-              onNavigateToMap={() => setActiveTab("map")}
-            />
-          )}
-
-          {/* 6. [NEW] Autonomous Robotic Swarm Fleet Manager */}
+          {/* 5. Autonomous Robotic Swarm Fleet Manager */}
           {activeTab === "swarm" && (
             <RoboticSwarmFleet
               farm={activeFarm}
             />
           )}
 
-          {/* 7. Predictive ML Yield & Cloud Shadow Simulator */}
+          {/* 6. Predictive ML Yield & Cloud Shadow Simulator */}
           {activeTab === "predictive" && (
             <PredictiveYieldEngine
               farm={activeFarm}
             />
           )}
 
-          {/* 8. [NEW] Severe Weather & Storm Defense Cockpit */}
+          {/* 7. Severe Weather & Storm Defense Cockpit */}
           {activeTab === "storm" && (
             <StormDefenseCockpit
               farm={activeFarm}
             />
           )}
 
-          {/* 9. Executive Multi-Source AI Studio */}
+          {/* 8. Executive Multi-Source AI Studio */}
           {activeTab === "inspect" && (
             <InspectionHub
               farm={activeFarm}
@@ -243,7 +237,7 @@ export default function App() {
             />
           )}
 
-          {/* 10. AI-Guided SCADA Telemetry */}
+          {/* 9. AI-Guided SCADA Telemetry */}
           {activeTab === "scada" && (
             <GuidedInspection
               farm={activeFarm}
@@ -254,7 +248,7 @@ export default function App() {
             />
           )}
 
-          {/* 11. Hands-Free Voice AI Copilot */}
+          {/* 10. Hands-Free Voice AI Copilot */}
           {activeTab === "voice" && (
             <VoiceCopilot
               farm={activeFarm}
@@ -262,14 +256,14 @@ export default function App() {
             />
           )}
 
-          {/* 12. [NEW] OEM Warranty Claim & Legal Dispute Engine */}
+          {/* 11. OEM Warranty Claim & Legal Dispute Engine */}
           {activeTab === "warranty" && (
             <WarrantyClaimEngine
               farm={activeFarm}
             />
           )}
 
-          {/* 13. Closed-Loop Work Orders & O&M Hub */}
+          {/* 12. Closed-Loop Work Orders & O&M Hub */}
           {activeTab === "maintenance" && (
             <MaintenanceHub
               farm={activeFarm}
@@ -282,7 +276,7 @@ export default function App() {
             />
           )}
 
-          {/* 14. Multi-Farm Global Portfolio Map */}
+          {/* 13. Multi-Farm Global Portfolio Map */}
           {activeTab === "portfolio" && (
             <PortfolioFleetMap
               onSelectFarmSite={(park) => {
@@ -293,21 +287,21 @@ export default function App() {
             />
           )}
 
-          {/* 15. Certified Executive Audit Reports */}
+          {/* 14. Certified Executive Audit Reports */}
           {activeTab === "reports" && (
             <ReportsHub
               farm={activeFarm}
             />
           )}
 
-          {/* 16. Enterprise Plan & ROI Audit Section */}
+          {/* 15. Enterprise Plan & ROI Audit Section */}
           {activeTab === "plan-roi" && (
             <SubscriptionROIView
               farm={activeFarm}
             />
           )}
 
-          {/* 17. [ROLE PORTAL 1] Field Inspector Hub */}
+          {/* 16. [ROLE PORTAL 1] Field Inspector Hub (Unified 5-Stage Drone Pipeline) */}
           {activeTab === "inspector-portal" && (
             <FieldInspectorPortal
               farm={activeFarm}
@@ -316,7 +310,7 @@ export default function App() {
             />
           )}
 
-          {/* 18. [ROLE PORTAL 2] Client Approval Portal */}
+          {/* 17. [ROLE PORTAL 2] Client Approval Portal */}
           {activeTab === "client-portal" && (
             <ClientApprovalPortal
               farm={activeFarm}
@@ -326,7 +320,7 @@ export default function App() {
             />
           )}
 
-          {/* 19. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
+          {/* 18. [ROLE PORTAL 3] Service Team & Field Technician Hub */}
           {activeTab === "service-portal" && (
             <ServiceTeamHub
               farm={activeFarm}

@@ -15,7 +15,6 @@ export default function TopHeader({
     map: "DIGITAL TWIN GRID",
     "3d-twin": "3D SOLAR FARM DIGITAL TWIN",
     breakthrough: "BREAKTHROUGH INNOVATION LABS (9 ENGINES)",
-    planner: "AUTONOMOUS DRONE FLIGHT PLANNER",
     swarm: "ROBOTIC CLEANING SWARM FLEET",
     predictive: "PREDICTIVE ML & CLOUD SHADOW SIMULATOR",
     storm: "SEVERE WEATHER & STORM DEFENSE COCKPIT",
@@ -27,7 +26,7 @@ export default function TopHeader({
     portfolio: "GLOBAL MULTI-SITE ASSET MAP",
     reports: "AUDIT REPORTS",
     "plan-roi": "ENTERPRISE PLAN & ROI AUDIT",
-    "inspector-portal": "FIELD INSPECTOR WORKSPACE",
+    "inspector-portal": "FIELD INSPECTOR MISSION WORKSPACE",
     "client-portal": "CLIENT APPROVAL PORTAL",
     "service-portal": "SERVICE TEAM HUB"
   };
