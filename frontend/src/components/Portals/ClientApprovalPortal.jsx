@@ -30,7 +30,12 @@ import {
   Eye, 
   CheckSquare, 
   PlusCircle, 
-  Send
+  Send,
+  Award,
+  Printer,
+  BarChart3,
+  ArrowUpRight,
+  Activity
 } from "lucide-react";
 
 export default function ClientApprovalPortal({ 
