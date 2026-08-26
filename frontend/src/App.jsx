@@ -19,6 +19,7 @@ import RoboticSwarmFleet from "./components/SwarmFleet/RoboticSwarmFleet";
 import FieldInspectorPortal from "./components/Portals/FieldInspectorPortal";
 import ClientApprovalPortal from "./components/Portals/ClientApprovalPortal";
 import ServiceTeamHub from "./components/Portals/ServiceTeamHub";
+import PitchDeckModal from "./components/PitchDeck/PitchDeckModal";
 import { fetchFarms, fetchModules, createWorkOrder } from "./services/api";
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
   const [activeRole, setActiveRole] = useState("admin"); // 'admin' | 'inspector' | 'client' | 'service'
   const [loading, setLoading] = useState(true);
   const [isCreatingWO, setIsCreatingWO] = useState(false);
+  const [showPitchDeck, setShowPitchDeck] = useState(false);
   const [filters, setFilters] = useState({
     defect_type: "ALL",
     severity: "ALL",
@@ -155,6 +157,7 @@ export default function App() {
             setActiveRole("inspector");
             setActiveTab("inspector-portal");
           }}
+          onOpenPitchDeck={() => setShowPitchDeck(true)}
           activeRole={activeRole}
           onSelectRole={handleRoleChange}
         />
@@ -319,6 +322,12 @@ export default function App() {
           )}
         </main>
       </div>
+
+      {/* Institutional 12-Page Pitch Deck Modal */}
+      <PitchDeckModal
+        isOpen={showPitchDeck}
+        onClose={() => setShowPitchDeck(false)}
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { RefreshCw, Plus, ChevronDown } from "lucide-react";
+import { RefreshCw, Plus, ChevronDown, Presentation } from "lucide-react";
 
 export default function TopHeader({ 
   activeFarm, 
@@ -7,6 +7,7 @@ export default function TopHeader({
   onRefresh, 
   loading, 
   onNewInspection,
+  onOpenPitchDeck,
   activeRole = "admin",
   onSelectRole
 }) {
@@ -82,6 +83,15 @@ export default function TopHeader({
           className="p-1.5 sm:p-2 text-secondary hover:text-primary transition-colors border border-border-subtle bg-white hover:bg-surface cursor-pointer"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+        </button>
+
+        {/* 12-Page Pitch Deck Launch Button */}
+        <button
+          onClick={onOpenPitchDeck}
+          className="px-3 sm:px-3.5 py-1.5 sm:py-2 bg-[#027a48] text-white font-mono-data uppercase hover:bg-white hover:text-[#027a48] border border-[#027a48] transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
+        >
+          <Presentation className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">12-PAGE PITCH DECK</span>
         </button>
 
         {/* New Inspection */}
