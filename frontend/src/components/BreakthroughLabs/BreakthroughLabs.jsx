@@ -20,7 +20,14 @@ import {
   Clock, 
   Maximize2,
   DollarSign,
-  Cpu
+  Cpu,
+  TrendingUp,
+  LineChart,
+  Target,
+  Info,
+  Calendar,
+  Lock,
+  Wifi
 } from "lucide-react";
 
 export default function BreakthroughLabs({ farm, onNavigateTab }) {
@@ -28,26 +35,26 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
   const [activeLab, setActiveLab] = useState("bifacial");
 
   // State for Lab 1: Bifacial Albedo
-  const [albedoValue, setAlbedoValue] = useState(0.28); // 0.15 - 0.40
-  const [frontGHI, setFrontGHI] = useState(942); // W/m²
+  const [albedoValue, setAlbedoValue] = useState(0.28);
+  const [frontGHI, setFrontGHI] = useState(942);
 
   // State for Lab 2: Terrain Backtracking
-  const [terrainSlope, setTerrainSlope] = useState(3.5); // degrees
-  const [trackerTilt, setTrackerTilt] = useState(42.5); // degrees
-  const [shadingMitigated, setShadingMitigated] = useState(true);
+  const [terrainSlope, setTerrainSlope] = useState(3.5);
+  const [trackerTilt, setTrackerTilt] = useState(42.5);
 
   // State for Lab 3: Thermal Runaway Cascade
-  const [diodeTemp, setDiodeTemp] = useState(88.4); // °C
-  const [stringTripped, setStringTripped] = useState(false);
+  const [diodeTemp, setDiodeTemp] = useState(88.4);
 
   // State for Lab 4: Carbon Credit & Green Hydrogen
-  const [carbonPriceINR, setCarbonPriceINR] = useState(1000); // ₹ per ton CO2
+  const [carbonPriceINR, setCarbonPriceINR] = useState(1000);
+
+  // State for Lab 6: EL Tomogram
+  const [elExcitationCurrent, setElExcitationCurrent] = useState(9.8); // Amps
 
   // State for Lab 7: BESS Arbitrage
-  const [gridSpotPrice, setGridSpotPrice] = useState(4.85); // ₹/kWh
+  const [gridSpotPrice, setGridSpotPrice] = useState(4.85);
 
-  // State for Lab 8: Drone Dock
-  const [dockStatus, setDockStatus] = useState("Charging (84%)");
+  // State for Lab 8: Drone Nest Dock
   const [dockHatchOpen, setDockHatchOpen] = useState(false);
 
   // State for Lab 9: Cyber Defense
@@ -62,7 +69,7 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
     { id: "fire", name: "3. Fire Cascade Predictor", icon: Flame, tag: "THERMAL CASCADE" },
     { id: "carbon", name: "4. Carbon & Green H₂", icon: Leaf, tag: "I-REC & H2 YIELD" },
     { id: "sar", name: "5. Satellite SAR Subsidence", icon: Satellite, tag: "FOUNDATION RADAR" },
-    { id: "el", name: "6. EL Night X-Ray Tomogram", icon: Moon, tag: "WAFER TOMOGRAPHY" },
+    { id: "el", name: "6. EL Night Wafer Tomography", icon: Moon, tag: "WAFER TOMOGRAPHY" },
     { id: "bess", name: "7. Spot BESS & VPP FFR", icon: BatteryCharging, tag: "GRID ARBITRAGE" },
     { id: "dock", name: "8. Drone Nest 24/7 Dock", icon: Radio, tag: "ZERO-PILOT HANGAR" },
     { id: "cyber", name: "9. SCADA Cyber Firewall", icon: ShieldCheck, tag: "INTRUSION SHIELD" },
@@ -79,7 +86,7 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               LUMIRA QUANTUM LABS · 9 WORLD-FIRST INNOVATIONS
             </span>
             <span className="font-mono-data text-xs text-secondary">
-              Next-Gen Photovoltaic Physics, Aerospace & Grid AI
+              Real-Time Telemetry · Active Progression · AI Predictive Intelligence
             </span>
           </div>
           <h1 className="font-headline-lg text-2xl font-bold text-primary tracking-tight">
@@ -121,462 +128,796 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
       </div>
 
       {/* 3. Interactive Lab Content Area */}
-      <div className="border-2 border-primary bg-white p-6 shadow-xs font-mono-data text-xs">
-        {/* LAB 1: BIFACIAL ALBEDO REFLECTION */}
+      <div className="border-2 border-primary bg-white p-6 shadow-xs font-mono-data text-xs space-y-6">
+
+        {/* ========================================================================= */}
+        {/* LAB 1: BIFACIAL ALBEDO GROUND REFLECTION & REAR-SIDE HEAT ENGINE          */}
+        {/* ========================================================================= */}
         {activeLab === "bifacial" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #1</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Bifacial Albedo Ground Reflection & Rear-Side Heat Engine
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Simulates dual-sided GHI absorption and calculates rear-side energy yield loss caused by ground gravel darkening.
-                </p>
+            {/* 1. Feature Definition Header */}
+            <div className="bg-[#f0fdf4] border-2 border-[#027a48] p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#027a48] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-[#027a48] uppercase">What Is Bifacial Albedo Ground Reflection & Rear-Side Physics?</h3>
+                </div>
+                <span className="text-xs font-bold text-[#027a48]">IEC 60904-1-2 Standard</span>
               </div>
-              <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold">
-                BIFACIAL GAIN: +18.4%
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> Dual-sided photovoltaic modeling that calculates both front-side direct solar irradiance and rear-side diffuse irradiance reflected from the desert terrain (ground albedo). It continuously optimizes energy yield and models rear-side thermal heating gradients to maximize overall plant power output.
+              </p>
             </div>
 
+            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <div className="relative border border-border-strong bg-[#0f172a] h-60 p-4 rounded-none text-white">
-                  <svg viewBox="0 0 400 200" className="w-full h-full">
-                    <circle cx="200" cy="25" r="16" fill="#facc15" />
-                    <line x1="200" y1="45" x2="200" y2="70" stroke="#facc15" strokeWidth="2" strokeDasharray="3,3" />
-                    <line x1="180" y1="40" x2="140" y2="85" stroke="#facc15" strokeWidth="2" />
-                    <line x1="220" y1="40" x2="260" y2="85" stroke="#facc15" strokeWidth="2" />
-                    <line x1="120" y1="100" x2="280" y2="70" stroke="#38bdf8" strokeWidth="8" />
-                    <text x="160" y="80" fill="#ffffff" fontSize="9" fontFamily="monospace">FRONT: {frontGHI} W/m²</text>
-                    <rect x="40" y="160" width="320" height="20" fill="#334155" stroke="#64748b" />
-                    <text x="120" y="174" fill="#cbd5e1" fontSize="9" fontFamily="monospace">Ground Albedo: {(albedoValue * 100).toFixed(0)}% Reflectance</text>
-                    <line x1="100" y1="160" x2="160" y2="105" stroke="#38bdf8" strokeWidth="2" strokeDasharray="3,3" />
-                    <line x1="280" y1="160" x2="230" y2="90" stroke="#38bdf8" strokeWidth="2" strokeDasharray="3,3" />
-                    <text x="160" y="130" fill="#38bdf8" fontSize="9" fontFamily="monospace">REAR: {(frontGHI * albedoValue).toFixed(0)} W/m²</text>
-                  </svg>
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME TELEMETRY & CONTROLS:</span>
+                </strong>
+                <div className="space-y-2 font-sans text-xs">
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Ground Albedo Factor (α):</span> <strong className="font-mono-data text-primary">{albedoValue} (Sand/Gravel)</strong></div>
+                    <input type="range" min="0.15" max="0.40" step="0.01" value={albedoValue} onChange={(e) => setAlbedoValue(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Front-Side Direct GHI:</span> <strong className="font-mono-data text-primary">{frontGHI} W/m²</strong></div>
+                    <input type="range" min="400" max="1100" step="10" value={frontGHI} onChange={(e) => setFrontGHI(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
+                  </div>
                 </div>
-
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-secondary uppercase block">
-                    GROUND GRAVEL ALBEDO COEFFICIENT: {(albedoValue * 100).toFixed(0)}%
-                  </label>
-                  <input
-                    type="range"
-                    min="0.15"
-                    max="0.40"
-                    step="0.01"
-                    value={albedoValue}
-                    onChange={(e) => setAlbedoValue(Number(e.target.value))}
-                    className="w-full accent-primary"
-                  />
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">Rear Irradiance:</span> <strong className="text-primary block">{Math.round(frontGHI * albedoValue)} W/m²</strong></div>
+                  <div><span className="text-secondary">Instantaneous Boost:</span> <strong className="text-[#027a48] block">+{(albedoValue * 65).toFixed(1)}% MWh</strong></div>
                 </div>
               </div>
 
-              <div className="space-y-4 font-sans text-xs">
-                <div className="bg-surface p-4 border border-border-subtle space-y-2">
-                  <strong className="text-primary font-mono-data text-xs uppercase block border-b border-border-subtle pb-1">
-                    DUAL-SIDED POWER GENERATION SUMMARY:
-                  </strong>
-                  <div className="space-y-1 text-secondary">
-                    <div className="flex justify-between"><span>Front-Side Yield (Direct GHI):</span> <strong className="font-mono-data text-primary">210.0 MWh / day</strong></div>
-                    <div className="flex justify-between"><span>Rear-Side Yield (Albedo Reflection):</span> <strong className="font-mono-data text-[#027a48]">38.5 MWh / day (+18.4%)</strong></div>
-                    <div className="flex justify-between"><span>Total Bifacial Yield:</span> <strong className="font-mono-data text-primary font-bold">248.5 MWh / day</strong></div>
-                    <div className="flex justify-between"><span>Annual Albedo Contribution:</span> <strong className="font-mono-data text-[#027a48]">₹34.2 Lakhs / yr ($41K)</strong></div>
+              {/* 3. Ongoing Data & Active Trends */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING OPERATIONAL DATA (24-HOUR CYCLE):</span>
+                </strong>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>24h Cumulative Bifacial Generation:</span>
+                    <strong className="font-mono-data text-primary text-sm">45.8 MWh / day</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Weekly Albedo Degradation Rate:</span>
+                    <strong className="font-mono-data text-warning text-sm">-0.003 α / week (Dust Ingress)</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Rear-Side Thermal Offset:</span>
+                    <strong className="font-mono-data text-primary text-sm">+2.4°C vs Single-Sided</strong>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <div className="p-3 bg-[#f6fef9] border border-[#abefc6] text-[#027a48] font-medium">
-                  ✓ Albedo Soil Scanner recommends deploying white limestone gravel top-dressing on Row 12 to boost rear reflectance by +12%.
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE FORECASTING & ROI PROJECTIONS:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Next-7-Day Bifacial Gain:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">+19.2 MWh</strong>
+                  <span className="text-secondary text-[10px]">Predicted solar window</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Optimal Resurfacing Date:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">In 18 Days (14 Sep)</strong>
+                  <span className="text-secondary text-[10px]">White gravel refresh trigger</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Projected Revenue Lift:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">+₹1.42 Lakhs / mo</strong>
+                  <span className="text-secondary text-[10px]">Annualized: +₹17.04 Lakhs</span>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 2: AI TERRAIN BACKTRACKING */}
+        {/* ========================================================================= */}
+        {/* LAB 2: 3D UNEVEN TERRAIN BACKTRACKING AI                                  */}
+        {/* ========================================================================= */}
         {activeLab === "terrain" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #2</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  AI-Powered Terrain Backtracking & Row-to-Row Shading Optimizer
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Uses LiDAR 3D elevation maps to compute micro-degree tracker tilt adjustments to eliminate row shadows.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#eff8ff] border-2 border-[#175cd3] p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#175cd3] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-[#175cd3] uppercase">What Is 3D Uneven Terrain Backtracking AI?</h3>
+                </div>
+                <span className="text-xs font-bold text-[#175cd3]">NEXTracker TrueCapture™ Model</span>
               </div>
-              <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold">
-                RECOVERED YIELD: +3.8%
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> An advanced algorithmic backtracking system that builds a high-resolution Digital Elevation Model (DEM) of uneven rolling terrain, calculating independent rotational slew angles for each individual row to completely eliminate mutual shadow casting during low sun angles (morning and evening).
+              </p>
             </div>
 
+            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-[#0f172a] h-60 p-4 text-white flex items-center justify-center">
-                <svg viewBox="0 0 400 200" className="w-full h-full">
-                  <path d="M 20 160 Q 200 130 380 170 L 380 190 L 20 190 Z" fill="#1e293b" stroke="#334155" />
-                  <line x1="80" y1="150" x2="160" y2="100" stroke="#38bdf8" strokeWidth="6" />
-                  <circle cx="120" cy="125" r="4" fill="#facc15" />
-                  <text x="90" y="90" fill="#ffffff" fontSize="9" fontFamily="monospace">Row 1: {trackerTilt}°</text>
-                  <line x1="240" y1="140" x2="320" y2="90" stroke="#38bdf8" strokeWidth="6" />
-                  <circle cx="280" cy="115" r="4" fill="#facc15" />
-                  <text x="250" y="80" fill="#ffffff" fontSize="9" fontFamily="monospace">Row 2: {(trackerTilt - 0.4).toFixed(1)}° (Optimized)</text>
-                  <line x1="160" y1="100" x2="240" y2="155" stroke="#22c55e" strokeWidth="1.5" strokeDasharray="3,3" />
-                  <text x="170" y="145" fill="#22c55e" fontSize="9" fontFamily="monospace">Zero Shadow Clear</text>
-                </svg>
-              </div>
-
-              <div className="space-y-4 font-sans text-xs">
-                <div className="bg-surface p-4 border border-border-subtle space-y-2">
-                  <strong className="text-primary font-mono-data text-xs uppercase block border-b border-border-subtle pb-1">
-                    3D TERRAIN PARAMETERS:
-                  </strong>
-                  <div className="space-y-1 text-secondary">
-                    <div className="flex justify-between"><span>Uneven Ground Slope:</span> <strong className="font-mono-data text-primary">3.5° East-West Incline</strong></div>
-                    <div className="flex justify-between"><span>Micro-Angle Adjustment:</span> <strong className="font-mono-data text-[#027a48]">-0.4° Smart Offset</strong></div>
-                    <div className="flex justify-between"><span>Morning/Evening Shading Loss:</span> <strong className="font-mono-data text-[#027a48]">0.0% (Eliminated)</strong></div>
-                    <div className="flex justify-between"><span>Daily Recovered Power:</span> <strong className="font-mono-data text-primary font-bold">+9.4 MWh / day</strong></div>
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME TOPOGRAPHY & TRACKER CONTROLS:</span>
+                </strong>
+                <div className="space-y-2 font-sans text-xs">
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Terrain Slope Gradient (θ_slope):</span> <strong className="font-mono-data text-primary">{terrainSlope}° (Rolling Dune)</strong></div>
+                    <input type="range" min="0" max="8" step="0.5" value={terrainSlope} onChange={(e) => setTerrainSlope(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Target Tracker Slew Angle:</span> <strong className="font-mono-data text-primary">{trackerTilt}° (Backtracked)</strong></div>
+                    <input type="range" min="-60" max="60" step="1" value={trackerTilt} onChange={(e) => setTrackerTilt(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
                   </div>
                 </div>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">Mutual Shading Status:</span> <strong className="text-[#027a48] block">0.00% Zero-Shaded</strong></div>
+                  <div><span className="text-secondary">TrueCapture™ Boost:</span> <strong className="text-[#027a48] block">+4.2% Daily MWh</strong></div>
+                </div>
+              </div>
 
-                <div className="p-3 bg-[#f6fef9] border border-[#abefc6] text-[#027a48] font-medium">
-                  ✓ Neural-Net backtracking active on all 48 string tracker controllers.
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING OPERATIONAL DATA (6-HOUR HORIZON):</span>
+                </strong>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Active Tracker Drives Synchronized:</span>
+                    <strong className="font-mono-data text-primary text-sm">48 Drivetrains (100% Online)</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Torque Tube Mechanical Load:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">18.4% Maximum Limit</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Morning Backtracking Recovery:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">+2.8 MWh Saved Today</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE FORECASTING & SHADOW TRAJECTORY:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Evening Sunset Shadow Forecast:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">17:15 - 18:00 Optimal</strong>
+                  <span className="text-secondary text-[10px]">Zero clipping predicted</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Next 30-Day Energy Gain:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">+48.5 MWh</strong>
+                  <span className="text-secondary text-[10px]">Topography compensation</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Annualized Financial Lift:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">+₹16.08 Lakhs / yr</strong>
+                  <span className="text-secondary text-[10px]">PPA tariff @ ₹2.44/kWh</span>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 3: THERMAL RUNAWAY FIRE CASCADE */}
+        {/* ========================================================================= */}
+        {/* LAB 3: THERMAL RUNAWAY & FIRE CASCADE PREDICTOR                            */}
+        {/* ========================================================================= */}
         {activeLab === "fire" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #3</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Sub-Module Thermal Runaway Cascade & Fire Propagation Predictor
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Thermodynamic heat diffusion model predicting countdown to EVA polymer ignition at 115°C.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#fef3f2] border-2 border-critical p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-critical text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-critical uppercase">What Is Thermal Runaway & Fire Cascade Prediction?</h3>
+                </div>
+                <span className="text-xs font-bold text-critical">NFPA 855 / IEC 61730 Fire Safety</span>
               </div>
-              <span className={`px-2.5 py-1 text-xs font-bold ${stringTripped ? "bg-[#ecfdf3] text-[#027a48]" : "bg-[#fef3f2] text-critical"}`}>
-                {stringTripped ? "STRING ISOLATED" : "CASCADE MONITOR ACTIVE"}
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> A real-time thermodynamic AI safety barrier that tracks bypass diode temperature escalation, predicting cascading thermal runaway before junction box temperatures breach the critical $145^\circ	ext{C}$ EVA backsheet ignition threshold. It triggers automated SCADA string circuit trips to prevent asset fire damage.
+              </p>
             </div>
 
+            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-[#0f172a] h-60 p-4 text-white flex flex-col justify-between">
-                <div className="flex justify-between items-center text-xs">
-                  <span>TARGET: #R12-C37 (INV-04)</span>
-                  <span className="text-critical font-bold">DIODE: {diodeTemp}°C</span>
-                </div>
-
-                <div className="relative w-full h-24 bg-black border border-border-strong flex items-center justify-center">
-                  <div 
-                    style={{ width: `${(diodeTemp / 115) * 100}%` }} 
-                    className={`h-full transition-all flex items-center justify-center font-bold text-xs ${diodeTemp > 80 ? "bg-critical text-white" : "bg-warning text-black"}`}
-                  >
-                    THERMAL SPREAD VELOCITY: 2.8°C / HR
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME THERMAL TELEMETRY & CONTROLS:</span>
+                </strong>
+                <div className="space-y-2 font-sans text-xs">
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Target Diode Junction Temp (T_j):</span> <strong className="font-mono-data text-critical">{diodeTemp}°C</strong></div>
+                    <input type="range" min="45" max="160" step="1" value={diodeTemp} onChange={(e) => setDiodeTemp(Number(e.target.value))} className="w-full accent-critical cursor-pointer" />
                   </div>
                 </div>
-
-                <div className="flex justify-between text-[11px] text-[#cbd5e1]">
-                  <span>Nominal: 45°C</span>
-                  <span>EVA Degradation: 115°C</span>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">Flashpoint Margin:</span> <strong className={`block ${diodeTemp > 130 ? "text-critical font-bold" : "text-[#027a48]"}`}>{Math.max(0, 145 - diodeTemp).toFixed(1)}°C to Ignition</strong></div>
+                  <div><span className="text-secondary">SCADA Breaker:</span> <strong className={`block ${diodeTemp > 130 ? "text-critical" : "text-[#027a48]"}`}>{diodeTemp > 130 ? "TRIPPED (ISOLATED)" : "CLOSED (NORMAL)"}</strong></div>
                 </div>
               </div>
 
-              <div className="space-y-4 font-sans text-xs">
-                <div className="bg-[#fef3f2] p-4 border-2 border-critical space-y-2">
-                  <strong className="text-critical font-mono-data text-xs uppercase block font-bold">
-                    CRITICAL FIRE HAZARD COUNTDOWN:
-                  </strong>
-                  <div className="text-sm font-black font-mono-data text-critical">
-                    4.2 HOURS UNTIL EVA BACKSHEET COMBUSTION
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING OPERATIONAL DATA (48 STRINGS):</span>
+                </strong>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Highest Operating Diode in Fleet:</span>
+                    <strong className="font-mono-data text-warning text-sm">#R12-C37 (88.4°C)</strong>
                   </div>
-                  <p className="text-critical text-xs leading-relaxed">
-                    Localized reverse-bias short circuit is heating adjacent wafer EVA encapsulation. Instant string isolation recommended.
-                  </p>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Fleet Nominal Diode Baseline:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">48.2°C (Safe Range)</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Thermal Degradation Velocity:</span>
+                    <strong className="font-mono-data text-primary text-sm">+0.12°C / operating day</strong>
+                  </div>
                 </div>
+              </div>
+            </div>
 
-                {!stringTripped ? (
-                  <button
-                    onClick={() => setStringTripped(true)}
-                    className="w-full bg-critical text-white font-bold py-3 px-4 border-2 border-critical hover:bg-white hover:text-critical transition-all uppercase text-xs tracking-wider cursor-pointer shadow-xs"
-                  >
-                    TRIGGER EMERGENCY REMOTE STRING TRIP (INV-04 DC-04)
-                  </button>
-                ) : (
-                  <div className="bg-[#ecfdf3] border border-[#abefc6] p-3 text-center text-xs font-bold text-[#027a48]">
-                    ✓ STRING TRIPPED & CURRENT DE-ENERGIZED · FIRE RISK MITIGATED
-                  </div>
-                )}
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE TIME-TO-FAILURE (TTF) PROJECTION:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Time-To-Failure (TTF) Estimate:</span>
+                  <strong className="font-mono-data text-lg text-critical block mt-0.5">42 Hours (If Unserviced)</strong>
+                  <span className="text-secondary text-[10px]">Thermal runaway threshold</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Prevented Asset Loss:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹24.5 Lakhs ($29.4K)</strong>
+                  <span className="text-secondary text-[10px]">String fire replacement cost</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Action Required:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">Diode Box WO Dispatched</strong>
+                  <span className="text-secondary text-[10px]">SLA countdown active</span>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 4: CARBON CREDITS (I-REC) & GREEN HYDROGEN */}
+        {/* ========================================================================= */}
+        {/* LAB 4: REAL-TIME CARBON CREDIT & GREEN HYDROGEN YIELD ENGINE              */}
+        {/* ========================================================================= */}
         {activeLab === "carbon" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #4</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Real-Time Carbon Credit Ledger (I-REC) & Green Hydrogen Yield Engine
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Tokenizes daily clean energy generation into verifiable I-REC credits and calculates PEM green hydrogen capacity.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#f6fef9] border-2 border-[#027a48] p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#027a48] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-[#027a48] uppercase">What Is Real-Time Carbon (I-REC / Verra) & Green Hydrogen Engine?</h3>
+                </div>
+                <span className="text-xs font-bold text-[#027a48]">Verra VCS / Gold Standard</span>
               </div>
-              <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold">
-                198.8 TONS CO₂ / DAY
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> A real-time environmental asset tokenization engine that computes daily avoided greenhouse gas (GHG) emissions from clean generation, mints verifiable International Renewable Energy Certificates (I-REC), and models high-purity PEM electrolyzer green hydrogen ($H_2$) fuel production capacity.
+              </p>
             </div>
 
+            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-[#f6fef9] p-6 border-2 border-[#027a48] space-y-4">
-                <strong className="text-[#027a48] text-xs uppercase block font-bold border-b border-[#abefc6] pb-2">
-                  VERIFIED CARBON OFFSET REVENUE (I-REC LEDGER):
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME CARBON & HYDROGEN TELEMETRY:</span>
                 </strong>
-                <div className="space-y-2 text-xs font-sans text-primary">
-                  <div className="flex justify-between"><span>Daily Carbon Avoided:</span> <strong className="font-mono-data text-2xl font-black text-[#027a48]">198.8 Metric Tons</strong></div>
-                  <div className="flex justify-between"><span>Carbon Credit Market Price:</span> <strong className="font-mono-data text-primary">₹1,000 / Ton ($12.00)</strong></div>
-                  <div className="flex justify-between"><span>Daily Carbon Credit Revenue:</span> <strong className="font-mono-data text-xl font-bold text-[#027a48]">+₹1,98,800 / day</strong></div>
-                  <div className="flex justify-between"><span>Annualized Carbon Monetization:</span> <strong className="font-mono-data text-[#027a48] font-bold">₹7.25 Crores / yr ($870K)</strong></div>
+                <div className="space-y-2 font-sans text-xs">
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Carbon Spot Market Price:</span> <strong className="font-mono-data text-primary">₹{carbonPriceINR} / ton (${(carbonPriceINR/83.3).toFixed(2)})</strong></div>
+                    <input type="range" min="500" max="3000" step="50" value={carbonPriceINR} onChange={(e) => setCarbonPriceINR(Number(e.target.value))} className="w-full accent-[#027a48] cursor-pointer" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">Daily Avoided:</span> <strong className="text-[#027a48] block">198.8 tCO₂ / day</strong></div>
+                  <div><span className="text-secondary">Daily Green H₂:</span> <strong className="text-primary block">1,093.4 kg H₂ / day</strong></div>
                 </div>
               </div>
 
-              <div className="bg-surface p-6 border border-border-strong space-y-4">
-                <strong className="text-primary text-xs uppercase block font-bold border-b border-border-subtle pb-2">
-                  GREEN HYDROGEN PEM ELECTROLYZER YIELD:
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING ENVIRONMENTAL ASSET PROGRESSION:</span>
                 </strong>
-                <div className="space-y-2 text-xs font-sans text-primary">
-                  <div className="flex justify-between"><span>Electrolyzer Specific Energy:</span> <strong className="font-mono-data text-primary">4.4 kg H₂ / MWh</strong></div>
-                  <div className="flex justify-between"><span>Daily Green H₂ Production:</span> <strong className="font-mono-data text-2xl font-black text-primary">1,093.4 kg H₂ / day</strong></div>
-                  <div className="flex justify-between"><span>Hydrogen Green Market Value:</span> <strong className="font-mono-data text-[#027a48] text-xl font-bold">₹4,37,360 / day ($5.2K)</strong></div>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Month-to-Date Avoided Emissions:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">4,174.8 Metric Tons CO₂</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>On-Chain Token Registry Serial:</span>
+                    <strong className="font-mono-data text-primary text-sm">VCS-2026-IND-04892</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>PEM Electrolyzer Efficiency:</span>
+                    <strong className="font-mono-data text-primary text-sm">55.0 kWh / kg H₂ (4.4 kg/MWh)</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE REVENUE & VALUATION PROJECTION:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Annualized Carbon Revenue:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹{((198.8 * carbonPriceINR * 365) / 10000000).toFixed(2)} Cr / yr</strong>
+                  <span className="text-secondary text-[10px]">I-REC / Verra indexed</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Annualized Green H₂ Yield:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">399.1 Tons H₂ / yr</strong>
+                  <span className="text-secondary text-[10px]">₹15.96 Crores value</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Cumulative 25-Yr ESG Asset:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">1.81 Million tCO₂</strong>
+                  <span className="text-secondary text-[10px]">Net-zero compliance</span>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 5: SATELLITE SAR RADAR SUBSIDENCE */}
+        {/* ========================================================================= */}
+        {/* LAB 5: SATELLITE SYNTHETIC APERTURE RADAR (SAR) SUBSIDENCE                */}
+        {/* ========================================================================= */}
         {activeLab === "sar" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #5</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Satellite SAR Radar Sub-Surface Soil Subsidence & Pile Sinking AI
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Ingests ESA Sentinel-1 C-band radar interferometry to detect sub-millimeter foundation sinking before torque tubes snap.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#f0f9ff] border-2 border-[#0284c7] p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#0284c7] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-[#0284c7] uppercase">What Is Satellite InSAR Ground Subsidence Monitoring?</h3>
+                </div>
+                <span className="text-xs font-bold text-[#0284c7]">Sentinel-1 C-Band InSAR</span>
               </div>
-              <span className="bg-surface text-primary border border-border-strong px-2.5 py-1 text-xs font-bold">
-                ESA SENTINEL-1 C-BAND
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> Millimeter-scale Interferometric Synthetic Aperture Radar (InSAR) structural monitoring using orbital radar constellations to measure geotechnical soil displacement, pile foundation sinking, and seismic shifting across the entire 240-acre solar installation.
+              </p>
             </div>
 
+            {/* 2. Real-Time Telemetry */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-[#0f172a] h-60 p-4 text-white flex items-center justify-center">
-                <svg viewBox="0 0 400 200" className="w-full h-full">
-                  <rect x="30" y="30" width="340" height="140" fill="#1e293b" stroke="#334155" />
-                  <circle cx="120" cy="80" r="14" fill="rgba(34, 197, 94, 0.4)" stroke="#22c55e" />
-                  <text x="90" y="85" fill="#22c55e" fontSize="9" fontFamily="monospace">Stable (0.1mm)</text>
-                  <circle cx="260" cy="120" r="22" fill="rgba(239, 68, 68, 0.4)" stroke="#ef4444" className="animate-ping" />
-                  <circle cx="260" cy="120" r="18" fill="rgba(239, 68, 68, 0.6)" stroke="#ef4444" />
-                  <text x="210" y="125" fill="#ef4444" fontSize="9" fontWeight="bold" fontFamily="monospace">
-                    Subsidence: -14.2 mm (Sector 4 Pile #88)
-                  </text>
-                </svg>
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME RADAR TELEMETRY:</span>
+                </strong>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">InSAR Coherence:</span> <strong className="text-[#027a48] block">γ = 0.94 (Optimal)</strong></div>
+                  <div><span className="text-secondary">Foundation Settling:</span> <strong className="text-primary block">-1.2 mm (Nominal)</strong></div>
+                  <div><span className="text-secondary">Structural Index:</span> <strong className="text-[#027a48] block">99.8% Stable</strong></div>
+                  <div><span className="text-secondary">Radar Frequency:</span> <strong className="text-primary block">5.405 GHz (C-Band)</strong></div>
+                </div>
               </div>
 
-              <div className="space-y-4 font-sans text-xs">
-                <div className="bg-surface p-4 border border-border-subtle space-y-2">
-                  <strong className="text-primary font-mono-data text-xs uppercase block border-b border-border-subtle pb-1">
-                    RADAR INTERFEROMETRY TELEMETRY:
-                  </strong>
-                  <div className="space-y-1 text-secondary">
-                    <div className="flex justify-between"><span>Satellite Pass Date:</span> <strong className="font-mono-data text-primary">24 Aug 2026 (Orbit #142)</strong></div>
-                    <div className="flex justify-between"><span>Maximum Ground Sinking:</span> <strong className="font-mono-data text-critical">-14.2 mm (Pile #88)</strong></div>
-                    <div className="flex justify-between"><span>Torque Tube Torsional Stress:</span> <strong className="font-mono-data text-warning">84% Yield Strength</strong></div>
-                    <div className="flex justify-between"><span>Preventative Action:</span> <strong className="font-mono-data text-primary">Civil Pile Re-jacking Dispatched</strong></div>
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING 90-DAY GEOTECHNICAL DISPLACEMENT:</span>
+                </strong>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Displacement Velocity:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">-0.04 mm / week (Uniform)</strong>
                   </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Differential Tilting Hazard:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">0.00° Across Torque Tubes</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Last Sentinel-1 Pass:</span>
+                    <strong className="font-mono-data text-primary text-sm">24 Aug 2026 (Orbit 128)</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE 12-MONTH GEOTECHNICAL SUBSIDENCE PROJECTION:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">12-Month Projected Settling:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">-2.8 mm Max</strong>
+                  <span className="text-secondary text-[10px]">Well within 15mm tolerance</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Risk of Civil Failure:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">&lt;0.01% Probability</strong>
+                  <span className="text-secondary text-[10px]">Piles verified secure</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Next Satellite Pass:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">30 Aug 2026</strong>
+                  <span className="text-secondary text-[10px]">Auto-ingest scheduled</span>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 6: ELECTROLUMINESCENCE (EL) NIGHT-FLIGHT */}
+        {/* ========================================================================= */}
+        {/* LAB 6: ELECTROLUMINESCENCE (EL) NIGHT WAFER TOMOGRAPHY                     */}
+        {/* ========================================================================= */}
         {activeLab === "el" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #6</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Electroluminescence (EL) Night-Flight SWIR Crack Tomogram
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Reverse current excitation during night sweeps causes silicon cells to glow in infrared like an X-ray.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#fbfbfe] border-2 border-[#6366f1] p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#6366f1] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-[#6366f1] uppercase">What Is Electroluminescence (EL) Night Wafer Tomography?</h3>
+                </div>
+                <span className="text-xs font-bold text-[#6366f1]">IEC TS 60904-13 Standard</span>
               </div>
-              <span className="bg-primary text-white px-2.5 py-1 text-xs font-bold">
-                SWIR NIGHT TOMOGRAPHY
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> Autonomous nighttime forward-bias excitation of solar panels to emit near-infrared (NIR) photons ($1150	ext{ nm}$), capturing sub-surface microcracks, busbar disconnects, and inactive crystal shunts that are completely invisible to standard thermal or RGB cameras.
+              </p>
             </div>
 
+            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-black h-60 p-4 flex items-center justify-center">
-                <img
-                  src="https://images.unsplash.com/photo-1548337138-e87d889cc369?auto=format&fit=crop&w=800&q=80"
-                  alt="EL Scan"
-                  className="w-full h-full object-cover filter contrast-200 grayscale opacity-90"
-                />
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME EXCITATION & TOMOGRAPHY TELEMETRY:</span>
+                </strong>
+                <div className="space-y-2 font-sans text-xs">
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Forward-Bias Excitation Current:</span> <strong className="font-mono-data text-primary">{elExcitationCurrent} Amps (1.0x Isc)</strong></div>
+                    <input type="range" min="2" max="12" step="0.2" value={elExcitationCurrent} onChange={(e) => setElExcitationCurrent(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">NIR Wavelength:</span> <strong className="text-primary block">1150 nm (Silicon Gap)</strong></div>
+                  <div><span className="text-secondary">Inactive Area:</span> <strong className="text-critical block">1.4% Shunted</strong></div>
+                </div>
               </div>
 
-              <div className="space-y-4 font-sans text-xs">
-                <div className="bg-surface p-4 border border-border-subtle space-y-2">
-                  <strong className="text-primary font-mono-data text-xs uppercase block border-b border-border-subtle pb-1">
-                    EL EMISSION ANALYSIS (#R07-C45):
-                  </strong>
-                  <div className="space-y-1 text-secondary">
-                    <div className="flex justify-between"><span>Reverse Excitation Current:</span> <strong className="font-mono-data text-primary">8.5 A @ 48V</strong></div>
-                    <div className="flex justify-between"><span>Dead Silicon Islands:</span> <strong className="font-mono-data text-critical">2 Inactive Fragments (Cell 14)</strong></div>
-                    <div className="flex justify-between"><span>Finger Micro-Discontinuity:</span> <strong className="font-mono-data text-warning">4 Fractured Busbars</strong></div>
-                    <div className="flex justify-between"><span>PID Shunting Level:</span> <strong className="font-mono-data text-primary">Low (0.4%)</strong></div>
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING SCAN PROGRESSION (NIGHT SHIFT):</span>
+                </strong>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Scanned Today:</span>
+                    <strong className="font-mono-data text-primary text-sm">92,592 Panels (100% Complete)</strong>
                   </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Microcracks Cataloged:</span>
+                    <strong className="font-mono-data text-warning text-sm">14 Panels with Inactive Fingers</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Tomographic Precision:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">0.2 mm / pixel resolution</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE MICROCRACK EXPANSION TRAJECTORY:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">12-Month Crack Propagation:</span>
+                  <strong className="font-mono-data text-lg text-warning block mt-0.5">3 Panels at Risk</strong>
+                  <span className="text-secondary text-[10px]">Potential full cell isolation</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Preventive Solder Action:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">Work Orders Scheduled</strong>
+                  <span className="text-secondary text-[10px]">Prevents hotspot development</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Preserved Lifetime Value:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">+₹4.82 Lakhs</strong>
+                  <span className="text-secondary text-[10px]">Extended 25-yr degradation</span>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 7: SPOT MARKET BESS BATTERY ARBITRAGE */}
+        {/* ========================================================================= */}
+        {/* LAB 7: SPOT BESS ENERGY ARBITRAGE & VIRTUAL POWER PLANT (VPP)              */}
+        {/* ========================================================================= */}
         {activeLab === "bess" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #7</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Spot Market BESS Battery Arbitrage & Virtual Power Plant (VPP) FFR
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Real-time IEX wholesale price arbitrage and sub-200ms synthetic inertia grid stabilization.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#fffbeb] border-2 border-[#d97706] p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#d97706] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-[#d97706] uppercase">What Is Spot BESS Energy Arbitrage & Virtual Power Plant (VPP)?</h3>
+                </div>
+                <span className="text-xs font-bold text-[#d97706]">IEX Day-Ahead Market / Fast Frequency Response</span>
               </div>
-              <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold">
-                GRID FFR: 50.02 Hz
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> AI-driven Battery Energy Storage System (BESS) co-optimization that charges during midday solar generation peaks and discharges into the grid during high evening peak tariff hours, participating in Indian Energy Exchange (IEX) spot arbitrage and millisecond Fast Frequency Response (FFR).
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans text-xs">
-              <div className="bg-surface p-5 border border-border-strong space-y-3">
-                <strong className="text-primary font-mono-data text-xs uppercase block border-b border-border-subtle pb-1">
-                  LIVE ARBITRAGE ROUTING:
+            {/* 2. Real-Time Telemetry & Controls */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME SPOT ARBITRAGE CONTROLS:</span>
                 </strong>
-                <div className="space-y-1.5 text-secondary">
-                  <div className="flex justify-between"><span>Wholesale Spot Price (IEX):</span> <strong className="font-mono-data text-primary font-bold">₹{gridSpotPrice} / kWh</strong></div>
-                  <div className="flex justify-between"><span>BESS State of Charge (SoC):</span> <strong className="font-mono-data text-[#027a48]">88% (20 MWh System)</strong></div>
-                  <div className="flex justify-between"><span>Optimal Action:</span> <strong className="font-mono-data text-[#027a48] font-bold">EXPORT TO GRID (PEAK PRICE)</strong></div>
-                  <div className="flex justify-between"><span>Arbitrage Net Margin:</span> <strong className="font-mono-data text-[#027a48]">+₹2.41 / kWh Spread</strong></div>
+                <div className="space-y-2 font-sans text-xs">
+                  <div>
+                    <div className="flex justify-between mb-1"><span>Current Grid Spot Price:</span> <strong className="font-mono-data text-primary">₹{gridSpotPrice} / kWh (${(gridSpotPrice/83.3).toFixed(3)})</strong></div>
+                    <input type="range" min="2.00" max="10.00" step="0.25" value={gridSpotPrice} onChange={(e) => setGridSpotPrice(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">BESS State of Charge:</span> <strong className="text-[#027a48] block">84.2% (42.1 MWh)</strong></div>
+                  <div><span className="text-secondary">Dispatch Mode:</span> <strong className="text-primary block">{gridSpotPrice > 5.50 ? "PEAK DISCHARGE" : "SOLAR CHARGE"}</strong></div>
                 </div>
               </div>
 
-              <div className="bg-[#f6fef9] p-5 border-2 border-[#027a48] space-y-2">
-                <strong className="text-[#027a48] font-mono-data text-xs uppercase block font-bold">
-                  SYNTHETIC INERTIA & FAST FREQUENCY RESPONSE (FFR):
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING DAILY ARBITRAGE LEDGER:</span>
                 </strong>
-                <p className="text-primary text-xs leading-relaxed">
-                  Inverters automatically inject 4.2 MVAR reactive power within <strong>140 milliseconds</strong> during grid frequency dips, stabilizing the 220kV bus.
-                </p>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Today's Stored Solar Energy:</span>
+                    <strong className="font-mono-data text-primary text-sm">38.4 MWh Charged @ ₹2.44</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Evening Peak Discharged:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">36.5 MWh Exported @ ₹6.80</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Daily Net Arbitrage Profit:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">+₹1,48,200 / day ($1,780)</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE DAY-AHEAD SPOT PRICE FORECAST:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Tomorrow Evening Peak Tariff:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹9.20 / kWh (19:30)</strong>
+                  <span className="text-secondary text-[10px]">Predicted grid deficit peak</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Projected Day-Ahead Profit:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">+₹3.12 Lakhs</strong>
+                  <span className="text-secondary text-[10px]">Automated dispatch queued</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Annualized BESS ROI:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">₹5.41 Crores / yr</strong>
+                  <span className="text-secondary text-[10px]">3.2-year payback</span>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 8: AUTONOMOUS DRONE DOCK 24/7 */}
+        {/* ========================================================================= */}
+        {/* LAB 8: AUTONOMOUS 24/7 DRONE NEST DOCK & WEATHER COCKPIT                   */}
+        {/* ========================================================================= */}
         {activeLab === "dock" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #8</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Autonomous Drone-in-a-Box (Nest) 24/7 Robotic Docking Station Manager
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Weatherproof autonomous robotic hangar with 25-min rapid charging and zero-human-pilot SCADA trigger.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#f5f3ff] border-2 border-[#7c3aed] p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#7c3aed] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-[#7c3aed] uppercase">What Is Autonomous 24/7 Drone Nest Dock & Weather Cockpit?</h3>
+                </div>
+                <span className="text-xs font-bold text-[#7c3aed]">DJI Dock 2 / IP55 Weather-Sealed Autonomous Hangar</span>
               </div>
-              <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold">
-                DOCK ALPHA ONLINE
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> An all-weather autonomous robotic hangar and high-speed inductive charging station that automatically opens its motorized hatch, dispatches autonomous aerial inspection drones, downloads radiometric thermal imagery, and fast-charges in 32 minutes with zero on-site human pilots.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans text-xs">
-              <div className="bg-surface p-5 border border-border-strong space-y-3">
-                <strong className="text-primary font-mono-data text-xs uppercase block border-b border-border-subtle pb-1">
-                  ROBOTIC HANGAR TELEMETRY:
+            {/* 2. Real-Time Telemetry & Controls */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME HANGAR TELEMETRY & CONTROLS:</span>
                 </strong>
-                <div className="space-y-1.5 text-secondary">
-                  <div className="flex justify-between"><span>Hangar Location:</span> <strong className="font-mono-data text-primary">Sector 4 Central Pad</strong></div>
-                  <div className="flex justify-between"><span>Rapid Charge Status:</span> <strong className="font-mono-data text-[#027a48]">{dockStatus}</strong></div>
-                  <div className="flex justify-between"><span>Internal Temp & Humidity:</span> <strong className="font-mono-data text-primary">24.2°C · 32% RH</strong></div>
-                  <div className="flex justify-between"><span>Roof Hatch Status:</span> <strong className="font-mono-data text-primary">{dockHatchOpen ? "OPEN (READY FOR TAKEOFF)" : "SEALED (WEATHERPROOF)"}</strong></div>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">Dock Internal Temp:</span> <strong className="text-primary block">24.2°C (Air Conditioned)</strong></div>
+                  <div><span className="text-secondary">Drone Battery State:</span> <strong className="text-[#027a48] block">92% (Fast-Charging)</strong></div>
+                  <div><span className="text-secondary">Hangar Hatch:</span> <strong className="text-primary block">{dockHatchOpen ? "OPEN (READY)" : "CLOSED (IP55 SEALED)"}</strong></div>
+                  <div><span className="text-secondary">Anemometer Wind:</span> <strong className="text-[#027a48] block">14.2 km/h (Clear)</strong></div>
                 </div>
-              </div>
-
-              <div className="space-y-3">
                 <button
                   onClick={() => setDockHatchOpen(!dockHatchOpen)}
-                  className="w-full bg-primary text-white font-bold py-3.5 px-4 border-2 border-primary hover:bg-white hover:text-primary transition-all uppercase text-xs tracking-wider cursor-pointer shadow-xs"
+                  className={`w-full py-2 font-bold uppercase text-xs border transition-all cursor-pointer ${
+                    dockHatchOpen ? "bg-critical text-white border-critical" : "bg-primary text-white border-primary hover:bg-white hover:text-primary"
+                  }`}
                 >
-                  {dockHatchOpen ? "CLOSE & SEAL ROBOTIC DOCK HATCH" : "OPEN HATCH & ARM AUTONOMOUS LAUNCH"}
+                  {dockHatchOpen ? "CLOSE HANGAR HATCH" : "OPEN HANGAR HATCH"}
                 </button>
+              </div>
+
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING DAILY MISSION LOG:</span>
+                </strong>
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Missions Completed Today:</span>
+                    <strong className="font-mono-data text-primary text-sm">4 Sorties (12,400 Panels)</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>RTK Positioning Accuracy:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">±1.2 cm Centimeter-Grade</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
+                    <span>Average Sortie Duration:</span>
+                    <strong className="font-mono-data text-primary text-sm">24.5 minutes</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE WEATHER CLEARANCE & SCHEDULE:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Next Scheduled Autonomous Sortie:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">In 48 Mins (14:30)</strong>
+                  <span className="text-secondary text-[10px]">Sector 4 Micro-Verification</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Weather Launch Clearance:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">99.2% Probability</strong>
+                  <span className="text-secondary text-[10px]">Zero turbulence forecast</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Pilot Cost Saved:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹18.5 Lakhs / yr</strong>
+                  <span className="text-secondary text-[10px]">100% unmanned autonomy</span>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* LAB 9: SCADA CYBER FIREWALL */}
+        {/* ========================================================================= */}
+        {/* LAB 9: SCADA ZERO-TRUST CYBER INTRUSION SHIELD                            */}
+        {/* ========================================================================= */}
         {activeLab === "cyber" && (
           <div className="space-y-6">
-            <div className="flex justify-between items-start border-b border-border-subtle pb-3">
-              <div>
-                <span className="text-[10px] text-secondary font-bold uppercase block">INNOVATION LAB #9</span>
-                <h2 className="text-lg font-bold text-primary font-headline-md mt-0.5">
-                  Industrial SCADA Cyber-Defense & Grid Intrusion Firewall AI
-                </h2>
-                <p className="text-secondary text-xs font-sans mt-0.5">
-                  Deep-packet inspection of Modbus/TCP and IEC 60870-5-104 protecting against rogue inverter phase desync.
-                </p>
+            {/* 1. Feature Definition */}
+            <div className="bg-[#f8fafc] border-2 border-primary p-4 space-y-2">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="bg-primary text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
+                  <h3 className="font-bold text-sm text-primary uppercase">What Is SCADA Zero-Trust Cyber Intrusion Shield?</h3>
+                </div>
+                <span className="text-xs font-bold text-primary">IEC 62443 / NERC CIP Cyber Compliance</span>
               </div>
-              <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold">
-                FIREWALL ACTIVE
-              </span>
+              <p className="text-xs text-primary font-sans leading-relaxed">
+                <strong>What It Is:</strong> An industrial deep packet inspection (DPI) firewall and AI intrusion detection system specifically engineered for solar grid SCADA networks. It decodes Modbus/TCP, DNP3, and IEC 60870-5-104 packets in real-time, blocking unauthorized inverter register manipulation, frequency desynchronization attacks, and unauthorized curtailment commands.
+              </p>
             </div>
 
-            <div className="space-y-3">
-              <strong className="text-primary uppercase text-xs block">
-                RECENT BLOCKED INTRUSION ATTEMPTS:
-              </strong>
-              <div className="space-y-2">
-                {cyberAlerts.map((a) => (
-                  <div key={a.id} className="p-3 bg-surface border border-border-strong flex justify-between items-center text-xs">
-                    <div>
-                      <strong className="text-critical block">{a.type}</strong>
-                      <span className="text-secondary text-[11px]">Source IP: {a.ip} · {a.time}</span>
+            {/* 2. Real-Time Telemetry */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-primary" />
+                  <span>1. REAL-TIME NETWORK PACKET TELEMETRY:</span>
+                </strong>
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">Packet Velocity:</span> <strong className="text-primary block">12,450 packets / sec</strong></div>
+                  <div><span className="text-secondary">Firewall State:</span> <strong className="text-[#027a48] block">ACTIVE (Zero-Trust)</strong></div>
+                  <div><span className="text-secondary">Encryption Protocol:</span> <strong className="text-primary block">TLS 1.3 / IPsec Tunnel</strong></div>
+                  <div><span className="text-secondary">Active Threats:</span> <strong className="text-[#027a48] block">0 Active Breaches</strong></div>
+                </div>
+              </div>
+
+              {/* 3. Ongoing Data */}
+              <div className="border border-border-strong bg-white p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>2. ONGOING INTRUSION LOG (LAST 24 HOURS):</span>
+                </strong>
+                <div className="space-y-1.5 font-sans text-xs">
+                  {cyberAlerts.map((alert) => (
+                    <div key={alert.id} className="p-2 border border-critical/30 bg-[#fef3f2] flex justify-between items-center text-xs">
+                      <div>
+                        <strong className="font-mono-data text-primary block">{alert.id} · {alert.ip}</strong>
+                        <span className="text-secondary text-[11px]">{alert.type}</span>
+                      </div>
+                      <span className="bg-critical text-white font-mono-data px-2 py-0.5 text-[9px] font-bold uppercase">{alert.severity}</span>
                     </div>
-                    <span className="bg-[#fef3f2] text-critical border border-critical px-2 py-0.5 text-[9px] font-bold uppercase">
-                      ✓ {a.severity}
-                    </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 4. Predict Future Data */}
+            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
+              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
+                <TrendingUp className="w-4 h-4" />
+                <span>3. AI PREDICTIVE CYBER VULNERABILITY SCORE:</span>
+              </strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">72-Hour Vulnerability Probability:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">&lt;0.01% (Fortified)</strong>
+                  <span className="text-secondary text-[10px]">Zero attack vectors exposed</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Prevented Grid Trip Penalty:</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹50.0 Lakhs / event</strong>
+                  <span className="text-secondary text-[10px]">CERC grid compliance fine</span>
+                </div>
+                <div className="bg-white p-3 border border-[#abefc6]">
+                  <span className="text-secondary text-[11px] block">Certifications Active:</span>
+                  <strong className="font-mono-data text-lg text-primary block mt-0.5">NERC CIP / IEC 62443</strong>
+                  <span className="text-secondary text-[10px]">Audited & compliant</span>
+                </div>
               </div>
             </div>
           </div>
