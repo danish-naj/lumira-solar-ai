@@ -53,6 +53,11 @@ export default function ClientApprovalPortal({
   const [bookingDate, setBookingDate] = useState("2026-09-01");
   const [bookingModality, setBookingModality] = useState("Drone Orthomosaic + Thermal");
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  // Client Bespoke OEM Warranty State
+  const [clientSelectedOem, setClientSelectedOem] = useState("longi");
+  const [authorizedClaims, setAuthorizedClaims] = useState(["CLM-JINKO-2026-07"]);
+  const [showClientDossier, setShowClientDossier] = useState(false);
+
 
   // Default initial pending proposals if none dynamically submitted
   const defaultPending = [
@@ -589,11 +594,228 @@ export default function ClientApprovalPortal({
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 4: OEM WARRANTY CLAIM & DISPUTE ENGINE                               */}
+        {/* TAB 4: BESPOKE CLIENT OEM WARRANTY & SETTLEMENT COMMAND CENTER             */}
         {/* ========================================================================= */}
         {activeTab === 4 && (
-          <div className="p-2">
-            <WarrantyClaimEngine farm={farm} />
+          <div className="space-y-6 max-w-6xl font-sans select-none">
+            {/* Header */}
+            <div className="border-b-2 border-primary pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface p-5 border shadow-xs">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Scale className="w-4 h-4 text-primary" />
+                  <span className="bg-primary text-white font-mono-data text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
+                    ASSET OWNER OEM WARRANTY & SETTLEMENT COMMAND CENTER
+                  </span>
+                  <span className="font-mono-data text-xs text-secondary">
+                    IEC 61215 Contract Breach Recovery
+                  </span>
+                </div>
+                <h1 className="font-headline-lg text-2xl font-bold text-primary tracking-tight">
+                  Tier-1 Manufacturer Warranty Claims & Legal Settlement Portfolio
+                </h1>
+              </div>
+
+              <div className="border-2 border-primary bg-white px-4 py-2 text-right font-mono-data text-xs shadow-xs">
+                <span className="text-[10px] text-secondary uppercase font-bold block">TOTAL RECOVERABLE PORTFOLIO CAPITAL</span>
+                <strong className="text-xl font-bold text-[#027a48] block">₹10,07,000 <span className="text-xs text-secondary font-normal font-sans">($12,080)</span></strong>
+              </div>
+            </div>
+
+            {/* Top 4 KPI Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono-data text-xs">
+              <div className="p-4 border border-border-strong bg-white shadow-xs">
+                <span className="text-secondary text-[10px] uppercase font-bold block">Total Claims Filed:</span>
+                <strong className="text-2xl font-bold text-primary block mt-1">4 Dossiers</strong>
+                <span className="text-secondary text-[11px] font-sans block mt-0.5">72 Defective Modules</span>
+              </div>
+
+              <div className="p-4 border-2 border-[#027a48] bg-[#f6fef9] shadow-xs">
+                <span className="text-[#027a48] text-[10px] uppercase font-bold block">Settled & Reimbursed:</span>
+                <strong className="text-2xl font-bold text-[#027a48] block mt-1">₹2,45,000</strong>
+                <span className="text-[#027a48] text-[11px] font-sans block mt-0.5">100% Paid (JinkoSolar)</span>
+              </div>
+
+              <div className="p-4 border border-border-strong bg-white shadow-xs">
+                <span className="text-secondary text-[10px] uppercase font-bold block">In Active Dispute:</span>
+                <strong className="text-2xl font-bold text-critical block mt-1">₹7,62,000</strong>
+                <span className="text-secondary text-[11px] font-sans block mt-0.5">LONGi, Trina & Canadian</span>
+              </div>
+
+              <div className="p-4 border border-border-strong bg-white shadow-xs">
+                <span className="text-secondary text-[10px] uppercase font-bold block">Historical Success Rate:</span>
+                <strong className="text-2xl font-bold text-primary block mt-1">94.2%</strong>
+                <span className="text-[#027a48] text-[11px] font-sans block mt-0.5">IEC 61215 Evidentiary Standard</span>
+              </div>
+            </div>
+
+            {/* Main Section: Supplier Exposure & Active Dispute Dossier */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 font-mono-data text-xs">
+              {/* Supplier Selection Cards (5 Cols) */}
+              <div className="lg:col-span-5 border border-border-strong bg-white p-5 space-y-3 shadow-xs">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-2">
+                  TIER-1 SUPPLIER WARRANTY CLAIMS:
+                </strong>
+
+                <div className="space-y-2">
+                  {[
+                    { key: "longi", id: "CLM-LONGi-2026-08", name: "LONGi Solar Technology", model: "Hi-MO 6 Explorer 540M", units: 34, inr: "₹4,82,000", status: authorizedClaims.includes("CLM-LONGi-2026-08") ? "Authorized · Legal Notice Sent" : "Dossier Compiled · Pending Authorization" },
+                    { key: "jinko", id: "CLM-JINKO-2026-07", name: "JinkoSolar Holding", model: "Tiger Pro 72HC 540W", units: 18, inr: "₹2,45,000", status: "Settled & Reimbursed (100%)" },
+                    { key: "trina", id: "CLM-TRINA-2026-06", name: "Trina Solar Co., Ltd.", model: "Vertex TSM-DEG21C 600W", units: 12, inr: "₹1,68,000", status: authorizedClaims.includes("CLM-TRINA-2026-06") ? "In OEM Review" : "Draft Dossier" },
+                    { key: "canadian", id: "CLM-CANADIAN-2026-05", name: "Canadian Solar Inc.", model: "BiHiKu7 650W", units: 8, inr: "₹1,12,000", status: "Compiled" },
+                  ].map((s) => {
+                    const isSelected = clientSelectedOem === s.key;
+                    return (
+                      <div
+                        key={s.key}
+                        onClick={() => setClientSelectedOem(s.key)}
+                        className={`p-3.5 border transition-all cursor-pointer bg-surface hover:bg-white ${
+                          isSelected ? "border-primary bg-[#f6fef9] ring-1 ring-primary shadow-xs" : "border-border-subtle hover:border-primary"
+                        }`}
+                      >
+                        <div className="flex justify-between items-start mb-1">
+                          <strong className="text-primary text-xs font-bold">{s.name}</strong>
+                          <strong className="text-[#027a48] font-mono-data">{s.inr}</strong>
+                        </div>
+                        <span className="text-[11px] text-secondary font-sans block">{s.model} ({s.units} Panels)</span>
+                        <div className="flex justify-between items-center text-[10px] text-secondary border-t border-border-subtle pt-1.5 mt-2">
+                          <span>Dossier: <strong>{s.id}</strong></span>
+                          <span className={`font-bold ${s.status.includes("Settled") ? "text-[#027a48]" : s.status.includes("Authorized") ? "text-primary" : "text-warning"}`}>
+                            {s.status.split("·")[0]}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Active Claim Dispute Dossier Details & Authorization (7 Cols) */}
+              <div className="lg:col-span-7 border-2 border-primary bg-white p-6 space-y-4 shadow-xs">
+                <div className="flex justify-between items-start border-b border-border-subtle pb-3">
+                  <div>
+                    <span className="text-[10px] text-secondary font-bold uppercase block">
+                      ACTIVE CLAIM: {clientSelectedOem === "longi" ? "CLM-LONGi-2026-08" : clientSelectedOem === "jinko" ? "CLM-JINKO-2026-07" : clientSelectedOem === "trina" ? "CLM-TRINA-2026-06" : "CLM-CANADIAN-2026-05"}
+                    </span>
+                    <strong className="text-base text-primary font-mono-data block mt-0.5">
+                      {clientSelectedOem === "longi" ? "LONGi Solar Technology Co., Ltd." : clientSelectedOem === "jinko" ? "JinkoSolar Holding Co., Ltd." : clientSelectedOem === "trina" ? "Trina Solar Co., Ltd." : "Canadian Solar Inc."}
+                    </strong>
+                    <span className="text-secondary text-xs font-sans">
+                      Targeted Asset: <strong>{farm?.name || "Bhadla Mega Solar Park - Sector 4"}</strong>
+                    </span>
+                  </div>
+                  <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2.5 py-1 text-xs font-bold uppercase">
+                    {authorizedClaims.includes(clientSelectedOem === "longi" ? "CLM-LONGi-2026-08" : clientSelectedOem === "jinko" ? "CLM-JINKO-2026-07" : clientSelectedOem === "trina" ? "CLM-TRINA-2026-06" : "CLM-CANADIAN-2026-05") ? "✓ AUTHORIZED" : "PENDING CLIENT SIGN-OFF"}
+                  </span>
+                </div>
+
+                {/* Dispute Metrics Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-surface p-4 border border-border-subtle font-sans text-xs">
+                  <div><span className="text-secondary">Defective Units:</span> <strong className="font-mono-data text-critical text-sm block">{clientSelectedOem === "longi" ? "34 Units" : clientSelectedOem === "jinko" ? "18 Units" : clientSelectedOem === "trina" ? "12 Units" : "8 Units"}</strong></div>
+                  <div><span className="text-secondary">Observed Power Drop:</span> <strong className="font-mono-data text-critical text-sm block">-22.5% Mismatch</strong></div>
+                  <div><span className="text-secondary">Monetary Claim:</span> <strong className="font-mono-data text-[#027a48] text-sm block">{clientSelectedOem === "longi" ? "₹4,82,000 ($5,780)" : clientSelectedOem === "jinko" ? "₹2,45,000 ($2,940)" : clientSelectedOem === "trina" ? "₹1,68,000 ($2,015)" : "₹1,12,000 ($1,345)"}</strong></div>
+                </div>
+
+                {/* Legal Breach Clause */}
+                <div className="space-y-1 font-sans">
+                  <strong className="text-primary font-mono-data text-xs uppercase block">LEGAL BREACH EVIDENCE:</strong>
+                  <p className="bg-surface p-3 border border-border-subtle text-secondary text-xs leading-relaxed">
+                    Under IEC 61215 / IEC 61730 standards, maximum allowable degradation is 0.55%/yr. The observed -22.5% string mismatch constitutes an actionable defect.
+                  </p>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                  {!authorizedClaims.includes(clientSelectedOem === "longi" ? "CLM-LONGi-2026-08" : clientSelectedOem === "jinko" ? "CLM-JINKO-2026-07" : clientSelectedOem === "trina" ? "CLM-TRINA-2026-06" : "CLM-CANADIAN-2026-05") ? (
+                    <button
+                      onClick={() => {
+                        const targetClaim = clientSelectedOem === "longi" ? "CLM-LONGi-2026-08" : clientSelectedOem === "jinko" ? "CLM-JINKO-2026-07" : clientSelectedOem === "trina" ? "CLM-TRINA-2026-06" : "CLM-CANADIAN-2026-05";
+                        setAuthorizedClaims(prev => [...prev, targetClaim]);
+                      }}
+                      className="flex-1 bg-[#027a48] text-white font-bold py-3.5 px-4 border-2 border-[#027a48] hover:bg-white hover:text-[#027a48] transition-all uppercase text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>AUTHORIZE FORMAL LEGAL DISPUTE FILING</span>
+                    </button>
+                  ) : (
+                    <div className="flex-1 bg-[#ecfdf3] border border-[#abefc6] p-3 text-center text-xs font-bold text-[#027a48] flex items-center justify-center gap-2">
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>LEGAL FILING AUTHORIZED BY ASSET OWNER</span>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={() => setShowClientDossier(true)}
+                    className="bg-primary text-white font-bold py-3.5 px-4 border-2 border-primary hover:bg-white hover:text-primary transition-all uppercase text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span>PRINT LEGAL NOTICE (PDF)</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Printable Modal */}
+            {showClientDossier && (
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 select-none">
+                <div className="bg-white border-4 border-primary shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] w-full max-w-4xl max-h-[90vh] overflow-y-auto font-sans p-8 space-y-6 relative custom-scrollbar">
+                  <button
+                    onClick={() => setShowClientDossier(false)}
+                    className="absolute top-4 right-4 text-secondary hover:text-primary p-1 border border-transparent hover:border-primary cursor-pointer print:hidden"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+
+                  <div className="border-2 border-primary p-6 space-y-6 bg-surface">
+                    <div className="flex justify-between items-start border-b-2 border-primary pb-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <Scale className="w-5 h-5 text-primary" />
+                          <span className="font-mono-data text-xs font-bold text-secondary uppercase tracking-widest">
+                            FORMAL NOTICE OF WARRANTY CLAIM & INDEMNIFICATION DEMAND
+                          </span>
+                        </div>
+                        <h1 className="font-headline-lg text-2xl font-black text-primary tracking-tight">
+                          OFFICIAL OEM CONTRACT BREACH DISPUTE DOSSIER
+                        </h1>
+                        <p className="text-secondary text-xs mt-0.5">
+                          Executed by Asset Owner: {farm?.name || "Bhadla Mega Solar Park - Sector 4"}
+                        </p>
+                      </div>
+                      <div className="text-right font-mono-data text-xs">
+                        <span className="text-[10px] text-secondary uppercase block font-bold">CLAIM VALUE:</span>
+                        <strong className="text-[#027a48] text-base font-bold">₹10,07,000 ($12,080)</strong>
+                        <span className="text-[#027a48] font-bold block text-[10px]">✓ CLIENT AUTHORIZED</span>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-white border border-border-strong text-xs font-sans space-y-2 leading-relaxed">
+                      <p>
+                        <strong>FORMAL DEMAND:</strong> The Asset Owner formally demands immediate component replacement or monetary indemnification of <strong>₹10,07,000 ($12,080)</strong> for verified component failures violating IEC 61215 contractual warranties.
+                      </p>
+                    </div>
+
+                    <div className="flex justify-between items-center print:hidden border-t border-border-subtle pt-4 font-mono-data text-xs">
+                      <span className="text-secondary">Export to PDF for formal transmittal to OEM legal counsel.</span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setShowClientDossier(false)}
+                          className="bg-white border border-border-strong px-4 py-2 text-xs uppercase font-bold text-secondary hover:text-primary cursor-pointer"
+                        >
+                          Close
+                        </button>
+                        <button
+                          onClick={() => window.print()}
+                          className="bg-primary text-white font-bold px-6 py-2 text-xs uppercase tracking-wider flex items-center gap-2 hover:bg-white hover:text-primary border border-primary transition-all cursor-pointer shadow-xs"
+                        >
+                          <Printer className="w-4 h-4" />
+                          <span>PRINT / SAVE AS PDF</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
