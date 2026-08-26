@@ -63,9 +63,15 @@ export default function PitchDeckModal({ isOpen, onClose }) {
                 </span>
               </div>
 
-              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-3">
-                LUMIRA SOLAR AI
-              </span>
+              <div className="max-w-md mb-6">
+                <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-white/60 block mb-2">
+                  LUMIRA SOLAR AI
+                </span>
+                <div className="border-t border-b border-white/20 py-1.5 my-2 flex items-center justify-between text-[11px] font-mono tracking-widest text-white/80">
+                  <span className="uppercase text-white/50">EUREKA ID</span>
+                  <span className="font-bold text-white tracking-widest">EU2605889</span>
+                </div>
+              </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1] mb-6">
                 The operating system for solar asset intelligence.
@@ -1034,10 +1040,10 @@ export default function PitchDeckModal({ isOpen, onClose }) {
       )
     },
 
-    // SLIDE 12: 11 / DEPLOYMENT SPRINT
+    // SLIDE 12: 11 / DEPLOYMENT ASK
     {
       number: 12,
-      verticalTag: "11 / DEPLOYMENT SPRINT",
+      verticalTag: "11 / DEPLOYMENT ASK",
       render: () => (
         <div className="flex flex-col justify-between h-full py-4 space-y-6">
           <div>
