@@ -1,3 +1,8 @@
+import WarrantyClaimEngine from "../Warranty/WarrantyClaimEngine";
+import PredictiveYieldEngine from "../Predictive/PredictiveYieldEngine";
+import BreakthroughLabs from "../BreakthroughLabs/BreakthroughLabs";
+import StormDefenseCockpit from "../StormDefense/StormDefenseCockpit";
+import { Scale, CloudRain } from "lucide-react";
 import React, { useState } from "react";
 import { 
   CheckCircle2, 
@@ -584,9 +589,45 @@ export default function ClientApprovalPortal({
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 4: LIVE ONGOING REPAIRS & TECHNICIAN SLA TRACKER                      */}
+        {/* TAB 4: OEM WARRANTY CLAIM & DISPUTE ENGINE                               */}
         {/* ========================================================================= */}
         {activeTab === 4 && (
+          <div className="p-2">
+            <WarrantyClaimEngine farm={farm} />
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 5: PREDICTIVE ML YIELD ENGINE & FORECASTER                            */}
+        {/* ========================================================================= */}
+        {activeTab === 5 && (
+          <div className="p-2">
+            <PredictiveYieldEngine farm={farm} />
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 6: BREAKTHROUGH INNOVATION LABS (9 ENGINES)                           */}
+        {/* ========================================================================= */}
+        {activeTab === 6 && (
+          <div className="p-2">
+            <BreakthroughLabs farm={farm} onNavigateTab={onNavigateTab} />
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 7: SEVERE WEATHER & STORM DEFENSE COCKPIT                             */}
+        {/* ========================================================================= */}
+        {activeTab === 7 && (
+          <div className="p-2">
+            <StormDefenseCockpit farm={farm} />
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 8: ONGOING REPAIRS & TECHNICIAN DISPATCH                              */}
+        {/* ========================================================================= */}
+        {activeTab === 8 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
               <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
@@ -672,7 +713,7 @@ export default function ClientApprovalPortal({
         {/* ========================================================================= */}
         {/* TAB 5: BOOK NEW INSPECTION & SUBSCRIPTION MANAGEMENT                      */}
         {/* ========================================================================= */}
-        {activeTab === 5 && (
+        {activeTab === 9 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
               <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">

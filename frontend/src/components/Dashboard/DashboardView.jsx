@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 
 export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
+  const [carbonPrice, setCarbonPrice] = useState(1000);
   // Deep-dive Modal State
   const [activeModal, setActiveModal] = useState(null);
 
@@ -76,8 +77,8 @@ export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
         </div>
       </div>
 
-      {/* 2. Top Executive KPI Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* 2. Top Executive KPI Grid (5-Column Power Strip) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Plant Health Score */}
         <div 
           onClick={() => setActiveModal("health")}
@@ -150,6 +151,25 @@ export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
             </strong>
             <span className="text-secondary text-[11px] font-mono-data mt-1 block">
               P1 Critical: 2 · P3 Routine: 1
+            </span>
+          </div>
+        </div>
+
+        {/* 5. Verified Carbon Offsets (I-REC / Verra) */}
+        <div 
+          onClick={() => setActiveModal("carbon")}
+          className="border-2 border-[#027a48] bg-[#f6fef9] p-5 space-y-2 cursor-pointer hover:shadow-[4px_4px_0px_0px_rgba(2,122,72,1)] transition-all flex flex-col justify-between"
+        >
+          <div className="flex justify-between items-start">
+            <span className="text-[10px] text-[#027a48] uppercase font-bold font-mono-data">CARBON OFFSET LEDGER</span>
+            <Leaf className="w-4 h-4 text-[#027a48]" />
+          </div>
+          <div>
+            <strong className="text-3xl font-black text-[#027a48] font-mono-data block tracking-tight">
+              198.8 <span className="text-sm text-[#027a48] font-normal font-sans">tCO₂/d</span>
+            </strong>
+            <span className="text-[#027a48] text-[11px] font-bold font-mono-data mt-1 block">
+              +₹1.98 Lakhs / day (I-REC)
             </span>
           </div>
         </div>
@@ -249,17 +269,28 @@ export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
                 <span>Daily Carbon Emissions Avoided:</span>
                 <strong className="font-mono-data text-2xl font-black text-[#027a48]">198.8 Metric Tons</strong>
               </div>
-              <div className="flex justify-between items-center">
-                <span>Carbon Credit Market Index (I-REC):</span>
-                <strong className="font-mono-data text-primary">₹1,000 / Ton ($12.00 / tCO₂e)</strong>
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <span>Carbon Credit Market Index (I-REC):</span>
+                  <strong className="font-mono-data text-primary">₹{carbonPrice.toLocaleString()} / Ton (${(carbonPrice / 83.3).toFixed(2)} / tCO₂e)</strong>
+                </div>
+                <input 
+                  type="range" 
+                  min="500" 
+                  max="2500" 
+                  step="50" 
+                  value={carbonPrice} 
+                  onChange={(e) => setCarbonPrice(Number(e.target.value))} 
+                  className="w-full accent-[#027a48] cursor-pointer"
+                />
               </div>
               <div className="flex justify-between items-center border-t border-[#abefc6] pt-1.5">
                 <span>Daily Carbon Credit Revenue:</span>
-                <strong className="font-mono-data text-xl font-bold text-[#027a48]">+₹1,98,800 / day ($2,385)</strong>
+                <strong className="font-mono-data text-xl font-bold text-[#027a48]">+₹{Math.round(198.8 * carbonPrice).toLocaleString()} / day (${Math.round((198.8 * carbonPrice) / 83.3).toLocaleString()})</strong>
               </div>
               <div className="flex justify-between items-center">
                 <span>Annualized Carbon Asset Valuation:</span>
-                <strong className="font-mono-data text-[#027a48] font-bold">₹7.25 Crores / yr ($870K)</strong>
+                <strong className="font-mono-data text-[#027a48] font-bold">₹{((198.8 * carbonPrice * 365) / 10000000).toFixed(2)} Crores / yr</strong>
               </div>
             </div>
           </div>
