@@ -1,5 +1,5 @@
 import React from "react";
-import { RefreshCw, Plus, Users, ChevronDown, Building2, Wrench, Camera, Shield } from "lucide-react";
+import { RefreshCw, Plus, ChevronDown } from "lucide-react";
 
 export default function TopHeader({ 
   activeFarm, 
@@ -15,12 +15,10 @@ export default function TopHeader({
     map: "DIGITAL TWIN GRID",
     "3d-twin": "3D SOLAR FARM DIGITAL TWIN",
     breakthrough: "BREAKTHROUGH INNOVATION LABS (9 ENGINES)",
-    swarm: "ROBOTIC CLEANING SWARM FLEET",
     predictive: "PREDICTIVE ML & CLOUD SHADOW SIMULATOR",
     storm: "SEVERE WEATHER & STORM DEFENSE COCKPIT",
     inspect: "MULTI-SOURCE AI STUDIO",
     scada: "SCADA TELEMETRY",
-    voice: "HANDS-FREE VOICE AI COPILOT",
     warranty: "OEM WARRANTY CLAIM & LEGAL DISPUTE ENGINE",
     maintenance: "WORK ORDERS & O&M",
     portfolio: "GLOBAL MULTI-SITE ASSET MAP",
@@ -28,7 +26,7 @@ export default function TopHeader({
     "plan-roi": "ENTERPRISE PLAN & ROI AUDIT",
     "inspector-portal": "FIELD INSPECTOR MISSION WORKSPACE",
     "client-portal": "CLIENT APPROVAL PORTAL",
-    "service-portal": "SERVICE TEAM HUB"
+    "service-portal": "SERVICE TEAM COMMAND HUB"
   };
 
   const roles = [

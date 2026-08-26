@@ -9,16 +9,13 @@ import {
   ChevronDown, 
   Building2, 
   Camera, 
-  Users, 
   Award, 
   TrendingUp, 
   Globe, 
-  Radio, 
   Sparkles,
   Box,
   Scale,
-  CloudRain,
-  Car
+  CloudRain
 } from "lucide-react";
 
 export default function Sidebar({ 
@@ -35,12 +32,10 @@ export default function Sidebar({
     { id: "map", label: "Digital Twin Grid", icon: Grid3X3 },
     { id: "3d-twin", label: "3D Solar Farm Twin", icon: Box },
     { id: "breakthrough", label: "Breakthrough Labs", icon: Sparkles },
-    { id: "swarm", label: "Robotic Swarm Fleet", icon: Car },
     { id: "predictive", label: "Predictive ML & Yield", icon: TrendingUp },
     { id: "storm", label: "Storm & Hail Defense", icon: CloudRain },
     { id: "inspect", label: "Multi-Source AI", icon: ScanSearch },
     { id: "scada", label: "AI-Guided SCADA", icon: Zap },
-    { id: "voice", label: "Voice AI Copilot", icon: Radio },
     { id: "warranty", label: "OEM Warranty Claims", icon: Scale },
     { id: "maintenance", label: "Work Orders & O&M", icon: Wrench },
     { id: "portfolio", label: "Global Portfolio Map", icon: Globe },
@@ -154,7 +149,7 @@ export default function Sidebar({
       <div className="p-3 border-t border-border-subtle bg-surface shrink-0 flex items-center justify-between font-mono-data text-[10px] text-secondary">
         <div className="flex items-center gap-1.5 font-bold text-primary">
           <span className="w-2 h-2 rounded-full bg-[#027a48] inline-block" />
-          <span>SUPER-OS V3.5</span>
+          <span>SUPER-OS V3.6</span>
         </div>
         <span className="font-bold">ULTIMATE SUITE</span>
       </div>

@@ -1,3 +1,6 @@
+import RoboticSwarmFleet from "../SwarmFleet/RoboticSwarmFleet";
+import VoiceCopilot from "../VoiceCopilot/VoiceCopilot";
+import { Car, Radio } from "lucide-react";
 import React, { useState, useRef } from "react";
 import { 
   Wrench, 
@@ -584,7 +587,7 @@ export default function ServiceTeamHub({ farm, onCompleteTicket, onNavigateTab }
         {/* ========================================================================= */}
         {/* TAB 3: PROOF-OF-WORK UPLOADER & TECHNICIAN LOGS                           */}
         {/* ========================================================================= */}
-        {activeTab === 3 && (
+        {activeTab === 7 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
               <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
@@ -717,7 +720,7 @@ export default function ServiceTeamHub({ farm, onCompleteTicket, onNavigateTab }
         {/* ========================================================================= */}
         {/* TAB 4: TECHNICIAN FLEET ROSTER & SHIFT SCHEDULE                           */}
         {/* ========================================================================= */}
-        {activeTab === 4 && (
+        {activeTab === 6 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
               <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
@@ -782,7 +785,7 @@ export default function ServiceTeamHub({ farm, onCompleteTicket, onNavigateTab }
         {/* ========================================================================= */}
         {/* TAB 5: COMPLETED REPAIRS ARCHIVE & QUALITY ASSURANCE HISTORY              */}
         {/* ========================================================================= */}
-        {activeTab === 5 && (
+        {activeTab === 7 && (
           <div className="space-y-6 max-w-5xl">
             <div className="border-b border-border-subtle pb-4">
               <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
