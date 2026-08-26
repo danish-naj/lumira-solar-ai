@@ -8,7 +8,6 @@ import {
   Satellite, 
   Moon, 
   BatteryCharging, 
-  Radio, 
   ShieldCheck, 
   Zap, 
   ArrowRight, 
@@ -27,11 +26,14 @@ import {
   Info,
   Calendar,
   Lock,
-  Wifi
+  Wifi,
+  Radio,
+  Play,
+  RotateCw
 } from "lucide-react";
 
 export default function BreakthroughLabs({ farm, onNavigateTab }) {
-  // Active Lab Module: 'bifacial' | 'terrain' | 'fire' | 'carbon' | 'sar' | 'el' | 'bess' | 'dock' | 'cyber'
+  // Active Lab Module: 'bifacial' | 'terrain' | 'fire' | 'carbon' | 'sar' | 'el' | 'bess' | 'cyber'
   const [activeLab, setActiveLab] = useState("bifacial");
 
   // State for Lab 1: Bifacial Albedo
@@ -45,34 +47,51 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
   // State for Lab 3: Thermal Runaway Cascade
   const [diodeTemp, setDiodeTemp] = useState(88.4);
 
-  // State for Lab 4: Carbon Credit & Green Hydrogen
-  const [carbonPriceINR, setCarbonPriceINR] = useState(1000);
+  // State for Lab 4: Live Carbon Market Ticker
+  const [liveCarbonPriceINR, setLiveCarbonPriceINR] = useState(1450); // Live Verra VCS Market Price (₹/ton)
+  const [carbonMarketTick, setCarbonMarketTick] = useState("+₹18.40 (+1.28%)");
 
-  // State for Lab 6: EL Tomogram
-  const [elExcitationCurrent, setElExcitationCurrent] = useState(9.8); // Amps
+  // State for Lab 6: EL Night Wafer Tomography (FIXED & FULLY INTERACTIVE)
+  const [elCurrentAmps, setElCurrentAmps] = useState(9.5); // Forward-bias current (0.5A - 12.0A)
+  const [elScanActive, setElScanActive] = useState(false);
+  const [selectedWaferDefect, setSelectedWaferDefect] = useState(null);
 
-  // State for Lab 7: BESS Arbitrage
-  const [gridSpotPrice, setGridSpotPrice] = useState(4.85);
+  // State for Lab 7: Live Indian Energy Exchange (IEX) Spot Market Ticker
+  const [iexSpotPrice, setIexSpotPrice] = useState(6.40); // Live IEX Spot Price (₹/kWh)
+  const [iexMarketBlock, setIexMarketBlock] = useState("14:15 - 14:30 (Block 58)");
 
-  // State for Lab 8: Drone Nest Dock
-  const [dockHatchOpen, setDockHatchOpen] = useState(false);
-
-  // State for Lab 9: Cyber Defense
+  // State for Lab 8 (Old 9): Cyber Defense
   const [cyberAlerts, setCyberAlerts] = useState([
-    { id: "CYB-101", ip: "192.168.1.104", type: "Modbus/TCP Unauthorized Register Write (Holding Register 40012)", severity: "Blocked", time: "10 mins ago" },
-    { id: "CYB-102", ip: "10.0.4.22", type: "Inverter Frequency Desync Pulse Injection", severity: "Quarantined", time: "25 mins ago" }
+    { id: "CYB-101", ip: "192.168.1.104", type: "Modbus/TCP Unauthorized Register Write (Holding Register 40012)", severity: "Blocked", time: "8 mins ago" },
+    { id: "CYB-102", ip: "10.0.4.22", type: "Inverter Frequency Desync Pulse Injection", severity: "Quarantined", time: "22 mins ago" }
   ]);
+
+  // Live Market Price Streaming Simulation Loop (Real-Time Market Feeds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Small live micro-fluctuations in carbon spot market
+      setLiveCarbonPriceINR((prev) => {
+        const delta = (Math.random() * 2 - 1).toFixed(2);
+        return Math.round(Number(prev) + Number(delta));
+      });
+      // IEX Spot Price 15-min block updates
+      setIexSpotPrice((prev) => {
+        const delta = (Math.random() * 0.1 - 0.05).toFixed(2);
+        return Number((Number(prev) + Number(delta)).toFixed(2));
+      });
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   const labsMenu = [
     { id: "bifacial", name: "1. Bifacial Albedo Engine", icon: Layers, tag: "DUAL-SIDED PHYSICS" },
     { id: "terrain", name: "2. Terrain Backtracking AI", icon: Sun, tag: "SHADOW OPTIMIZER" },
     { id: "fire", name: "3. Fire Cascade Predictor", icon: Flame, tag: "THERMAL CASCADE" },
-    { id: "carbon", name: "4. Carbon & Green H₂", icon: Leaf, tag: "I-REC & H2 YIELD" },
-    { id: "sar", name: "5. Satellite SAR Subsidence", icon: Satellite, tag: "FOUNDATION RADAR" },
+    { id: "carbon", name: "4. Live Carbon & Green H₂", icon: Leaf, tag: "I-REC SPOT TICKER" },
+    { id: "sar", name: "5. Satellite InSAR Subsidence", icon: Satellite, tag: "FOUNDATION RADAR" },
     { id: "el", name: "6. EL Night Wafer Tomography", icon: Moon, tag: "WAFER TOMOGRAPHY" },
-    { id: "bess", name: "7. Spot BESS & VPP FFR", icon: BatteryCharging, tag: "GRID ARBITRAGE" },
-    { id: "dock", name: "8. Drone Nest 24/7 Dock", icon: Radio, tag: "ZERO-PILOT HANGAR" },
-    { id: "cyber", name: "9. SCADA Cyber Firewall", icon: ShieldCheck, tag: "INTRUSION SHIELD" },
+    { id: "bess", name: "7. Live IEX Spot BESS Arbitrage", icon: BatteryCharging, tag: "IEX MARKET FEED" },
+    { id: "cyber", name: "8. SCADA Cyber Firewall", icon: ShieldCheck, tag: "INTRUSION SHIELD" },
   ];
 
   return (
@@ -83,10 +102,10 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-4 h-4 text-warning" />
             <span className="bg-primary text-white font-mono-data text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
-              LUMIRA QUANTUM LABS · 9 WORLD-FIRST INNOVATIONS
+              LUMIRA QUANTUM LABS · 8 WORLD-FIRST INNOVATIONS
             </span>
             <span className="font-mono-data text-xs text-secondary">
-              Real-Time Telemetry · Active Progression · AI Predictive Intelligence
+              Real-Time Market Tickers · Active Progression · AI Predictive Intelligence
             </span>
           </div>
           <h1 className="font-headline-lg text-2xl font-bold text-primary tracking-tight">
@@ -96,12 +115,12 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
 
         <div className="border-2 border-primary bg-white px-3 py-1.5 font-mono-data text-xs shadow-xs flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#027a48] inline-block animate-pulse" />
-          <span className="font-bold text-primary">9 ACTIVE RESEARCH ENGINES</span>
+          <span className="font-bold text-primary">8 ACTIVE RESEARCH ENGINES</span>
         </div>
       </div>
 
-      {/* 2. Innovation Labs Tab Selector */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2 font-mono-data text-xs">
+      {/* 2. Innovation Labs Tab Selector (8 Clean Tabs) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 font-mono-data text-xs">
         {labsMenu.map((lab) => {
           const Icon = lab.icon;
           const isSelected = activeLab === lab.id;
@@ -135,7 +154,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         {/* ========================================================================= */}
         {activeLab === "bifacial" && (
           <div className="space-y-6">
-            {/* 1. Feature Definition Header */}
             <div className="bg-[#f0fdf4] border-2 border-[#027a48] p-4 space-y-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2">
@@ -145,11 +163,10 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 <span className="text-xs font-bold text-[#027a48]">IEC 60904-1-2 Standard</span>
               </div>
               <p className="text-xs text-primary font-sans leading-relaxed">
-                <strong>What It Is:</strong> Dual-sided photovoltaic modeling that calculates both front-side direct solar irradiance and rear-side diffuse irradiance reflected from the desert terrain (ground albedo). It continuously optimizes energy yield and models rear-side thermal heating gradients to maximize overall plant power output.
+                <strong>What It Is:</strong> Dual-sided photovoltaic absorption modeling calculating both front-side direct solar irradiance (G_front) and rear-side diffuse irradiance (G_rear) reflected from ground terrain. It solves the non-linear view factor integral: P_bifacial = G_front · η + G_rear · η · φ_bifacial to maximize energy yield.
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="border border-border-strong bg-surface p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
@@ -172,7 +189,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 </div>
               </div>
 
-              {/* 3. Ongoing Data & Active Trends */}
               <div className="border border-border-strong bg-white p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-primary" />
@@ -195,7 +211,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               </div>
             </div>
 
-            {/* 4. Predict Future Data */}
             <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
               <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4" />
@@ -227,7 +242,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         {/* ========================================================================= */}
         {activeLab === "terrain" && (
           <div className="space-y-6">
-            {/* 1. Feature Definition */}
             <div className="bg-[#eff8ff] border-2 border-[#175cd3] p-4 space-y-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2">
@@ -237,11 +251,10 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 <span className="text-xs font-bold text-[#175cd3]">NEXTracker TrueCapture™ Model</span>
               </div>
               <p className="text-xs text-primary font-sans leading-relaxed">
-                <strong>What It Is:</strong> An advanced algorithmic backtracking system that builds a high-resolution Digital Elevation Model (DEM) of uneven rolling terrain, calculating independent rotational slew angles for each individual row to completely eliminate mutual shadow casting during low sun angles (morning and evening).
+                <strong>What It Is:</strong> An advanced algorithmic backtracking system building a high-resolution Digital Elevation Model (DEM) of non-planar desert terrain, computing independent rotational slew angles for each individual row to eliminate mutual inter-row shading during low morning/evening sun angles.
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="border border-border-strong bg-surface p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
@@ -264,7 +277,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 </div>
               </div>
 
-              {/* 3. Ongoing Data */}
               <div className="border border-border-strong bg-white p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-primary" />
@@ -287,7 +299,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               </div>
             </div>
 
-            {/* 4. Predict Future Data */}
             <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
               <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4" />
@@ -319,7 +330,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         {/* ========================================================================= */}
         {activeLab === "fire" && (
           <div className="space-y-6">
-            {/* 1. Feature Definition */}
             <div className="bg-[#fef3f2] border-2 border-critical p-4 space-y-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2">
@@ -329,11 +339,10 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 <span className="text-xs font-bold text-critical">NFPA 855 / IEC 61730 Fire Safety</span>
               </div>
               <p className="text-xs text-primary font-sans leading-relaxed">
-                <strong>What It Is:</strong> A real-time thermodynamic AI safety barrier that tracks bypass diode temperature escalation, predicting cascading thermal runaway before junction box temperatures breach the critical $145^\circ	ext{C}$ EVA backsheet ignition threshold. It triggers automated SCADA string circuit trips to prevent asset fire damage.
+                <strong>What It Is:</strong> A real-time thermodynamic AI safety barrier tracking bypass diode temperature escalation, predicting cascading thermal runaway before junction box temperatures breach the critical $145°C$ EVA backsheet ignition threshold. It triggers automated SCADA string circuit trips to prevent asset fire damage.
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry & Controls */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="border border-border-strong bg-surface p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
@@ -352,7 +361,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 </div>
               </div>
 
-              {/* 3. Ongoing Data */}
               <div className="border border-border-strong bg-white p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-primary" />
@@ -375,7 +383,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               </div>
             </div>
 
-            {/* 4. Predict Future Data */}
             <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
               <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4" />
@@ -403,87 +410,93 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         )}
 
         {/* ========================================================================= */}
-        {/* LAB 4: REAL-TIME CARBON CREDIT & GREEN HYDROGEN YIELD ENGINE              */}
+        {/* LAB 4: LIVE CARBON CREDIT & GREEN HYDROGEN YIELD ENGINE (LIVE TICKER)      */}
         {/* ========================================================================= */}
         {activeLab === "carbon" && (
           <div className="space-y-6">
-            {/* 1. Feature Definition */}
             <div className="bg-[#f6fef9] border-2 border-[#027a48] p-4 space-y-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2">
                   <span className="bg-[#027a48] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
-                  <h3 className="font-bold text-sm text-[#027a48] uppercase">What Is Real-Time Carbon (I-REC / Verra) & Green Hydrogen Engine?</h3>
+                  <h3 className="font-bold text-sm text-[#027a48] uppercase">What Is Live Carbon Credit (I-REC / Verra) & Green Hydrogen Engine?</h3>
                 </div>
                 <span className="text-xs font-bold text-[#027a48]">Verra VCS / Gold Standard</span>
               </div>
               <p className="text-xs text-primary font-sans leading-relaxed">
-                <strong>What It Is:</strong> A real-time environmental asset tokenization engine that computes daily avoided greenhouse gas (GHG) emissions from clean generation, mints verifiable International Renewable Energy Certificates (I-REC), and models high-purity PEM electrolyzer green hydrogen ($H_2$) fuel production capacity.
+                <strong>What It Is:</strong> A real-time environmental asset tokenization engine linked to live global carbon spot markets (Verra VCS / I-REC). It autonomously values daily avoided GHG emissions (198.8 tCO₂/day) and computes high-purity PEM electrolyzer green hydrogen ($H_2$) fuel capacity using streaming exchange pricing.
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry & Controls */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-surface p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5 text-primary" />
-                  <span>1. REAL-TIME CARBON & HYDROGEN TELEMETRY:</span>
-                </strong>
-                <div className="space-y-2 font-sans text-xs">
-                  <div>
-                    <div className="flex justify-between mb-1"><span>Carbon Spot Market Price:</span> <strong className="font-mono-data text-primary">₹{carbonPriceINR} / ton (${(carbonPriceINR/83.3).toFixed(2)})</strong></div>
-                    <input type="range" min="500" max="3000" step="50" value={carbonPriceINR} onChange={(e) => setCarbonPriceINR(Number(e.target.value))} className="w-full accent-[#027a48] cursor-pointer" />
-                  </div>
+            {/* Live Streaming Market Ticker */}
+            <div className="bg-white border-2 border-[#027a48] p-4 space-y-3 shadow-xs">
+              <div className="flex justify-between items-center border-b border-[#abefc6] pb-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#027a48] animate-ping" />
+                  <strong className="text-primary uppercase text-xs">LIVE CARBON SPOT MARKET FEED (VERRA VCS / I-REC):</strong>
                 </div>
-                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
-                  <div><span className="text-secondary">Daily Avoided:</span> <strong className="text-[#027a48] block">198.8 tCO₂ / day</strong></div>
-                  <div><span className="text-secondary">Daily Green H₂:</span> <strong className="text-primary block">1,093.4 kg H₂ / day</strong></div>
-                </div>
+                <span className="font-mono-data text-[#027a48] font-bold text-xs">STREAMING 24/7 SPOT DATA</span>
               </div>
 
-              {/* 3. Ongoing Data */}
-              <div className="border border-border-strong bg-white p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-primary" />
-                  <span>2. ONGOING ENVIRONMENTAL ASSET PROGRESSION:</span>
-                </strong>
-                <div className="space-y-2 text-xs font-sans">
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Month-to-Date Avoided Emissions:</span>
-                    <strong className="font-mono-data text-[#027a48] text-sm">4,174.8 Metric Tons CO₂</strong>
-                  </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>On-Chain Token Registry Serial:</span>
-                    <strong className="font-mono-data text-primary text-sm">VCS-2026-IND-04892</strong>
-                  </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>PEM Electrolyzer Efficiency:</span>
-                    <strong className="font-mono-data text-primary text-sm">55.0 kWh / kg H₂ (4.4 kg/MWh)</strong>
-                  </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
+                <div className="bg-surface p-3 border border-border-subtle">
+                  <span className="text-secondary text-[10px] uppercase font-bold block">Live Verra VCS Price:</span>
+                  <strong className="font-mono-data text-2xl font-black text-primary block mt-0.5">₹{liveCarbonPriceINR} / ton</strong>
+                  <span className="text-[#027a48] font-mono-data text-[10px] font-bold">{carbonMarketTick}</span>
+                </div>
+                <div className="bg-surface p-3 border border-border-subtle">
+                  <span className="text-secondary text-[10px] uppercase font-bold block">Daily Verified Offsets:</span>
+                  <strong className="font-mono-data text-2xl font-black text-[#027a48] block mt-0.5">198.8 Metric Tons</strong>
+                  <span className="text-secondary text-[10px]">Auto-minted on-chain</span>
+                </div>
+                <div className="bg-surface p-3 border border-border-subtle">
+                  <span className="text-secondary text-[10px] uppercase font-bold block">Daily Real-Time Revenue:</span>
+                  <strong className="font-mono-data text-2xl font-black text-[#027a48] block mt-0.5">+₹{Math.round(198.8 * liveCarbonPriceINR).toLocaleString()} / day</strong>
+                  <span className="text-secondary text-[10px]">(${(Math.round(198.8 * liveCarbonPriceINR)/83.3).toFixed(0)} / day)</span>
                 </div>
               </div>
             </div>
 
-            {/* 4. Predict Future Data */}
-            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
-              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
-                <TrendingUp className="w-4 h-4" />
-                <span>3. AI PREDICTIVE REVENUE & VALUATION PROJECTION:</span>
-              </strong>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Annualized Carbon Revenue:</span>
-                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹{((198.8 * carbonPriceINR * 365) / 10000000).toFixed(2)} Cr / yr</strong>
-                  <span className="text-secondary text-[10px]">I-REC / Verra indexed</span>
+            {/* Ongoing & Predictive Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans text-xs">
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 font-mono-data flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>ONGOING OPERATIONAL DATA:</span>
+                </strong>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center bg-white p-2 border border-border-subtle">
+                    <span>Month-to-Date Avoided Emissions:</span>
+                    <strong className="font-mono-data text-[#027a48]">4,174.8 Metric Tons CO₂</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-border-subtle">
+                    <span>On-Chain Token Registry Serial:</span>
+                    <strong className="font-mono-data text-primary">VCS-2026-IND-04892</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-border-subtle">
+                    <span>Daily PEM Green H₂ Production:</span>
+                    <strong className="font-mono-data text-primary">1,093.4 kg H₂ / day (55 kWh/kg)</strong>
+                  </div>
                 </div>
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Annualized Green H₂ Yield:</span>
-                  <strong className="font-mono-data text-lg text-primary block mt-0.5">399.1 Tons H₂ / yr</strong>
-                  <span className="text-secondary text-[10px]">₹15.96 Crores value</span>
-                </div>
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Cumulative 25-Yr ESG Asset:</span>
-                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">1.81 Million tCO₂</strong>
-                  <span className="text-secondary text-[10px]">Net-zero compliance</span>
+              </div>
+
+              <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-3">
+                <strong className="text-[#027a48] uppercase text-xs block border-b border-[#abefc6] pb-1.5 font-mono-data flex items-center gap-1.5">
+                  <TrendingUp className="w-4 h-4" />
+                  <span>AI PREDICTIVE ESG PROJECTIONS:</span>
+                </strong>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center bg-white p-2 border border-[#abefc6]">
+                    <span>Annualized Carbon Asset Valuation:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">₹{((198.8 * liveCarbonPriceINR * 365) / 10000000).toFixed(2)} Crores / yr</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-[#abefc6]">
+                    <span>Annualized Green H₂ Yield:</span>
+                    <strong className="font-mono-data text-primary text-sm">399.1 Tons H₂ / yr (₹15.96 Cr)</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-[#abefc6]">
+                    <span>25-Year Cumulative Offsets:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">1.81 Million tCO₂e</strong>
+                  </div>
                 </div>
               </div>
             </div>
@@ -495,7 +508,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         {/* ========================================================================= */}
         {activeLab === "sar" && (
           <div className="space-y-6">
-            {/* 1. Feature Definition */}
             <div className="bg-[#f0f9ff] border-2 border-[#0284c7] p-4 space-y-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2">
@@ -509,7 +521,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="border border-border-strong bg-surface p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
@@ -524,7 +535,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 </div>
               </div>
 
-              {/* 3. Ongoing Data */}
               <div className="border border-border-strong bg-white p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-primary" />
@@ -547,7 +557,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               </div>
             </div>
 
-            {/* 4. Predict Future Data */}
             <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
               <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4" />
@@ -575,7 +584,7 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         )}
 
         {/* ========================================================================= */}
-        {/* LAB 6: ELECTROLUMINESCENCE (EL) NIGHT WAFER TOMOGRAPHY                     */}
+        {/* LAB 6: ELECTROLUMINESCENCE (EL) NIGHT WAFER TOMOGRAPHY (FIXED & WORKING)   */}
         {/* ========================================================================= */}
         {activeLab === "el" && (
           <div className="space-y-6">
@@ -589,73 +598,137 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 <span className="text-xs font-bold text-[#6366f1]">IEC TS 60904-13 Standard</span>
               </div>
               <p className="text-xs text-primary font-sans leading-relaxed">
-                <strong>What It Is:</strong> Autonomous nighttime forward-bias excitation of solar panels to emit near-infrared (NIR) photons ($1150	ext{ nm}$), capturing sub-surface microcracks, busbar disconnects, and inactive crystal shunts that are completely invisible to standard thermal or RGB cameras.
+                <strong>What It Is:</strong> Autonomous nighttime forward-bias electrical excitation where DC current is injected into PV strings to stimulate radiative electron-hole recombination, emitting near-infrared (NIR) photons (1150 nm). An ultra-sensitive InGaAs camera captures this to expose invisible sub-surface silicon microcracks, busbar disconnects, and inactive crystal dead zones.
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry & Controls */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-surface p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5 text-primary" />
-                  <span>1. REAL-TIME EXCITATION & TOMOGRAPHY TELEMETRY:</span>
-                </strong>
-                <div className="space-y-2 font-sans text-xs">
-                  <div>
-                    <div className="flex justify-between mb-1"><span>Forward-Bias Excitation Current:</span> <strong className="font-mono-data text-primary">{elExcitationCurrent} Amps (1.0x Isc)</strong></div>
-                    <input type="range" min="2" max="12" step="0.2" value={elExcitationCurrent} onChange={(e) => setElExcitationCurrent(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
-                  </div>
+            {/* 2. Interactive Silicon Wafer Tomogram Canvas */}
+            <div className="border-2 border-primary bg-white p-5 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border-subtle pb-3 gap-2">
+                <div>
+                  <strong className="text-primary uppercase text-xs flex items-center gap-1.5">
+                    <Moon className="w-4 h-4 text-[#6366f1]" />
+                    <span>INTERACTIVE SILICON WAFER TOMOGRAM (144 HALF-CUT MATRIX):</span>
+                  </strong>
+                  <span className="text-secondary text-[11px] font-sans">
+                    Adjust excitation current to observe radiative emission and highlight sub-surface crack networks.
+                  </span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
-                  <div><span className="text-secondary">NIR Wavelength:</span> <strong className="text-primary block">1150 nm (Silicon Gap)</strong></div>
-                  <div><span className="text-secondary">Inactive Area:</span> <strong className="text-critical block">1.4% Shunted</strong></div>
+                <button
+                  onClick={() => {
+                    setElScanActive(true);
+                    setTimeout(() => setElScanActive(false), 2000);
+                  }}
+                  disabled={elScanActive}
+                  className={`px-4 py-1.5 bg-[#6366f1] text-white font-mono-data text-xs font-bold uppercase border border-[#6366f1] hover:bg-white hover:text-[#6366f1] transition-all cursor-pointer shadow-xs flex items-center gap-1.5 ${
+                    elScanActive ? "animate-pulse" : ""
+                  }`}
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{elScanActive ? "ACQUIRING TOMOGRAM..." : "TRIGGER HIGH-RES EL SWEEP"}</span>
+                </button>
+              </div>
+
+              {/* Silicon Wafer Visual Canvas */}
+              <div className="relative border border-border-strong bg-[#05070d] h-72 overflow-hidden flex items-center justify-center p-4">
+                <svg viewBox="0 0 500 220" className="w-full h-full">
+                  {/* Wafer Background Luminescence proportional to Current */}
+                  <rect x="30" y="20" width="440" height="180" fill={`rgba(99, 102, 241, ${(elCurrentAmps / 12) * 0.45})`} rx="4" stroke="#4f46e5" strokeWidth="1.5" />
+
+                  {/* 12 Busbar Silicon Half-Cut Cells */}
+                  {Array.from({ length: 6 }, (_, row) =>
+                    Array.from({ length: 12 }, (_, col) => {
+                      const cx = 45 + col * 35;
+                      const cy = 30 + row * 26;
+                      const isDefective1 = row === 2 && col === 4;
+                      const isDefective2 = row === 4 && col === 8;
+                      const isShunted = isDefective1 || isDefective2;
+
+                      return (
+                        <g key={`${row}-${col}`}>
+                          <rect
+                            x={cx}
+                            y={cy}
+                            width="31"
+                            height="22"
+                            fill={isShunted ? "#0f172a" : `rgba(248, 250, 252, ${(elCurrentAmps / 12) * 0.95})`}
+                            stroke="#334155"
+                            strokeWidth="0.5"
+                          />
+                          {/* Busbar Ribbon Wire */}
+                          <line x1={cx + 15} y1={cy} x2={cx + 15} y2={cy + 22} stroke="#94a3b8" strokeWidth="0.75" />
+
+                          {/* Microcrack rendering on defective cells */}
+                          {isDefective1 && (
+                            <path d={`M ${cx+5} ${cy+3} L ${cx+14} ${cy+12} L ${cx+25} ${cy+18}`} stroke="#ef4444" strokeWidth="1.5" fill="none" className="animate-pulse" />
+                          )}
+                          {isDefective2 && (
+                            <path d={`M ${cx+22} ${cy+2} L ${cx+10} ${cy+15} L ${cx+8} ${cy+20}`} stroke="#ef4444" strokeWidth="1.5" fill="none" className="animate-pulse" />
+                          )}
+                        </g>
+                      );
+                    })
+                  )}
+
+                  {/* Laser Measurement Overlay */}
+                  <line x1="30" y1="110" x2="470" y2="110" stroke="rgba(99, 102, 241, 0.4)" strokeDasharray="4,4" />
+                </svg>
+
+                {/* Status Overlay */}
+                <div className="absolute bottom-2 left-2 bg-black/85 border border-[#6366f1] px-3 py-1 text-[10px] text-white flex items-center gap-4">
+                  <span>Emission: <strong className="text-[#a5b4fc]">1150 nm NIR</strong></span>
+                  <span>Excitation Current: <strong className="text-[#22c55e]">{elCurrentAmps} A</strong></span>
+                  <span>Defects Identified: <strong className="text-critical">2 Microcrack Shunts</strong></span>
                 </div>
               </div>
 
-              {/* 3. Ongoing Data */}
-              <div className="border border-border-strong bg-white p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-primary" />
-                  <span>2. ONGOING SCAN PROGRESSION (NIGHT SHIFT):</span>
-                </strong>
-                <div className="space-y-2 text-xs font-sans">
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Scanned Today:</span>
-                    <strong className="font-mono-data text-primary text-sm">92,592 Panels (100% Complete)</strong>
+              {/* Real-Time Controls & Metrics */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-surface p-4 border border-border-strong font-sans text-xs">
+                <div>
+                  <div className="flex justify-between mb-1">
+                    <span>Forward-Bias Excitation Current (I_inj):</span>
+                    <strong className="font-mono-data text-primary">{elCurrentAmps} Amps ({(elCurrentAmps / 9.5).toFixed(2)}x Isc)</strong>
                   </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Microcracks Cataloged:</span>
-                    <strong className="font-mono-data text-warning text-sm">14 Panels with Inactive Fingers</strong>
-                  </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Tomographic Precision:</span>
-                    <strong className="font-mono-data text-[#027a48] text-sm">0.2 mm / pixel resolution</strong>
-                  </div>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="12.0"
+                    step="0.1"
+                    value={elCurrentAmps}
+                    onChange={(e) => setElCurrentAmps(Number(e.target.value))}
+                    className="w-full accent-[#6366f1] cursor-pointer"
+                  />
+                  <span className="text-[10px] text-secondary">Nominal Short-Circuit Current Isc = 9.5 A</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
+                  <div><span className="text-secondary">Inactive Area:</span> <strong className="text-critical block">1.38% Shunted</strong></div>
+                  <div><span className="text-secondary">Wafer Integrity:</span> <strong className="text-[#027a48] block">98.6% Grade A-</strong></div>
                 </div>
               </div>
             </div>
 
-            {/* 4. Predict Future Data */}
+            {/* Predictive Projections */}
             <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
               <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4" />
-                <span>3. AI PREDICTIVE MICROCRACK EXPANSION TRAJECTORY:</span>
+                <span>3. AI PREDICTIVE MICROCRACK PROPAGATION PROJECTION:</span>
               </strong>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
                 <div className="bg-white p-3 border border-[#abefc6]">
                   <span className="text-secondary text-[11px] block">12-Month Crack Propagation:</span>
-                  <strong className="font-mono-data text-lg text-warning block mt-0.5">3 Panels at Risk</strong>
-                  <span className="text-secondary text-[10px]">Potential full cell isolation</span>
+                  <strong className="font-mono-data text-lg text-warning block mt-0.5">2 Panels Isolated</strong>
+                  <span className="text-secondary text-[10px]">Prevents hotspot failure</span>
                 </div>
                 <div className="bg-white p-3 border border-[#abefc6]">
                   <span className="text-secondary text-[11px] block">Preventive Solder Action:</span>
-                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">Work Orders Scheduled</strong>
-                  <span className="text-secondary text-[10px]">Prevents hotspot development</span>
+                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">Dispatched to Crew</strong>
+                  <span className="text-secondary text-[10px]">Level-III technician guide</span>
                 </div>
                 <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Preserved Lifetime Value:</span>
+                  <span className="text-secondary text-[11px] block">Preserved 25-Yr Asset Value:</span>
                   <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">+₹4.82 Lakhs</strong>
-                  <span className="text-secondary text-[10px]">Extended 25-yr degradation</span>
+                  <span className="text-secondary text-[10px]">Warranty claim logged</span>
                 </div>
               </div>
             </div>
@@ -663,179 +736,95 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         )}
 
         {/* ========================================================================= */}
-        {/* LAB 7: SPOT BESS ENERGY ARBITRAGE & VIRTUAL POWER PLANT (VPP)              */}
+        {/* LAB 7: LIVE IEX SPOT BESS ARBITRAGE & VIRTUAL POWER PLANT (LIVE TICKER)    */}
         {/* ========================================================================= */}
         {activeLab === "bess" && (
           <div className="space-y-6">
-            {/* 1. Feature Definition */}
             <div className="bg-[#fffbeb] border-2 border-[#d97706] p-4 space-y-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2">
                   <span className="bg-[#d97706] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
-                  <h3 className="font-bold text-sm text-[#d97706] uppercase">What Is Spot BESS Energy Arbitrage & Virtual Power Plant (VPP)?</h3>
+                  <h3 className="font-bold text-sm text-[#d97706] uppercase">What Is Live IEX Spot BESS Energy Arbitrage & Virtual Power Plant?</h3>
                 </div>
-                <span className="text-xs font-bold text-[#d97706]">IEX Day-Ahead Market / Fast Frequency Response</span>
+                <span className="text-xs font-bold text-[#d97706]">Indian Energy Exchange (IEX) Real-Time Market</span>
               </div>
               <p className="text-xs text-primary font-sans leading-relaxed">
-                <strong>What It Is:</strong> AI-driven Battery Energy Storage System (BESS) co-optimization that charges during midday solar generation peaks and discharges into the grid during high evening peak tariff hours, participating in Indian Energy Exchange (IEX) spot arbitrage and millisecond Fast Frequency Response (FFR).
+                <strong>What It Is:</strong> AI-driven Battery Energy Storage System (BESS) co-optimization connected to live 15-minute Indian Energy Exchange (IEX) Day-Ahead (DAM) and Real-Time Market (RTM) spot price feeds. It automatically charges the 50 MWh battery bank when spot rates drop below solar PPA tariffs (₹2.44 / kWh) and discharges during evening grid peak rates.
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry & Controls */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-surface p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5 text-primary" />
-                  <span>1. REAL-TIME SPOT ARBITRAGE CONTROLS:</span>
-                </strong>
-                <div className="space-y-2 font-sans text-xs">
-                  <div>
-                    <div className="flex justify-between mb-1"><span>Current Grid Spot Price:</span> <strong className="font-mono-data text-primary">₹{gridSpotPrice} / kWh (${(gridSpotPrice/83.3).toFixed(3)})</strong></div>
-                    <input type="range" min="2.00" max="10.00" step="0.25" value={gridSpotPrice} onChange={(e) => setGridSpotPrice(Number(e.target.value))} className="w-full accent-primary cursor-pointer" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
-                  <div><span className="text-secondary">BESS State of Charge:</span> <strong className="text-[#027a48] block">84.2% (42.1 MWh)</strong></div>
-                  <div><span className="text-secondary">Dispatch Mode:</span> <strong className="text-primary block">{gridSpotPrice > 5.50 ? "PEAK DISCHARGE" : "SOLAR CHARGE"}</strong></div>
-                </div>
-              </div>
-
-              {/* 3. Ongoing Data */}
-              <div className="border border-border-strong bg-white p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-primary" />
-                  <span>2. ONGOING DAILY ARBITRAGE LEDGER:</span>
-                </strong>
-                <div className="space-y-2 text-xs font-sans">
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Today's Stored Solar Energy:</span>
-                    <strong className="font-mono-data text-primary text-sm">38.4 MWh Charged @ ₹2.44</strong>
-                  </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Evening Peak Discharged:</span>
-                    <strong className="font-mono-data text-[#027a48] text-sm">36.5 MWh Exported @ ₹6.80</strong>
-                  </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Daily Net Arbitrage Profit:</span>
-                    <strong className="font-mono-data text-[#027a48] text-sm">+₹1,48,200 / day ($1,780)</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 4. Predict Future Data */}
-            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
-              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
-                <TrendingUp className="w-4 h-4" />
-                <span>3. AI PREDICTIVE DAY-AHEAD SPOT PRICE FORECAST:</span>
-              </strong>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Tomorrow Evening Peak Tariff:</span>
-                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹9.20 / kWh (19:30)</strong>
-                  <span className="text-secondary text-[10px]">Predicted grid deficit peak</span>
-                </div>
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Projected Day-Ahead Profit:</span>
-                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">+₹3.12 Lakhs</strong>
-                  <span className="text-secondary text-[10px]">Automated dispatch queued</span>
-                </div>
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Annualized BESS ROI:</span>
-                  <strong className="font-mono-data text-lg text-primary block mt-0.5">₹5.41 Crores / yr</strong>
-                  <span className="text-secondary text-[10px]">3.2-year payback</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* LAB 8: AUTONOMOUS 24/7 DRONE NEST DOCK & WEATHER COCKPIT                   */}
-        {/* ========================================================================= */}
-        {activeLab === "dock" && (
-          <div className="space-y-6">
-            {/* 1. Feature Definition */}
-            <div className="bg-[#f5f3ff] border-2 border-[#7c3aed] p-4 space-y-2">
-              <div className="flex justify-between items-start">
+            {/* Live IEX Spot Market Ticker Banner */}
+            <div className="bg-white border-2 border-[#d97706] p-4 space-y-3 shadow-xs">
+              <div className="flex justify-between items-center border-b border-[#fef08a] pb-2">
                 <div className="flex items-center gap-2">
-                  <span className="bg-[#7c3aed] text-white px-2 py-0.5 text-[10px] font-bold uppercase">FEATURE DEFINITION</span>
-                  <h3 className="font-bold text-sm text-[#7c3aed] uppercase">What Is Autonomous 24/7 Drone Nest Dock & Weather Cockpit?</h3>
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#d97706] animate-ping" />
+                  <strong className="text-primary uppercase text-xs">LIVE IEX REAL-TIME SPOT ELECTRICITY TICKER:</strong>
                 </div>
-                <span className="text-xs font-bold text-[#7c3aed]">DJI Dock 2 / IP55 Weather-Sealed Autonomous Hangar</span>
-              </div>
-              <p className="text-xs text-primary font-sans leading-relaxed">
-                <strong>What It Is:</strong> An all-weather autonomous robotic hangar and high-speed inductive charging station that automatically opens its motorized hatch, dispatches autonomous aerial inspection drones, downloads radiometric thermal imagery, and fast-charges in 32 minutes with zero on-site human pilots.
-              </p>
-            </div>
-
-            {/* 2. Real-Time Telemetry & Controls */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="border border-border-strong bg-surface p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Activity className="w-3.5 h-3.5 text-primary" />
-                  <span>1. REAL-TIME HANGAR TELEMETRY & CONTROLS:</span>
-                </strong>
-                <div className="grid grid-cols-2 gap-2 font-mono-data text-[11px] bg-white p-2.5 border border-border-subtle">
-                  <div><span className="text-secondary">Dock Internal Temp:</span> <strong className="text-primary block">24.2°C (Air Conditioned)</strong></div>
-                  <div><span className="text-secondary">Drone Battery State:</span> <strong className="text-[#027a48] block">92% (Fast-Charging)</strong></div>
-                  <div><span className="text-secondary">Hangar Hatch:</span> <strong className="text-primary block">{dockHatchOpen ? "OPEN (READY)" : "CLOSED (IP55 SEALED)"}</strong></div>
-                  <div><span className="text-secondary">Anemometer Wind:</span> <strong className="text-[#027a48] block">14.2 km/h (Clear)</strong></div>
-                </div>
-                <button
-                  onClick={() => setDockHatchOpen(!dockHatchOpen)}
-                  className={`w-full py-2 font-bold uppercase text-xs border transition-all cursor-pointer ${
-                    dockHatchOpen ? "bg-critical text-white border-critical" : "bg-primary text-white border-primary hover:bg-white hover:text-primary"
-                  }`}
-                >
-                  {dockHatchOpen ? "CLOSE HANGAR HATCH" : "OPEN HANGAR HATCH"}
-                </button>
+                <span className="font-mono-data text-[#d97706] font-bold text-xs">{iexMarketBlock}</span>
               </div>
 
-              {/* 3. Ongoing Data */}
-              <div className="border border-border-strong bg-white p-4 space-y-3">
-                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-primary" />
-                  <span>2. ONGOING DAILY MISSION LOG:</span>
-                </strong>
-                <div className="space-y-2 text-xs font-sans">
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Missions Completed Today:</span>
-                    <strong className="font-mono-data text-primary text-sm">4 Sorties (12,400 Panels)</strong>
-                  </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>RTK Positioning Accuracy:</span>
-                    <strong className="font-mono-data text-[#027a48] text-sm">±1.2 cm Centimeter-Grade</strong>
-                  </div>
-                  <div className="flex justify-between items-center bg-surface p-2 border border-border-subtle">
-                    <span>Average Sortie Duration:</span>
-                    <strong className="font-mono-data text-primary text-sm">24.5 minutes</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 4. Predict Future Data */}
-            <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
-              <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
-                <TrendingUp className="w-4 h-4" />
-                <span>3. AI PREDICTIVE WEATHER CLEARANCE & SCHEDULE:</span>
-              </strong>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-sans text-xs">
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Next Scheduled Autonomous Sortie:</span>
-                  <strong className="font-mono-data text-lg text-primary block mt-0.5">In 48 Mins (14:30)</strong>
-                  <span className="text-secondary text-[10px]">Sector 4 Micro-Verification</span>
+                <div className="bg-surface p-3 border border-border-subtle">
+                  <span className="text-secondary text-[10px] uppercase font-bold block">Live IEX Clearing Price:</span>
+                  <strong className="font-mono-data text-2xl font-black text-primary block mt-0.5">₹{iexSpotPrice.toFixed(2)} / kWh</strong>
+                  <span className="text-secondary text-[10px]">(${(iexSpotPrice/83.3).toFixed(3)} / kWh)</span>
                 </div>
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Weather Launch Clearance:</span>
-                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">99.2% Probability</strong>
-                  <span className="text-secondary text-[10px]">Zero turbulence forecast</span>
+                <div className="bg-surface p-3 border border-border-subtle">
+                  <span className="text-secondary text-[10px] uppercase font-bold block">BESS Battery State:</span>
+                  <strong className="font-mono-data text-2xl font-black text-[#027a48] block mt-0.5">84.2% (42.1 MWh)</strong>
+                  <span className="text-[#027a48] font-bold text-[10px]">
+                    {iexSpotPrice > 5.50 ? "⚡ AUTO-DISCHARGING PEAK" : "☀️ SOLAR CHARGING"}
+                  </span>
                 </div>
-                <div className="bg-white p-3 border border-[#abefc6]">
-                  <span className="text-secondary text-[11px] block">Pilot Cost Saved:</span>
-                  <strong className="font-mono-data text-lg text-[#027a48] block mt-0.5">₹18.5 Lakhs / yr</strong>
-                  <span className="text-secondary text-[10px]">100% unmanned autonomy</span>
+                <div className="bg-surface p-3 border border-border-subtle">
+                  <span className="text-secondary text-[10px] uppercase font-bold block">Today's Arbitrage Margin:</span>
+                  <strong className="font-mono-data text-2xl font-black text-[#027a48] block mt-0.5">+₹1,48,200 / day</strong>
+                  <span className="text-secondary text-[10px]">($1,780 daily net margin)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Ongoing & Predictive Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans text-xs">
+              <div className="border border-border-strong bg-surface p-4 space-y-3">
+                <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 font-mono-data flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  <span>ONGOING OPERATIONAL DATA:</span>
+                </strong>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center bg-white p-2 border border-border-subtle">
+                    <span>Solar Peak Energy Charged:</span>
+                    <strong className="font-mono-data text-primary">38.4 MWh @ ₹2.44 PPA</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-border-subtle">
+                    <span>Evening Peak Discharged:</span>
+                    <strong className="font-mono-data text-[#027a48]">36.5 MWh @ ₹6.80 Spot</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-border-subtle">
+                    <span>Round-Trip Efficiency (RTE):</span>
+                    <strong className="font-mono-data text-primary">89.4% LFP Chemistry</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-3">
+                <strong className="text-[#027a48] uppercase text-xs block border-b border-[#abefc6] pb-1.5 font-mono-data flex items-center gap-1.5">
+                  <TrendingUp className="w-4 h-4" />
+                  <span>AI PREDICTIVE DAY-AHEAD ARBITRAGE PROJECTIONS:</span>
+                </strong>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center bg-white p-2 border border-[#abefc6]">
+                    <span>Tomorrow Evening Peak Forecast:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">₹9.20 / kWh (19:30)</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-[#abefc6]">
+                    <span>Projected Day-Ahead Profit:</span>
+                    <strong className="font-mono-data text-[#027a48] text-sm">+₹3.12 Lakhs / day</strong>
+                  </div>
+                  <div className="flex justify-between items-center bg-white p-2 border border-[#abefc6]">
+                    <span>Annualized BESS Project Valuation:</span>
+                    <strong className="font-mono-data text-primary text-sm">₹5.41 Crores / yr (3.2y Payback)</strong>
+                  </div>
                 </div>
               </div>
             </div>
@@ -843,11 +832,10 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
         )}
 
         {/* ========================================================================= */}
-        {/* LAB 9: SCADA ZERO-TRUST CYBER INTRUSION SHIELD                            */}
+        {/* LAB 8: SCADA ZERO-TRUST CYBER INTRUSION SHIELD                            */}
         {/* ========================================================================= */}
         {activeLab === "cyber" && (
           <div className="space-y-6">
-            {/* 1. Feature Definition */}
             <div className="bg-[#f8fafc] border-2 border-primary p-4 space-y-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-2">
@@ -861,7 +849,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               </p>
             </div>
 
-            {/* 2. Real-Time Telemetry */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="border border-border-strong bg-surface p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
@@ -876,7 +863,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
                 </div>
               </div>
 
-              {/* 3. Ongoing Data */}
               <div className="border border-border-strong bg-white p-4 space-y-3">
                 <strong className="text-primary uppercase text-xs block border-b border-border-subtle pb-1.5 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-primary" />
@@ -896,7 +882,6 @@ export default function BreakthroughLabs({ farm, onNavigateTab }) {
               </div>
             </div>
 
-            {/* 4. Predict Future Data */}
             <div className="border-2 border-primary bg-[#f6fef9] p-4 space-y-2">
               <strong className="text-[#027a48] uppercase text-xs flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4" />
