@@ -23,7 +23,9 @@ import {
   Compass,
   BarChart3,
   MapPin,
-  Check
+  Check,
+  Leaf,
+  Sparkles
 } from "lucide-react";
 
 export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
@@ -207,7 +209,96 @@ export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
         </div>
       </div>
 
-      {/* 4. Live 6-Inverter Fleet Status Grid */}
+      {/* 4. [NEW INTEGRATION] Real-Time Carbon Credit Ledger (I-REC) & Green Hydrogen Engine */}
+      <div className="border-2 border-primary bg-white p-6 space-y-4 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border-subtle pb-3 gap-2">
+          <div className="flex items-center gap-2">
+            <Leaf className="w-5 h-5 text-[#027a48]" />
+            <div>
+              <h3 className="font-headline-md text-xs font-bold uppercase tracking-wider text-primary">
+                REAL-TIME CARBON CREDIT LEDGER (I-REC / VERRA) & GREEN HYDROGEN YIELD ENGINE
+              </h3>
+              <p className="text-[11px] text-secondary font-sans">
+                Continuous tokenization of clean generation into verifiable environmental asset credits & PEM electrolysis yields
+              </p>
+            </div>
+          </div>
+          <button 
+            onClick={() => onNavigateTab("breakthrough")}
+            className="text-[10px] font-mono-data text-primary font-bold hover:underline flex items-center gap-1 cursor-pointer bg-surface px-2.5 py-1 border border-border-strong self-start sm:self-auto"
+          >
+            <span>OPEN QUANTUM LABS →</span>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-mono-data text-xs">
+          {/* Carbon Offsets & Monetization Box */}
+          <div className="bg-[#f6fef9] p-5 border-2 border-[#027a48] space-y-3">
+            <div className="flex justify-between items-center border-b border-[#abefc6] pb-2">
+              <strong className="text-[#027a48] text-xs uppercase font-bold flex items-center gap-1.5">
+                <Leaf className="w-4 h-4" />
+                <span>VERIFIED CARBON OFFSET ASSETS (I-REC / VERRA):</span>
+              </strong>
+              <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2 py-0.5 text-[9px] font-bold">
+                198.8 TONS CO₂ / DAY
+              </span>
+            </div>
+            
+            <div className="space-y-2 text-xs font-sans text-primary">
+              <div className="flex justify-between items-center">
+                <span>Daily Carbon Emissions Avoided:</span>
+                <strong className="font-mono-data text-2xl font-black text-[#027a48]">198.8 Metric Tons</strong>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Carbon Credit Market Index (I-REC):</span>
+                <strong className="font-mono-data text-primary">₹1,000 / Ton ($12.00 / tCO₂e)</strong>
+              </div>
+              <div className="flex justify-between items-center border-t border-[#abefc6] pt-1.5">
+                <span>Daily Carbon Credit Revenue:</span>
+                <strong className="font-mono-data text-xl font-bold text-[#027a48]">+₹1,98,800 / day ($2,385)</strong>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Annualized Carbon Asset Valuation:</span>
+                <strong className="font-mono-data text-[#027a48] font-bold">₹7.25 Crores / yr ($870K)</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* Green Hydrogen Electrolyzer Box */}
+          <div className="bg-surface p-5 border border-border-strong space-y-3">
+            <div className="flex justify-between items-center border-b border-border-subtle pb-2">
+              <strong className="text-primary text-xs uppercase font-bold flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-warning" />
+                <span>PEM GREEN HYDROGEN ELECTROLYZER CAPACITY:</span>
+              </strong>
+              <span className="bg-primary text-white px-2 py-0.5 text-[9px] font-bold">
+                1,093.4 KG H₂ / DAY
+              </span>
+            </div>
+
+            <div className="space-y-2 text-xs font-sans text-primary">
+              <div className="flex justify-between items-center">
+                <span>Electrolyzer Specific Power Consumption:</span>
+                <strong className="font-mono-data text-primary">4.4 kg H₂ / MWh (55 kWh/kg)</strong>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Daily Green H₂ Production Capacity:</span>
+                <strong className="font-mono-data text-2xl font-black text-primary">1,093.4 kg H₂ / day</strong>
+              </div>
+              <div className="flex justify-between items-center border-t border-border-subtle pt-1.5">
+                <span>Hydrogen Spot Market Value:</span>
+                <strong className="font-mono-data text-[#027a48] text-xl font-bold">₹4,37,360 / day ($5.2K)</strong>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Annualized Green H₂ Production:</span>
+                <strong className="font-mono-data text-primary font-bold">399.1 Metric Tons H₂ / yr</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 5. Live 6-Inverter Fleet Status Grid */}
       <div className="border border-border-strong bg-white p-5 space-y-3 shadow-xs">
         <div className="flex justify-between items-center border-b border-border-subtle pb-2">
           <div className="flex items-center gap-2">
@@ -250,7 +341,7 @@ export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
         </div>
       </div>
 
-      {/* 5. Two-Column Breakdown: Defect Taxonomy & High-Priority Action Queue */}
+      {/* 6. Two-Column Breakdown: Defect Taxonomy & High-Priority Action Queue */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Defect Taxonomy Table (7 Cols) */}
         <div className="lg:col-span-7 border border-border-strong bg-white p-5 space-y-3 shadow-xs">
