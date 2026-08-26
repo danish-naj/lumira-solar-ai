@@ -276,27 +276,9 @@ export default function App() {
             />
           )}
 
-          {/* 13. Multi-Farm Global Portfolio Map */}
-          {activeTab === "portfolio" && (
-            <PortfolioFleetMap
-              onSelectFarmSite={(park) => {
-                const found = farms.find(f => f.id === park.id) || farms[0];
-                handleSelectFarm(found);
-                setActiveTab("dashboard");
-              }}
-            />
-          )}
-
-          {/* 14. Certified Executive Audit Reports */}
+          {/* 13. Certified Executive Audit Reports */}
           {activeTab === "reports" && (
             <ReportsHub
-              farm={activeFarm}
-            />
-          )}
-
-          {/* 15. Enterprise Plan & ROI Audit Section */}
-          {activeTab === "plan-roi" && (
-            <SubscriptionROIView
               farm={activeFarm}
             />
           )}

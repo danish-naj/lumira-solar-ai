@@ -302,8 +302,8 @@ export default function ClientApprovalPortal({
                 9
               </span>
               <div>
-                <span className="block uppercase text-[11px]">BOOK & SUBSCRIPTION</span>
-                <span className={`text-[9px] font-sans ${activeTab === 9 ? "text-white/80" : "text-secondary"}`}>Plan & Invoices</span>
+                <span className="block uppercase text-[11px]">SUBSCRIPTION & ROI</span>
+                <span className={`text-[9px] font-sans ${activeTab === 9 ? "text-white/80" : "text-secondary"}`}>Enterprise Plan & ROI Audit</span>
               </div>
             </button>
           </div>
@@ -1215,62 +1215,303 @@ export default function ClientApprovalPortal({
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 5: BOOK NEW INSPECTION & SUBSCRIPTION MANAGEMENT                      */}
+        {/* TAB 9: SUBSCRIPTION & ENTERPRISE ROI AUDIT COMMAND CENTER                 */}
         {/* ========================================================================= */}
         {activeTab === 9 && (
-          <div className="space-y-6 max-w-5xl">
-            <div className="border-b border-border-subtle pb-4">
-              <span className="text-[10px] font-mono-data font-bold text-secondary uppercase tracking-widest block">
-                SECTION 5 OF 5: ON-DEMAND BOOKINGS & SUBSCRIPTION PLAN
-              </span>
-              <h1 className="text-2xl font-bold text-primary mt-1 font-headline-lg">
-                Book Next Inspection & Enterprise Subscription
-              </h1>
-              <p className="text-secondary text-xs mt-1">
-                Schedule autonomous aerial or ground surveys and manage active enterprise SLA subscriptions.
-              </p>
-            </div>
-
-            {/* Active Subscription Tier Card */}
-            <div className="border-2 border-primary bg-white p-6 space-y-4 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border-subtle pb-3 gap-2">
-                <div>
-                  <span className="text-[10px] font-mono-data font-bold text-secondary uppercase block">
-                    ACTIVE ENTERPRISE SUBSCRIPTION
+          <div className="space-y-6 max-w-6xl font-mono-data text-xs">
+            {/* Header with Currency Switcher */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-primary pb-4 gap-4 bg-surface p-5 border shadow-xs">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Award className="w-4 h-4 text-primary" />
+                  <span className="bg-primary text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">
+                    ENTERPRISE ASSET SUBSCRIPTION & FINANCIAL ROI
                   </span>
-                  <h3 className="font-bold text-lg text-primary font-mono-data">
-                    LUMIRA ENTERPRISE SOLAR ASSET PLAN
-                  </h3>
+                  <span className="text-xs text-secondary">
+                    Client: CleanEnergy Global Assets India Ltd.
+                  </span>
                 </div>
-                <div className="text-right">
-                  <strong className="text-xl font-bold text-primary block font-mono-data">
-                    ₹2,40,000 / yr <span className="text-xs text-secondary font-normal font-sans">($2,880 / yr)</span>
-                  </strong>
-                  <span className="text-[#027a48] text-[10px] font-bold font-mono-data">✓ AUTO-RENEWS OCT 2027</span>
+                <h1 className="font-headline-lg text-2xl font-bold text-primary tracking-tight">
+                  Subscription Benefits, Cumulative Financial ROI & Billing Ledger
+                </h1>
+              </div>
+
+              <div className="flex items-center gap-1 border-2 border-primary p-1 bg-white shadow-xs">
+                <button
+                  onClick={() => setCurrency("INR")}
+                  className={`px-3 py-1 font-bold transition-all cursor-pointer ${
+                    currency === "INR" ? "bg-primary text-white" : "text-secondary hover:bg-surface"
+                  }`}
+                >
+                  INR (₹)
+                </button>
+                <button
+                  onClick={() => setCurrency("USD")}
+                  className={`px-3 py-1 font-bold transition-all cursor-pointer ${
+                    currency === "USD" ? "bg-primary text-white" : "text-secondary hover:bg-surface"
+                  }`}
+                >
+                  USD ($)
+                </button>
+              </div>
+            </div>
+
+            {/* 1. Active Plan Card & Key Cumulative ROI Numbers */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Active Plan Card (5 Cols) */}
+              <div className="lg:col-span-5 border-2 border-primary bg-white p-6 space-y-4 shadow-xs flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-start border-b border-border-subtle pb-3 mb-3">
+                    <div>
+                      <span className="text-[10px] font-bold text-secondary uppercase block">
+                        ACTIVE ENTERPRISE SUBSCRIPTION
+                      </span>
+                      <h3 className="font-bold text-base text-primary">
+                        LUMIRA ENTERPRISE ASSET TIER
+                      </h3>
+                      <span className="text-secondary text-[11px] font-sans">
+                        Contract Serial: #SUB-2026-IND-0482
+                      </span>
+                    </div>
+                    <span className="bg-[#ecfdf3] text-[#027a48] border border-[#abefc6] px-2 py-0.5 text-[10px] font-bold uppercase">
+                      ✓ ACTIVE (AUTO-RENEWS)
+                    </span>
+                  </div>
+
+                  <div className="bg-surface p-4 border border-border-subtle space-y-2 mb-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-secondary">Annual Retainer Fee:</span>
+                      <strong className="text-primary text-base">
+                        {currency === "INR" ? "₹2,40,000 / yr" : "$2,880 / yr"}
+                      </strong>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-secondary">Next Renewal Date:</span>
+                      <strong className="text-primary">01 October 2027</strong>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-secondary">Payment Method:</span>
+                      <strong className="text-primary">Corporate Wire / HDFC Corp</strong>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 text-xs font-sans text-primary">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#027a48] shrink-0" />
+                      <span>Unlimited High-GSD Radiometric Drone & Thermal AI Audits</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#027a48] shrink-0" />
+                      <span>OEM Legal Warranty Settlement Claim Support (₹10.07L Recoverable)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#027a48] shrink-0" />
+                      <span>24h SLA Technician Dispatch & Closed-Loop Work Order Tracking</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-[#027a48] shrink-0" />
+                      <span>Real-Time I-REC / Verra Carbon & Green H₂ Asset Minting</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-border-subtle flex gap-2">
+                  <button 
+                    onClick={() => alert("Enterprise plan upgraded to Multi-Gigawatt Portfolio Tier!")}
+                    className="w-full bg-primary text-white font-bold py-2.5 px-4 uppercase hover:bg-white hover:text-primary border border-primary transition-all cursor-pointer shadow-xs"
+                  >
+                    UPGRADE SUBSCRIPTION TIER
+                  </button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans text-primary">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#027a48]" />
-                  <span>Unlimited High-GSD Drone & Thermal IR AI Diagnoses</span>
+              {/* Cumulative Financial ROI & Preserved Revenue (7 Cols) */}
+              <div className="lg:col-span-7 border-2 border-primary bg-[#f6fef9] p-6 space-y-4 shadow-xs flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-start border-b border-[#abefc6] pb-3 mb-4">
+                    <div>
+                      <span className="text-[10px] font-bold text-[#027a48] uppercase block">
+                        CUMULATIVE RETURN ON INVESTMENT (ROI) AUDIT
+                      </span>
+                      <h3 className="font-bold text-lg text-primary">
+                        Financial Impact & Preserved Revenue Since Onboarding
+                      </h3>
+                    </div>
+                    <span className="bg-[#027a48] text-white px-2.5 py-1 text-xs font-bold uppercase shadow-2xs">
+                      14.2x ROI MULTIPLIER
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                    <div className="bg-white p-3.5 border border-[#abefc6] shadow-2xs">
+                      <span className="text-secondary text-[10px] uppercase font-bold block">Annualized Preserved Energy:</span>
+                      <strong className="text-xl font-bold text-[#027a48] block mt-0.5">
+                        {currency === "INR" ? "₹18,42,500" : "$22,110"}
+                      </strong>
+                      <span className="text-[10px] text-secondary">Avoided generation loss</span>
+                    </div>
+
+                    <div className="bg-white p-3.5 border border-[#abefc6] shadow-2xs">
+                      <span className="text-secondary text-[10px] uppercase font-bold block">OEM Recoverable Capital:</span>
+                      <strong className="text-xl font-bold text-[#027a48] block mt-0.5">
+                        {currency === "INR" ? "₹10,07,600" : "$12,090"}
+                      </strong>
+                      <span className="text-[10px] text-secondary">Verified factory defects</span>
+                    </div>
+
+                    <div className="bg-white p-3.5 border border-[#abefc6] shadow-2xs">
+                      <span className="text-secondary text-[10px] uppercase font-bold block">Net Net Financial Gain:</span>
+                      <strong className="text-xl font-bold text-[#027a48] block mt-0.5">
+                        {currency === "INR" ? "+₹26,10,100" : "+$31,320"}
+                      </strong>
+                      <span className="text-[10px] text-secondary">Net of Lumira subscription</span>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-4 border border-[#abefc6] space-y-2 text-xs font-sans">
+                    <div className="flex justify-between items-center border-b border-border-subtle pb-1.5">
+                      <span>Total Subscription Invested (12 Months):</span>
+                      <strong className="font-mono-data text-primary">{currency === "INR" ? "₹2,40,000" : "$2,880"}</strong>
+                    </div>
+                    <div className="flex justify-between items-center border-b border-border-subtle pb-1.5">
+                      <span>Gross Asset Loss Prevented (48 String Repairs):</span>
+                      <strong className="font-mono-data text-[#027a48]">{currency === "INR" ? "+₹28,50,100" : "+$34,200"}</strong>
+                    </div>
+                    <div className="flex justify-between items-center pt-0.5">
+                      <span className="font-bold text-primary">Certified Net Financial Lift:</span>
+                      <strong className="font-mono-data text-base text-[#027a48]">{currency === "INR" ? "+₹26,10,100" : "+$31,320"}</strong>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#027a48]" />
-                  <span>Closed-Loop Client Approval & Service SLA Dispatch</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#027a48]" />
-                  <span>IEC 62446-3 Certified Audit Reports with QR Signatures</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#027a48]" />
-                  <span>Real-Time SCADA String I-V Curve Analytics & Pyranometer Feed</span>
+
+                <div className="pt-3 border-t border-[#abefc6] flex justify-between items-center text-xs font-sans text-secondary">
+                  <span>Audited under IEEE 1547 & IEC 62446 Standards</span>
+                  <span className="font-mono-data font-bold text-primary">AUDIT REPORT #ROI-2026-Q3</span>
                 </div>
               </div>
             </div>
 
-            {/* Book New Inspection Form */}
+            {/* 2. Month-by-Month Plant Health & Degradation Timeline */}
+            <div className="border border-border-strong bg-white p-6 space-y-4 shadow-xs">
+              <div className="flex justify-between items-center border-b border-border-subtle pb-3">
+                <div>
+                  <h3 className="font-bold text-sm text-primary uppercase">
+                    MONTH-BY-MONTH PLANT HEALTH & DEGRADATION PROGRESSION
+                  </h3>
+                  <span className="text-secondary text-[11px] font-sans">
+                    Measurable asset recovery from baseline onboarding to Tier-1 optimal status.
+                  </span>
+                </div>
+                <span className="bg-[#ecfdf3] text-[#027a48] font-bold px-2 py-0.5 text-xs border border-[#abefc6]">
+                  PLANT HEALTH: 97.4% (TIER-1)
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 font-sans text-xs">
+                <div className="p-4 border border-border-subtle bg-surface space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold font-mono-data text-secondary">MAY 2026</span>
+                    <span className="bg-critical text-white font-mono-data px-1.5 py-0.2 text-[9px] font-bold uppercase">82% Baseline</span>
+                  </div>
+                  <strong className="text-lg font-bold text-primary block font-mono-data">24.5 MWh Loss</strong>
+                  <span className="text-secondary text-[11px] block">18 Critical Hotspots Unresolved</span>
+                </div>
+
+                <div className="p-4 border border-border-subtle bg-surface space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold font-mono-data text-secondary">JUN 2026</span>
+                    <span className="bg-warning text-primary font-mono-data px-1.5 py-0.2 text-[9px] font-bold uppercase">88% Repaired</span>
+                  </div>
+                  <strong className="text-lg font-bold text-primary block font-mono-data">16.2 MWh Loss</strong>
+                  <span className="text-secondary text-[11px] block">26 Diode Replacements Completed</span>
+                </div>
+
+                <div className="p-4 border border-border-subtle bg-surface space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold font-mono-data text-secondary">JUL 2026</span>
+                    <span className="bg-[#ecfdf3] text-[#027a48] font-mono-data px-1.5 py-0.2 text-[9px] font-bold uppercase">93% Restored</span>
+                  </div>
+                  <strong className="text-lg font-bold text-primary block font-mono-data">8.4 MWh Loss</strong>
+                  <span className="text-secondary text-[11px] block">Inverter DC Bus Rebalanced</span>
+                </div>
+
+                <div className="p-4 border-2 border-[#027a48] bg-[#f6fef9] space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold font-mono-data text-[#027a48]">AUG 2026 (NOW)</span>
+                    <span className="bg-[#027a48] text-white font-mono-data px-1.5 py-0.2 text-[9px] font-bold uppercase">97.4% Optimal</span>
+                  </div>
+                  <strong className="text-lg font-bold text-[#027a48] block font-mono-data">4.2 MWh Loss</strong>
+                  <span className="text-secondary text-[11px] block">Tier-1 Conformance Certified</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Invoices & Billing Receipts Ledger */}
+            <div className="border border-border-strong bg-white p-6 space-y-4 shadow-xs">
+              <div className="flex justify-between items-center border-b border-border-subtle pb-3">
+                <h3 className="font-bold text-sm text-primary uppercase">
+                  ENTERPRISE BILLING HISTORY & OFFICIAL INVOICES
+                </h3>
+                <span className="text-secondary text-[11px] font-sans">
+                  All transactions cryptographically recorded
+                </span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left font-sans text-xs">
+                  <thead className="bg-surface text-secondary uppercase text-[10px] font-mono-data border-b">
+                    <tr>
+                      <th className="p-2.5">Invoice #</th>
+                      <th className="p-2.5">Billing Date</th>
+                      <th className="p-2.5">Plan / Description</th>
+                      <th className="p-2.5">Amount</th>
+                      <th className="p-2.5">Status</th>
+                      <th className="p-2.5 text-right">Receipt</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border-subtle font-mono-data">
+                    <tr className="hover:bg-surface">
+                      <td className="p-2.5 font-bold text-primary">INV-2026-08</td>
+                      <td className="p-2.5 text-secondary">01 Aug 2026</td>
+                      <td className="p-2.5 font-sans">Enterprise Solar Asset Plan (Monthly Retainer)</td>
+                      <td className="p-2.5 font-bold text-primary">{currency === "INR" ? "₹20,000" : "$240"}</td>
+                      <td className="p-2.5"><span className="bg-[#ecfdf3] text-[#027a48] px-2 py-0.5 text-[9px] font-bold uppercase">✓ PAID</span></td>
+                      <td className="p-2.5 text-right">
+                        <button onClick={() => alert("Invoice INV-2026-08 downloaded successfully!")} className="text-primary hover:underline font-bold text-xs cursor-pointer">
+                          DOWNLOAD PDF
+                        </button>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-surface">
+                      <td className="p-2.5 font-bold text-primary">INV-2026-07</td>
+                      <td className="p-2.5 text-secondary">01 Jul 2026</td>
+                      <td className="p-2.5 font-sans">Enterprise Solar Asset Plan (Monthly Retainer)</td>
+                      <td className="p-2.5 font-bold text-primary">{currency === "INR" ? "₹20,000" : "$240"}</td>
+                      <td className="p-2.5"><span className="bg-[#ecfdf3] text-[#027a48] px-2 py-0.5 text-[9px] font-bold uppercase">✓ PAID</span></td>
+                      <td className="p-2.5 text-right">
+                        <button onClick={() => alert("Invoice INV-2026-07 downloaded successfully!")} className="text-primary hover:underline font-bold text-xs cursor-pointer">
+                          DOWNLOAD PDF
+                        </button>
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-surface">
+                      <td className="p-2.5 font-bold text-primary">INV-2026-06</td>
+                      <td className="p-2.5 text-secondary">01 Jun 2026</td>
+                      <td className="p-2.5 font-sans">Enterprise Solar Asset Plan (Monthly Retainer)</td>
+                      <td className="p-2.5 font-bold text-primary">{currency === "INR" ? "₹20,000" : "$240"}</td>
+                      <td className="p-2.5"><span className="bg-[#ecfdf3] text-[#027a48] px-2 py-0.5 text-[9px] font-bold uppercase">✓ PAID</span></td>
+                      <td className="p-2.5 text-right">
+                        <button onClick={() => alert("Invoice INV-2026-06 downloaded successfully!")} className="text-primary hover:underline font-bold text-xs cursor-pointer">
+                          DOWNLOAD PDF
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 4. Book New On-Demand Inspection Form */}
             <div className="border border-border-strong bg-white p-6 space-y-4 shadow-xs">
               <h3 className="font-bold text-primary uppercase text-xs flex items-center gap-2 font-mono-data border-b border-border-subtle pb-2">
                 <Calendar className="w-4 h-4 text-primary" />
@@ -1300,9 +1541,9 @@ export default function ClientApprovalPortal({
                     onChange={(e) => setBookingModality(e.target.value)}
                     className="w-full border border-border-strong bg-white p-2.5 font-mono-data text-primary text-xs font-bold focus:outline-none cursor-pointer"
                   >
-                    <option value="Drone Orthomosaic + Thermal">Drone Survey (IR Radiometric + RGB)</option>
-                    <option value="Handheld Thermal FLIR">Handheld FLIR Spot Thermography</option>
-                    <option value="Ground Rover Multi-Angle">Ground Rover Multi-Angle Scan</option>
+                    <option value="Drone Orthomosaic + Thermal">Aerial UAV Drone (IR Radiometric + RGB)</option>
+                    <option value="Handheld Thermal FLIR">Field Handheld Camera (FLIR Spot Radiometry)</option>
+                    <option value="Ground Rover Multi-Angle">Autonomous Solar Rover Bot Multi-Angle Sweep</option>
                     <option value="All Combined">Full Multi-Modal Sensor Fusion Survey</option>
                   </select>
                 </div>
@@ -1321,7 +1562,7 @@ export default function ClientApprovalPortal({
               {bookingSuccess && (
                 <div className="bg-[#ecfdf3] border-2 border-[#027a48] p-3 text-center text-xs font-bold font-mono-data text-[#027a48] flex items-center justify-center gap-2">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>INSPECTION MISSION BOOKED · DISPATCH ORDER SENT TO FIELD PILOTS</span>
+                  <span>INSPECTION MISSION BOOKED · DISPATCH ORDER SENT TO CERTIFIED FIELD PILOTS</span>
                 </div>
               )}
             </div>
