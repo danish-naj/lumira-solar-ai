@@ -14,7 +14,8 @@ import {
   Globe, 
   Sparkles, 
   Scale,
-  CloudRain
+  CloudRain,
+  X
 } from "lucide-react";
 
 export default function Sidebar({ 
@@ -24,7 +25,9 @@ export default function Sidebar({
   activeTab, 
   onSelectTab,
   activeRole = "admin",
-  onSelectRole
+  onSelectRole,
+  isOpen = false,
+  onClose
 }) {
   const navItems = [
     { id: "dashboard", label: "Fleet Overview", icon: LayoutDashboard },
@@ -47,16 +50,33 @@ export default function Sidebar({
   ];
 
   return (
-    <nav className="bg-surface-container-lowest flex flex-col h-full border-r border-border-subtle w-[250px] shrink-0 z-30 select-none font-sans">
+    <nav 
+      className={`bg-surface-container-lowest flex flex-col h-full border-r border-border-subtle z-50 select-none font-sans transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:w-[250px] shrink-0 fixed inset-y-0 left-0 w-[280px] shadow-2xl md:shadow-none ${
+        isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      }`}
+    >
       {/* Header */}
-      <div className="p-5 border-b border-border-subtle shrink-0">
-        <h1 className="font-headline-md text-xl font-bold text-primary tracking-tight flex items-center gap-1.5">
-          <span>Lumira</span>
-          <span className="text-primary font-bold">✦</span>
-        </h1>
-        <p className="font-label-caps text-[10px] text-secondary mt-0.5 tracking-widest uppercase font-bold">
-          SOLAR ASSET INTELLIGENCE
-        </p>
+      <div className="p-4 sm:p-5 border-b border-border-subtle shrink-0 flex items-center justify-between">
+        <div>
+          <h1 className="font-headline-md text-xl font-bold text-primary tracking-tight flex items-center gap-1.5">
+            <span>Lumira</span>
+            <span className="text-primary font-bold">✦</span>
+          </h1>
+          <p className="font-label-caps text-[10px] text-secondary mt-0.5 tracking-widest uppercase font-bold">
+            SOLAR ASSET INTELLIGENCE
+          </p>
+        </div>
+
+        {/* Mobile Close Button */}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden p-1.5 border border-border-subtle bg-surface hover:bg-critical hover:text-white transition-colors cursor-pointer text-xs"
+            title="Close menu"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       {/* Site Selector CTA */}
@@ -69,7 +89,10 @@ export default function Sidebar({
             value={activeFarm?.id || ""}
             onChange={(e) => {
               const found = farms.find((f) => f.id === e.target.value);
-              if (found) onSelectFarm(found);
+              if (found) {
+                onSelectFarm(found);
+                if (onClose) onClose();
+              }
             }}
             className="w-full appearance-none bg-primary text-white font-label-caps text-[11px] font-bold py-1.5 pl-2.5 pr-7 rounded-none hover:bg-surface hover:text-primary hover:border-primary transition-all uppercase border border-primary cursor-pointer tracking-wide focus:outline-none truncate"
           >
@@ -99,14 +122,15 @@ export default function Sidebar({
                 onClick={() => {
                   onSelectTab(item.id);
                   if (onSelectRole) onSelectRole("admin");
+                  if (onClose) onClose();
                 }}
-                className={`w-full px-3 py-1.5 flex items-center gap-2.5 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider ${
+                className={`w-full px-3 py-2 sm:py-1.5 flex items-center gap-2.5 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider cursor-pointer ${
                   isActive
                     ? "bg-surface text-primary border-primary font-bold shadow-xs"
                     : "text-secondary border-transparent hover:text-primary hover:bg-surface"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-primary" : "text-secondary"}`} />
+                <Icon className={`w-4 h-4 sm:w-3.5 sm:h-3.5 shrink-0 ${isActive ? "text-primary" : "text-secondary"}`} />
                 <span className="font-body-sm text-[11px] truncate">{item.label}</span>
               </button>
             );
@@ -127,14 +151,15 @@ export default function Sidebar({
                 onClick={() => {
                   onSelectTab(item.tab);
                   if (onSelectRole) onSelectRole(item.id);
+                  if (onClose) onClose();
                 }}
-                className={`w-full px-3 py-1.5 flex items-center gap-2.5 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider ${
+                className={`w-full px-3 py-2 sm:py-1.5 flex items-center gap-2.5 text-left transition-all border-l-2 text-xs font-bold uppercase tracking-wider cursor-pointer ${
                   isActive
                     ? "bg-primary text-white border-primary font-bold shadow-xs"
                     : "text-secondary border-transparent hover:text-primary hover:bg-surface"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-secondary"}`} />
+                <Icon className={`w-4 h-4 sm:w-3.5 sm:h-3.5 shrink-0 ${isActive ? "text-white" : "text-secondary"}`} />
                 <span className="font-body-sm text-[11px] truncate">{item.label}</span>
               </button>
             );

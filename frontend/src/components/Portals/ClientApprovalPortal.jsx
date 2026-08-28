@@ -139,27 +139,29 @@ export default function ClientApprovalPortal({
       {/* ========================================================================= */}
       {/* CLIENT PORTAL EXECUTIVE SIDEBAR                                           */}
       {/* ========================================================================= */}
-      <div className="w-full lg:w-72 bg-surface border-r border-border-subtle p-5 flex flex-col justify-between shrink-0 space-y-6">
+      <div className="w-full lg:w-72 bg-surface border-b lg:border-b-0 lg:border-r border-border-subtle p-3 sm:p-5 flex flex-col justify-between shrink-0 space-y-3 lg:space-y-6">
         <div>
           {/* Header */}
-          <div className="border-b border-border-subtle pb-3 mb-4">
-            <div className="flex items-center gap-1.5 text-primary font-bold text-xs uppercase font-mono-data mb-1">
-              <Building2 className="w-3.5 h-3.5" />
-              <span>ASSET OWNER PORTAL</span>
+          <div className="border-b border-border-subtle pb-2 lg:pb-3 mb-2 lg:mb-4 flex justify-between items-center lg:block">
+            <div>
+              <div className="flex items-center gap-1.5 text-primary font-bold text-xs uppercase font-mono-data mb-0.5">
+                <Building2 className="w-3.5 h-3.5" />
+                <span>ASSET OWNER PORTAL</span>
+              </div>
+              <h2 className="text-xs sm:text-sm font-bold text-primary font-mono-data">
+                CleanEnergy Global Assets
+              </h2>
             </div>
-            <h2 className="text-sm font-bold text-primary font-mono-data">
-              CleanEnergy Global Assets
-            </h2>
-            <span className="text-[10px] text-secondary font-mono-data block mt-0.5">
-              Portfolio: {farm?.name || "Bhadla Mega Solar Park"}
+            <span className="text-[9px] sm:text-[10px] text-secondary font-mono-data">
+              {farm?.name || "Bhadla Mega Solar Park"}
             </span>
           </div>
 
-          {/* Sidebar Nav Links */}
-          <div className="space-y-2 font-mono-data text-xs">
+          {/* Sidebar Nav Links (Horizontal Scroll on Mobile, Vertical on Desktop) */}
+          <div className="flex lg:flex-col overflow-x-auto lg:overflow-visible gap-2 lg:space-y-2 pb-2 lg:pb-0 custom-scrollbar font-mono-data text-xs">
             <button
               onClick={() => setActiveTab(1)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 1 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -176,7 +178,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(2)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 2 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -193,7 +195,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(3)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 3 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -212,7 +214,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(4)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 4 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -229,7 +231,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(5)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 5 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -246,7 +248,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(6)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 6 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -263,7 +265,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(7)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 7 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -280,7 +282,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(8)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 8 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"
@@ -297,7 +299,7 @@ export default function ClientApprovalPortal({
 
             <button
               onClick={() => setActiveTab(9)}
-              className={`w-full p-3 text-left border flex items-center gap-3 transition-all cursor-pointer ${
+              className={`shrink-0 lg:shrink w-auto lg:w-full min-w-[150px] lg:min-w-0 p-2 sm:p-3 text-left border flex items-center gap-2 sm:gap-3 transition-all cursor-pointer ${
                 activeTab === 9 
                   ? "bg-primary text-white border-primary shadow-xs font-bold" 
                   : "bg-white text-secondary border-border-subtle hover:border-primary hover:text-primary"

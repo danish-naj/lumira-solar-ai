@@ -64,19 +64,19 @@ export default function DashboardView({ farm, onNavigateTab, onSelectModule }) {
   ];
 
   return (
-    <div className="p-6 md:p-10 space-y-6 max-w-[1600px] mx-auto select-none bg-surface-container-lowest font-sans">
+    <div className="p-3 sm:p-6 md:p-10 space-y-4 sm:space-y-6 max-w-[1600px] mx-auto select-none bg-surface-container-lowest font-sans">
       {/* 1. Meteorological Weather SCADA Strip */}
-      <div className="bg-surface border border-border-subtle p-3 flex flex-wrap items-center justify-between gap-4 font-mono-data text-xs shadow-xs">
-        <div className="flex items-center gap-2">
+      <div className="bg-surface border border-border-subtle p-2.5 sm:p-3 flex items-center justify-between gap-3 sm:gap-4 font-mono-data text-xs shadow-xs overflow-x-auto custom-scrollbar">
+        <div className="flex items-center gap-2 shrink-0">
           <span className="w-2 h-2 rounded-full bg-[#027a48] inline-block animate-pulse" />
-          <span className="font-bold text-primary uppercase">SCADA METEOROLOGICAL TELEMETRY:</span>
+          <span className="font-bold text-primary uppercase text-[11px] sm:text-xs">SCADA METEO:</span>
         </div>
-        <div className="flex items-center gap-6 flex-wrap text-secondary text-[11px]">
+        <div className="flex items-center gap-4 sm:gap-6 shrink-0 text-secondary text-[10px] sm:text-[11px]">
           <div className="flex items-center gap-1.5"><Sun className="w-3.5 h-3.5 text-warning" /><span>GHI: <strong className="text-primary font-mono-data">942 W/m²</strong></span></div>
           <div className="flex items-center gap-1.5"><Thermometer className="w-3.5 h-3.5 text-critical" /><span>Ambient: <strong className="text-primary font-mono-data">41.8°C</strong></span></div>
-          <div className="flex items-center gap-1.5"><Thermometer className="w-3.5 h-3.5 text-critical" /><span>Module Temp: <strong className="text-critical font-mono-data">58.4°C</strong></span></div>
-          <div className="flex items-center gap-1.5"><Wind className="w-3.5 h-3.5 text-primary" /><span>Wind: <strong className="text-primary font-mono-data">16.4 km/h NW</strong></span></div>
-          <div className="flex items-center gap-1.5"><Layers className="w-3.5 h-3.5 text-secondary" /><span>Soiling Index: <strong className="text-primary font-mono-data">3.4 / 10</strong></span></div>
+          <div className="flex items-center gap-1.5"><Thermometer className="w-3.5 h-3.5 text-critical" /><span>Module: <strong className="text-critical font-mono-data">58.4°C</strong></span></div>
+          <div className="flex items-center gap-1.5"><Wind className="w-3.5 h-3.5 text-primary" /><span>Wind: <strong className="text-primary font-mono-data">16.4 km/h</strong></span></div>
+          <div className="flex items-center gap-1.5"><Layers className="w-3.5 h-3.5 text-secondary" /><span>Soiling: <strong className="text-primary font-mono-data">3.4/10</strong></span></div>
         </div>
       </div>
 

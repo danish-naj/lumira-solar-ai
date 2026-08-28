@@ -32,6 +32,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [isCreatingWO, setIsCreatingWO] = useState(false);
   const [showPitchDeck, setShowPitchDeck] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [filters, setFilters] = useState({
     defect_type: "ALL",
     severity: "ALL",
@@ -135,16 +136,35 @@ export default function App() {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background text-on-background font-sans antialiased">
-      {/* SideNavBar */}
+      {/* SideNavBar (Responsive Mobile Drawer + Desktop Fixed) */}
       <Sidebar
         farms={farms}
         activeFarm={activeFarm}
-        onSelectFarm={handleSelectFarm}
+        onSelectFarm={(farm) => {
+          handleSelectFarm(farm);
+          setIsMobileMenuOpen(false);
+        }}
         activeTab={activeTab}
-        onSelectTab={setActiveTab}
+        onSelectTab={(tab) => {
+          setActiveTab(tab);
+          setIsMobileMenuOpen(false);
+        }}
         activeRole={activeRole}
-        onSelectRole={handleRoleChange}
+        onSelectRole={(role) => {
+          handleRoleChange(role);
+          setIsMobileMenuOpen(false);
+        }}
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
       />
+
+      {/* Mobile Backdrop Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-xs transition-opacity"
+        />
+      )}
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background relative">
@@ -160,6 +180,7 @@ export default function App() {
           onOpenPitchDeck={() => setShowPitchDeck(true)}
           activeRole={activeRole}
           onSelectRole={handleRoleChange}
+          onToggleMobileMenu={() => setIsMobileMenuOpen((prev) => !prev)}
         />
 
         <main className="flex-1 overflow-y-auto bg-background custom-scrollbar min-w-0">
